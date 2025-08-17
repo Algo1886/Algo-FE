@@ -1,4 +1,11 @@
+import ProfileBox from "@components/ProfileBox";
+
 function ProfilePage() {
-    return <h1>프로필 페이지</h1>
-  }
-export default ProfilePage
+  return (
+    <div className="w-full p-4">
+      프로필 페이지
+      <ProfileBox />
+    </div>
+  );
+}
+export default ProfilePage;
