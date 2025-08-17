@@ -4,7 +4,14 @@ function MainPage() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "20px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        padding: "20px",
+      }}
+    >
       <h1>Main Page</h1>
       <button onClick={() => navigate("/login")}>Login Page</button>
       <button onClick={() => navigate("/search")}>Search Result Page</button>
