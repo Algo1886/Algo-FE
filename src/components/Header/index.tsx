@@ -1,16 +1,44 @@
-const Header = () => {
-  return (
-    <div className="w-full h-16 border-slate-300 border-b-2 bg-white flex items-center justify-center">
-      <div className="flex justify-between max-w-6xl w-full h-full">
-        <span className="text-xl font-bold text-slate-900 hover:text-slate-700 cursor-pointer flex items-center gap-2">
-          <span className="font-mono text-lg">&lt;/&gt;</span>
-          ALGO
-        </span>
-        {/* TODO: Add Login Button Here */}
-        <span>login</span>
-      </div>
-    </div>
-  );
-};
+// components/Header.tsx
+import Button from "@components/Button"
+import { useAuth } from "../../contexts/AuthContext"
+import { useNavigate } from "react-router-dom"
 
-export default Header;
+const Header = () => {
+  const { accessToken, user } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLoginClick = () => {
+    navigate("/login")
+  }
+
+  return (
+    <header className="w-full h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+      <div
+        className="text-xl font-bold cursor-pointer"
+        onClick={() => navigate("/")}
+      >
+        &lt;/&gt; ALGO
+      </div>
+
+      {accessToken && user?.avatarUrl ? (
+        <div className="flex flex-row gap-4 items-center">
+          <Button theme="light" onClick={() => navigate("/create")}>
+            기록하기
+          </Button>
+        <img
+          src={user.avatarUrl}
+          alt="프로필"
+          className="w-10 h-10 rounded-full cursor-pointer"
+          onClick={() => navigate("/profile")}
+        />
+        </div>
+      ) : (
+        <Button theme="light" onClick={handleLoginClick}>
+          로그인
+        </Button>
+      )}
+    </header>
+  )
+}
+
+export default Header

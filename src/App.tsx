@@ -9,22 +9,25 @@ import BookmarkPage from "@pages/BookmarkPage";
 import IdeaPage from "@pages/IdeaPage";
 import ProfilePage from "@pages/ProfilePage";
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
+import { AuthProvider } from "@contexts/AuthContext";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LayoutWithHeader />}>
-        <Route path="/" element={<MainPage />} />
-      </Route>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/search" element={<SearchResultPage />} />
-      <Route path="/read" element={<ReadSolutionPage />} />
-      <Route path="/create" element={<CreateSolutionPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/bookmark" element={<BookmarkPage />} />
-      <Route path="/idea" element={<IdeaPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<LayoutWithHeader />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/search" element={<SearchResultPage />} />
+          <Route path="/read" element={<ReadSolutionPage />} />
+          <Route path="/create" element={<CreateSolutionPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/bookmark" element={<BookmarkPage />} />
+          <Route path="/idea" element={<IdeaPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 
