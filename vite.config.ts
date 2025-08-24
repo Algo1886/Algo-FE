@@ -13,12 +13,13 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "src/assets"),
       "@contexts": path.resolve(__dirname, "src/contexts"),
       "@api": path.resolve(__dirname, "src/api"),
+      "@constants": path.resolve(__dirname, "src/constants"),
     },
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://43.201.143.120:8080',
+      "/api": {
+        target: "http://43.201.143.120:8080",
         changeOrigin: true,
         secure: false,
       },
