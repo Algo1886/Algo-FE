@@ -10,6 +10,7 @@ import IdeaPage from "@pages/IdeaPage";
 import ProfilePage from "@pages/ProfilePage";
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
+import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
 
 function App() {
   return (
@@ -24,7 +25,9 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/bookmark" element={<BookmarkPage />} />
           <Route path="/idea" element={<IdeaPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={<LayoutWithSidebar />}>
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
         </Route>
       </Routes>
     </AuthProvider>

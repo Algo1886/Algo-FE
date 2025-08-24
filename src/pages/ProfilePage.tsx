@@ -1,37 +1,28 @@
-import { useEffect, useState } from "react"
-import ProfileBox from "@components/ProfileBox"
-import Button from "@components/Button"
-import { useAuth } from "@contexts/AuthContext"
-import { fetchUserProfile } from "@api/user"
-import { useNavigate } from "react-router-dom"
-
-interface UserData {
-  id: number
-  username: string
-  avatarUrl: string
-}
+import { useEffect } from "react";
+import ProfileBox from "@components/ProfileBox";
+import Button from "@components/Button";
+import { useAuth } from "@contexts/AuthContext";
+import { fetchUserProfile } from "@api/user";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
-  const { accessToken, setAccessToken, setUser } = useAuth()
-  const [user, setLocalUser] = useState<UserData | null>(null)
-  const navigate = useNavigate()
-
+  const { accessToken, setAccessToken, user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) return
+    if (!accessToken) return;
     fetchUserProfile()
       .then((data) => {
-        setLocalUser(data.data)
+        setUser(data.data);
       })
-      .catch((err) => console.error(err))
-  }, [accessToken])
+      .catch((err) => console.error(err));
+  }, [accessToken]);
 
   const handleLogout = () => {
-    setAccessToken("")      // Context + localStorage 초기화
-    setUser(null)           // Context의 user 초기화
-    setLocalUser(null)      // ProfilePage state 초기화
-    navigate("/")
-  }
+    setAccessToken(""); // Context + localStorage 초기화
+    setUser(null); // Context의 user 초기화
+    navigate("/");
+  };
 
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-50">
@@ -39,18 +30,14 @@ function ProfilePage() {
 
       {user && (
         <>
-          <ProfileBox
-            id={user.id}
-            username={user.username}
-            avatarUrl={user.avatarUrl}
-          />
+          <ProfileBox type="profileBox" />
           <Button color="dark" onClick={handleLogout}>
             로그아웃
           </Button>
         </>
       )}
     </div>
-  )
+  );
 }
 
-export default ProfilePage
+export default ProfilePage;
