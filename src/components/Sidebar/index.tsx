@@ -8,6 +8,7 @@ import BarChartIcon from "@assets/BarChartIcon.svg";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
 import SettingIcon from "@assets/SettingIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
+import { useLocation } from "react-router-dom";
 
 const ICONS: Record<string, string> = {
   Dashboard: DashboardIcon,
@@ -20,8 +21,10 @@ const ICONS: Record<string, string> = {
 };
 
 const Sidebar = () => {
+  const location = useLocation();
+
   return (
-    <nav className="w-64 shrink-0 flex flex-col">
+    <nav className="w-64 h-full shrink-0 flex flex-col border-r border-r-slate-200">
       <ProfileBox type="sidebar" />
       {/* routing area */}
       <div className="flex flex-col px-1 py-2 gap-1.5">
@@ -31,7 +34,11 @@ const Sidebar = () => {
             <a
               key={index}
               href={item.path}
-              className="flex items-center rounded-md gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 transition-colors"
+              className={`flex items-center rounded-md gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 transition-colors ${
+                location.pathname === item.path
+                  ? "bg-gray-200 font-semibold"
+                  : ""
+              }`}
             >
               <img src={Icon} alt={`${item.label} icon`} className="w-4 h-4" />
               <span>{item.label}</span>
