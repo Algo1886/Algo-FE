@@ -8,6 +8,8 @@ import DashboardPage from "@pages/DashboardPage";
 import BookmarkPage from "@pages/BookmarkPage";
 import IdeaPage from "@pages/IdeaPage";
 import ProfilePage from "@pages/ProfilePage";
+import KakaoLoginPage from "@pages/KakaoLoginPage"
+import GithubLoginPage from "@pages/GithubLoginPage"
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
 
@@ -18,6 +20,8 @@ function App() {
         <Route path="/" element={<LayoutWithHeader />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/login/kakao" element={<KakaoLoginPage />} />
+          <Route path="/login/github" element={<GithubLoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/read" element={<ReadSolutionPage />} />
           <Route path="/create" element={<CreateSolutionPage />} />

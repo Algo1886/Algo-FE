@@ -12,7 +12,7 @@ const Header = () => {
   }
 
   return (
-    <header className="w-full h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+    <header className="w-full h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-50">
       <div
         className="text-xl font-bold cursor-pointer"
         onClick={() => navigate("/")}
