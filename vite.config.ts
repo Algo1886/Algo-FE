@@ -13,6 +13,7 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "src/assets"),
       "@contexts": path.resolve(__dirname, "src/contexts"),
       "@api": path.resolve(__dirname, "src/api"),
+      "@constants": path.resolve(__dirname, "src/constants"),
     },
   },
   server: {

@@ -18,7 +18,7 @@ function ProfilePage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!accessToken) return
+    if (!accessToken) return;
     fetchUserProfile()
       .then((data) => setLocalUser(data.data))
       .catch((err) => console.error(err))
@@ -52,18 +52,14 @@ function ProfilePage() {
 
       {user && (
         <>
-          <ProfileBox
-            id={user.id}
-            username={user.username}
-            avatarUrl={user.avatarUrl}
-          />
+          <ProfileBox type="profileBox" />
           <Button color="dark" onClick={handleLogout}>
             로그아웃
           </Button>
         </>
       )}
     </div>
-  )
+  );
 }
 
-export default ProfilePage
+export default ProfilePage;

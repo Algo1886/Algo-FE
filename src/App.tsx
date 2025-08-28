@@ -1,3 +1,5 @@
+import "./App.css";
+
 import { Routes, Route } from "react-router-dom";
 import MainPage from "@pages/MainPage";
 import LoginPage from "@pages/LoginPage";
@@ -12,11 +14,13 @@ import KakaoLoginPage from "@pages/KakaoLoginPage"
 import GithubLoginPage from "@pages/GithubLoginPage"
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
+import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
+        {/* TODO: constants/routes.json과 싱크 맞추기 */}
         <Route path="/" element={<LayoutWithHeader />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -27,8 +31,10 @@ function App() {
           <Route path="/create" element={<CreateSolutionPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/bookmark" element={<BookmarkPage />} />
-          <Route path="/idea" element={<IdeaPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={<LayoutWithSidebar />}>
+            <Route path="/idea" element={<IdeaPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
         </Route>
       </Routes>
     </AuthProvider>
