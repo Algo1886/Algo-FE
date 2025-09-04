@@ -22,14 +22,14 @@ const Header = () => {
 
       {accessToken && user?.avatarUrl ? (
         <div className="flex flex-row gap-4 items-center">
-          <Button theme="light" onClick={() => navigate("/create")}>
+          <Button theme="light" onClick={() => navigate("/record/create")}>
             기록하기
           </Button>
         <img
           src={user.avatarUrl}
           alt="프로필"
           className="w-10 h-10 rounded-full cursor-pointer"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate("/my-profile")}
         />
         </div>
       ) : (

@@ -7,12 +7,17 @@
   {
     "icon": "Book",
     "label": "문제 기록하기",
-    "path": "/record-problem"
+    "path": "/record/create"
   },
   {
     "icon": "LineChart",
     "label": "내가 푼 문제",
-    "path": "/my-problems"
+    "path": "/my-records"
+  },
+  {
+    "icon": "LineChart",
+    "label": "임시저장 문제",
+    "path": "/my-drafts"
   },
   {
     "icon": "BarChart",
@@ -22,16 +27,16 @@
   {
     "icon": "Bookmark",
     "label": "즐겨찾기 문제",
-    "path": "/favorites"
+    "path": "/my-bookmarks"
   },
   {
     "icon": "Setting",
     "label": "핵심 아이디어",
-    "path": "/idea"
+    "path": "/my-ideas"
   },
   {
     "icon": "User",
     "label": "내 정보",
-    "path": "/profile"
+    "path": "/my-profile"
   }
 ]
