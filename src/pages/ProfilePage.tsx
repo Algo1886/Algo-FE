@@ -2,12 +2,14 @@ import { useState, useEffect } from "react"
 import ProfileBox from "@components/ProfileBox"
 import Button from "@components/Button"
 import { useAuth } from "@contexts/AuthContext"
-import { fetchUserProfile, updateUserProfile, deleteUserAccount } from "@api/user"
+import { fetchUserProfile, updateUserProfile, deleteUserAccount, fetchUserStats } from "@api/user"
 import { requestLogout } from "@api/auth"
 import { useNavigate } from "react-router-dom"
+import StatsCards from "@components/StatsCards"
 
 function ProfilePage() {
   const { accessToken, user, setUser, setAccessToken } = useAuth()
+  const [stats, setStats] = useState<any>(null)
   const [isEditing, setIsEditing] = useState(false)
   const navigate = useNavigate()
 
@@ -15,6 +17,17 @@ function ProfilePage() {
     if (!accessToken) return
     fetchUserProfile()
       .then((data) => setUser(data.data))
+      .catch((err) => console.error(err))
+
+    fetchUserStats()
+      .then((res) => {
+        if (res.data.records.totalCount == 0) {
+          setStats(null)
+        } else {
+          setStats(res.data)
+        }
+      }
+      )
       .catch((err) => console.error(err))
   }, [accessToken, setUser])
 
@@ -76,12 +89,13 @@ function ProfilePage() {
           onCancel={() => setIsEditing(false)}
         />
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mb-6">
           <Button color="dark" onClick={() => setIsEditing(true)}>편집</Button>
           <Button color="dark" onClick={handleLogout}>로그아웃</Button>
           <Button color="red" onClick={handleDeleteAccount}>회원 탈퇴</Button>
         </div>
       )}
+    {stats && <StatsCards stats={stats} />}
     </div>
   )
 }
