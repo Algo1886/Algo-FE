@@ -1,16 +1,17 @@
-import { useState } from "react"
-import Dropdown from "@components/Dropdown"
+"use client"
+import { type Dispatch, type SetStateAction } from "react"
 import Button from "@components/Button"
+import Dropdown from "@components/Dropdown"
 
-const SearchBar = () => {
-  const [filter, setFilter] = useState("전체")
-  const [keyword, setKeyword] = useState("")
+interface SearchBarProps {
+  filter: string
+  setFilter: Dispatch<SetStateAction<string>>
+  keyword: string
+  setKeyword: Dispatch<SetStateAction<string>>
+  onSearch: () => void
+}
 
-  const handleSearch = () => {
-    console.log("검색", filter, keyword)
-    // 검색 API 호출
-  }
-
+const SearchBar = ({ filter, setFilter, keyword, setKeyword, onSearch }: SearchBarProps) => {
   return (
     <div className="flex items-center gap-2 w-full max-w-4xl mx-auto">
       {/* 검색 아이콘 */}
@@ -45,10 +46,11 @@ const SearchBar = () => {
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        onKeyDown={(e) => e.key === "Enter" && onSearch()}
       />
 
       {/* 검색 버튼 */}
-      <Button onClick={handleSearch}>검색</Button>
+      <Button onClick={onSearch}>검색</Button>
     </div>
   )
 }
