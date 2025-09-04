@@ -10,8 +10,8 @@ import DashboardPage from "@pages/DashboardPage";
 import BookmarkPage from "@pages/BookmarkPage";
 import IdeaPage from "@pages/IdeaPage";
 import ProfilePage from "@pages/ProfilePage";
-import KakaoLoginPage from "@pages/KakaoLoginPage"
-import GithubLoginPage from "@pages/GithubLoginPage"
+import KakaoLoginPage from "@pages/KakaoLoginPage";
+import GithubLoginPage from "@pages/GithubLoginPage";
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
 import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
@@ -29,9 +29,9 @@ function App() {
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/read" element={<ReadSolutionPage />} />
           <Route path="/create" element={<CreateSolutionPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/bookmark" element={<BookmarkPage />} />
           <Route path="/" element={<LayoutWithSidebar />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/idea" element={<IdeaPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
