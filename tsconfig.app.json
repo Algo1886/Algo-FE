@@ -29,7 +29,8 @@
       "@components/*": ["components/*"],
       "@contexts/*": ["contexts/*"],
       "@api/*": ["api/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"]
     }
   },
   "include": ["src"]

@@ -14,12 +14,13 @@ export default defineConfig({
       "@contexts": path.resolve(__dirname, "src/contexts"),
       "@api": path.resolve(__dirname, "src/api"),
       "@constants": path.resolve(__dirname, "src/constants"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
     },
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://13.209.211.225:8080',
+      "/api": {
+        target: "http://13.209.211.225:8080",
         changeOrigin: true,
         secure: false,
       },
