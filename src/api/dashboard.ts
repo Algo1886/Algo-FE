@@ -40,7 +40,7 @@ export interface DashboardResponse {
 export const getDashboard = async (
   signal?: AbortSignal
 ): Promise<DashboardResponse> => {
-  const res = await api.get("/api/dashboard");
+  const res = await api.get("/users/me/dashboard");
 
   const json = res.data as DashboardResponse;
 
