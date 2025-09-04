@@ -29,7 +29,7 @@ const dummyProblemTypeData = [
   { name: "비트마스크", count: 4 },
 ];
 
-function DashboardPage() {
+const DashboardPage = () => {
   const { data, loading, error } = useDashboardData();
 
   if (loading) return <div>로딩 중...</div>;
@@ -51,4 +51,6 @@ function DashboardPage() {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardPage;
