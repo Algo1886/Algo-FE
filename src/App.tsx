@@ -6,7 +6,9 @@ import LoginPage from "@pages/LoginPage";
 import SearchResultPage from "@pages/SearchResultPage";
 import ReadRecordPage from "@pages/ReadRecordPage";
 import CreateRecordPage from "@pages/CreateRecordPage";
+import EditRecordPage from "@pages/EditRecordPage";
 import DashboardPage from "@pages/DashboardPage";
+import MyRecordPage from "@pages/MyRecordPage";
 import MyIdeasPage from "@pages/MyIdeasPage";
 import MyBookmarksPage from "@pages/MyBookmarksPage";
 import ProfilePage from "@pages/ProfilePage";
@@ -15,6 +17,7 @@ import GithubLoginPage from "@pages/GithubLoginPage"
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
 import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
+import MyDraftsPage from "@pages/MyDraftsPage";
 
 function App() {
   return (
@@ -32,9 +35,12 @@ function App() {
           <Route path="record/create" element={<CreateRecordPage />} />
           <Route path="record/edit/:id" element={<EditRecordPage />} />
           <Route path="my-ideas" element={<MyIdeasPage />} />
+          <Route path="my-records" element={<MyRecordPage />} />
+          <Route path="my-drafts" element={<MyDraftsPage />} />
           <Route path="my-bookmarks" element={<MyBookmarksPage />} />
           <Route path="my-profile" element={<ProfilePage />} />
         </Route>
+      </Route>
       </Routes>
     </AuthProvider>
   );

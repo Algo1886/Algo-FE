@@ -13,6 +13,8 @@ export interface HeaderListBoxProps {
   difficulty: number;
   isBookmarked: boolean;
   onBookmarkToggle?: () => void;
+  onEdit?: () => void;   // 수정 핸들러
+  onDelete?: () => void; // 삭제 핸들러
 }
 
 const HeaderListBox = ({
@@ -25,6 +27,8 @@ const HeaderListBox = ({
   difficulty,
   isBookmarked,
   onBookmarkToggle,
+  onEdit,
+  onDelete,
 }: HeaderListBoxProps) => {
   return (
     <div className="bg-white max-w-[1080px] w-full rounded-xl border-gray-300 border p-5 space-y-4">
@@ -38,13 +42,17 @@ const HeaderListBox = ({
           </div>
         </div>
         <button onClick={onBookmarkToggle}>
-          {isBookmarked ? (
-            <i className="fa-solid fa-bookmark text-gray-800" />
-          ) : (
-            <i className="fa-regular fa-bookmark text-gray-400" />
-          )}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-4 h-4 mr-1"
+            fill={isBookmarked ? "#FACC15" : "#374151"}
+          >
+            <path d="M5 3v18l7-5 7 5V3H5z" />
+          </svg>
         </button>
       </div>
+
       <div className="w-full flex items-start">
         <a href={link} className="text-blue-500 text-base">
           <img
@@ -55,6 +63,7 @@ const HeaderListBox = ({
           문제 링크
         </a>
       </div>
+
       <div className="flex w-full items-start gap-2">
         <span>
           <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
@@ -69,6 +78,7 @@ const HeaderListBox = ({
           {time}
         </span>
       </div>
+
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
         <div className="flex items-center gap-4">
           성공 여부
@@ -94,6 +104,22 @@ const HeaderListBox = ({
             </span>
           ))}
         </div>
+      </div>
+
+      {/* 오른쪽 하단 버튼 */}
+      <div className="flex justify-end gap-3 pt-2">
+        <button
+          onClick={onEdit}
+          className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
+        >
+          수정하기
+        </button>
+        <button
+          onClick={onDelete}
+          className="px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50"
+        >
+          삭제하기
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,16 @@
+// IdeaTable.tsx
 import IdeaRow from "./IdeaRow";
-import { ideaList } from "./_dummy/data";
 
-const IdeaTable = () => {
+interface Idea {
+  id: number;
+  content: string;
+  recordId: number;
+  problemTitle: string;
+  categories: string[];
+}
+
+const IdeaTable = ({ ideas }: { ideas: Idea[] }) => {
+  console.log(ideas)
   return (
     <div className="border rounded-md overflow-hidden border-gray-200">
       <div className="grid grid-cols-3 bg-gray-100 font-semibold p-2">
@@ -10,7 +19,7 @@ const IdeaTable = () => {
         <div>핵심 아이디어</div>
       </div>
 
-      {ideaList.map((idea) => (
+      {ideas.map((idea) => (
         <IdeaRow key={idea.id} idea={idea} />
       ))}
     </div>
