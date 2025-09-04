@@ -23,12 +23,12 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-      <Route path="/" element={<LayoutWithHeader />}>
-        <Route index element={<MainPage />} /> {/* "/" */}
+        <Route path="/" element={<LayoutWithHeader />}>
+          <Route index element={<MainPage />} /> {/* "/" */}
           <Route path="/search" element={<SearchResultPage />} />
-          <Route path="/read" element={<ReadSolutionPage />} />
+          {/* <Route path="/read" element={<ReadSolutionPage />} />
           <Route path="/create" element={<CreateSolutionPage />} />
-          <Route path="/bookmark" element={<BookmarkPage />} />
+          <Route path="/bookmark" element={<BookmarkPage />} /> */}
           <Route path="login" element={<LoginPage />} />
           <Route path="login/kakao" element={<KakaoLoginPage />} />
           <Route path="login/github" element={<GithubLoginPage />} />
@@ -44,11 +44,10 @@ function App() {
             <Route path="my-bookmarks" element={<MyBookmarksPage />} />
             <Route path="my-profile" element={<ProfilePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/idea" element={<IdeaPage />} />
+            {/* <Route path="/idea" element={<IdeaPage />} /> */}
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
-      </Route>
       </Routes>
     </AuthProvider>
   );

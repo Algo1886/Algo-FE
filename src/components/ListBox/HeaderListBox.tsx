@@ -13,7 +13,7 @@ export interface HeaderListBoxProps {
   difficulty: number;
   isBookmarked: boolean;
   onBookmarkToggle?: () => void;
-  onEdit?: () => void;   // 수정 핸들러
+  onEdit?: () => void; // 수정 핸들러
   onDelete?: () => void; // 삭제 핸들러
 }
 
@@ -31,7 +31,7 @@ const HeaderListBox = ({
   onDelete,
 }: HeaderListBoxProps) => {
   return (
-    <div className="bg-white max-w-[1080px] w-full rounded-xl border-gray-300 border p-5 space-y-4">
+    <div className="bg-white w-full rounded-xl border-gray-300 border p-5 space-y-4">
       <div className="flex justify-between">
         <div className="flex flex-row gap-4">
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>

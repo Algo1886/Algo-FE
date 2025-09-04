@@ -6,29 +6,6 @@ import GrassSection from "./_sections/GrassSection";
 import RadarSection from "./_sections/RadarSection";
 import RankingSection from "./_sections/RankingSection";
 
-const dummyData = Array.from({ length: 365 }).map((_, i) => {
-  const date = new Date();
-  date.setDate(date.getDate() - (364 - i));
-  const count = Math.random() < 0.7 ? Math.floor(Math.random() * 10) : 0;
-  return {
-    date: date.toISOString().split("T")[0],
-    count,
-  };
-});
-
-const dummyProblemTypeData = [
-  { name: "그리디", count: 25 },
-  { name: "DFS", count: 25 },
-  { name: "배열", count: 22 },
-  { name: "스택/큐", count: 18 },
-  { name: "백트래킹", count: 19 },
-  { name: "정렬", count: 15 },
-  { name: "BFS", count: 14 },
-  { name: "DP", count: 12 },
-  { name: "문자열", count: 9 },
-  { name: "비트마스크", count: 4 },
-];
-
 const DashboardPage = () => {
   const { data, loading, error } = useDashboardData();
 
@@ -41,12 +18,11 @@ const DashboardPage = () => {
         <StatsCardSection data={data} />
         <RecommendationSection recommendations={data.recommendations} />
         <IdeaSection recentIdeas={data.recentIdeas} />
-        <GrassSection streakDays={data.streakDays} dummyData={dummyData} />
+        <GrassSection streakDays={data.streakDays} data={data.records} />
         <RadarSection tagDistribution={data.tagDistributionPercent} />
         <RankingSection
           tagDistribution={data.tagDistributionPercent}
           recordCount={data.recordCount}
-          dummyData={dummyProblemTypeData}
         />
       </div>
     </div>
