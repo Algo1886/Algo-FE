@@ -1,11 +1,10 @@
 import RadarCanvasChart from "@components/CustomChart";
 import GrassGraph from "@components/GrassGraph";
 import DefaultListBox from "@components/ListBox";
-import HeaderListBox from "@components/ListBox/HeaderListBox";
 import PreviewCard from "@components/PreviewCard";
 import RightChevron from "@assets/RightChevron.svg";
-import TypeRankingList from "@components/RankingList";
 import RankingList from "@components/RankingList";
+import { useDashboardData } from "@hooks/useDashboardData";
 
 interface IconWrapperProps extends React.PropsWithChildren {
   bgColor?: string;
@@ -18,16 +17,6 @@ const IconWrapper = ({ bgColor, children }: IconWrapperProps) => {
     </div>
   );
 };
-
-const labels = [
-  "math",
-  "geometry",
-  "implementation",
-  "greedy",
-  "graphs",
-  "data_structures",
-];
-const values = [90, 85, 70, 60, 65, 20];
 
 const dummyData = Array.from({ length: 365 }).map((_, i) => {
   const date = new Date();
@@ -53,6 +42,21 @@ const dummyProblemTypeData = [
 ];
 
 function DashboardPage() {
+  const { data, loading, error } = useDashboardData();
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error || !data) return <div>에러 발생: {error}</div>;
+
+  const {
+    recordCount,
+    bookmarkCount,
+    streakDays,
+    successRate,
+    recommendations,
+    recentIdeas,
+    tagDistributionPercent,
+  } = data;
+
   const handleBookmarkToggle = () => {
     // TODO: 서버 연동 시 API 호출
     console.log("북마크 토글됨");
@@ -97,7 +101,7 @@ function DashboardPage() {
             <div className="flex flex-col items-start">
               <span className="text-sm text-[#45556C]">알고리즘 기록 수</span>
               <span style={{ color: "#155DFC" }} className="text-2xl font-bold">
-                187개
+                {recordCount}개
               </span>
             </div>
           </div>
@@ -255,16 +259,20 @@ function DashboardPage() {
             }
           >
             <div className="flex flex-col gap-4">
-              <PreviewCard
-                type="DP"
-                title="최적의 알고리즘 구하기"
-                date="2025-05-02"
-              />
-              <PreviewCard
-                type="DP"
-                title="최적의 알고리즘 구하기"
-                date="2025-05-02"
-              />
+              {recommendations.length === 0 ? (
+                <div className="text-sm text-[#45556C]">
+                  추천 복습 기록이 없습니다.
+                </div>
+              ) : (
+                recommendations.map((rec) => (
+                  <PreviewCard
+                    key={rec.id}
+                    type={rec.categories[0] || "기타"}
+                    title={rec.title}
+                    date={rec.reviewDate}
+                  />
+                ))
+              )}
             </div>
           </DefaultListBox>
         </div>
@@ -308,16 +316,20 @@ function DashboardPage() {
             }
           >
             <div className="flex flex-col gap-4">
-              <PreviewCard
-                type="DP"
-                title="최적의 알고리즘 구하기"
-                date="2025-05-02"
-              />
-              <PreviewCard
-                type="DP"
-                title="최적의 알고리즘 구하기"
-                date="2025-05-02"
-              />
+              {recentIdeas.length === 0 ? (
+                <div className="text-sm text-[#45556C]">
+                  최근 핵심 아이디어가 없습니다.
+                </div>
+              ) : (
+                recentIdeas.map((idea) => (
+                  <PreviewCard
+                    key={idea.id}
+                    type={idea.category || "기타"}
+                    title={idea.content}
+                    date={idea.createdAt}
+                  />
+                ))
+              )}
             </div>
           </DefaultListBox>
         </div>
@@ -325,9 +337,8 @@ function DashboardPage() {
           <DefaultListBox boxTitle="최근 1년 간의 기록">
             <GrassGraph data={dummyData} />
             <span className="mt-4 text-sm text-[#45556C] self-start">
-              올해 총{" "}
-              <b>{dummyData.reduce((acc, cur) => acc + cur.count, 0)}</b>개의
-              문제를 기록했습니다.
+              올해 총<b>{dummyData.reduce((acc, cur) => acc + cur.count, 0)}</b>
+              개의 문제를 기록했습니다.
             </span>
           </DefaultListBox>
         </div>
@@ -335,8 +346,8 @@ function DashboardPage() {
           <DefaultListBox boxTitle="유형 분포">
             <div className="w-[300px] h-[300px] self-center">
               <RadarCanvasChart
-                labels={labels}
-                values={values}
+                labels={Object.keys(tagDistributionPercent || {})}
+                values={Object.values(tagDistributionPercent || {})}
                 maxValue={100}
                 size={300}
               />
