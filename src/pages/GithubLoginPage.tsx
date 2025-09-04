@@ -1,32 +1,34 @@
-// pages/GithubLoginPage.tsx
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestGithubLoginToken } from "@api/auth";
 import { useAuth } from "@contexts/AuthContext";
+import Loading from "@components/Loading";
 
 const GithubLoginPage = () => {
   const navigate = useNavigate();
   const { setAccessToken, setRefreshToken } = useAuth();
-  const [hasSent, setHasSent] = useState(false);
 
   const code = new URLSearchParams(window.location.search).get("code");
 
   useEffect(() => {
-    if (code && !hasSent) {
+    if (code) {
       requestGithubLoginToken(code)
         .then((data) => {
           if (data.success && data.data) {
             setAccessToken(data.data.accessToken);
             setRefreshToken(data.data.refreshToken);
             navigate("/");
-            setHasSent(true);
+          } else {
+            console.error("로그인 실패:", data);
           }
         })
-        .catch(console.error);
+        .catch(console.error)
     }
-  }, [code, hasSent, setAccessToken, setRefreshToken, navigate]);
+  }, [code, setAccessToken, setRefreshToken, navigate]);
 
-  return <div>깃허브 로그인 처리 중...</div>;
+  return (
+    <Loading />
+  );
 };
 
 export default GithubLoginPage;
