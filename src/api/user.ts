@@ -5,6 +5,12 @@ export const fetchUserProfile = async () => {
   return res.data
 }
 
+export const fetchUserStreak = async () => {
+  const res = await api.get("/users/me/streak")
+  console.log(res.data)
+  return res.data.totalCount
+}
+
 export const updateUserProfile = async (data: { username?: string; avatarUrl?: string }) => {
   const res = await api.patch("/users/me", data)
   return res.data
