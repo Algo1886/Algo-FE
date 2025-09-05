@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import MainPage from "@pages/MainPage";
 import LoginPage from "@pages/LoginPage";
-import SearchResultPage from "@pages/SearchResultPage";
+import SearchRecordPage from "@pages/SearchRecordPage";
 import ReadRecordPage from "@pages/ReadRecordPage";
 import CreateRecordPage from "@pages/CreateRecordPage";
 import EditRecordPage from "@pages/EditRecordPage";
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LayoutWithHeader />}>
           <Route index element={<MainPage />} />
-          <Route path="search" element={<SearchResultPage />} />
+          <Route path="search-result" element={<SearchRecordPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="login/kakao" element={<KakaoLoginPage />} />
           <Route path="login/github" element={<GithubLoginPage />} />
