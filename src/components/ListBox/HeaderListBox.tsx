@@ -37,7 +37,7 @@ const HeaderListBox = ({
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
           <div className="flex gap-2 mt-1">
             {tags.map((tag, index) => (
-              <ProblemChip key={index} type={tag} />
+              <ProblemChip key={index} label={tag} />
             ))}
           </div>
         </div>

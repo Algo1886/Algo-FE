@@ -23,7 +23,7 @@ const IdeaRow = ({ idea }: IdeaRowProps) => {
       {/* 문제 유형 → 여러 개면 Chip 여러 개 */}
       <div className="col-span-2 flex gap-1 flex-wrap">
         {idea.categories.map((cat, idx) => (
-          <ProblemChip key={idx} type={cat} />
+          <ProblemChip key={idx} label={cat} />
         ))}
       </div>
 
