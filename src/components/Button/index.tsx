@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  theme?: "dark" | "light"
+  theme?: "dark" | "light" | "white"
   href?: string
   onClick?: () => void
 }
@@ -21,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   const colorClasses: Record<string, string> = {
     dark: "bg-black text-white hover:bg-gray-800",
     light: "bg-gray-50 border-1 border-gray-200 text-black hover:bg-gray-100",
+    white: "bg-white border-1 border-gray-200 text-black hover:bg-gray-100"
   }
   const finalClass = clsx(baseStyle, colorClasses[theme], className)
 
