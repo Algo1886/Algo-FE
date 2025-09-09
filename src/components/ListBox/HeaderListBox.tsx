@@ -5,7 +5,8 @@ import ClockIcon from "@assets/ClockIcon.svg";
 
 export interface HeaderListBoxProps {
   title: string;
-  tags: string[];
+  category: string;
+  source: string;
   link: string;
   user: string;
   time: string;
@@ -19,7 +20,8 @@ export interface HeaderListBoxProps {
 
 const HeaderListBox = ({
   title,
-  tags,
+  category,
+  source,
   link,
   user,
   time,
@@ -31,21 +33,20 @@ const HeaderListBox = ({
   onDelete,
 }: HeaderListBoxProps) => {
   return (
-    <div className="bg-white max-w-[1080px] w-full rounded-xl border-gray-300 border p-5 space-y-4">
+    <div className="bg-white w-full rounded border-gray-200 border p-5 space-y-4">
       <div className="flex justify-between">
         <div className="flex flex-row gap-4">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-          <div className="flex gap-2 mt-1">
-            {tags.map((tag, index) => (
-              <ProblemChip key={index} label={tag} />
-            ))}
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <div className="flex justify-between flex-row items-center gap-2">
+            <ProblemChip label={category} bgColor="blue" textColor="blue" />
+            <ProblemChip label={source} />
           </div>
         </div>
         <button onClick={onBookmarkToggle}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className="w-4 h-4 mr-1"
+            className="w-5 h-5 mr-1"
             fill={isBookmarked ? "#FACC15" : "#374151"}
           >
             <path d="M5 3v18l7-5 7 5V3H5z" />
@@ -64,7 +65,7 @@ const HeaderListBox = ({
         </a>
       </div>
 
-      <div className="flex w-full items-start gap-2">
+      <div className="flex w-full items-start gap-4">
         <span>
           <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
           {user}
@@ -80,7 +81,7 @@ const HeaderListBox = ({
       </div>
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           성공 여부
           <span
             className={`px-2 py-0.5 rounded text-xs font-semibold ${
@@ -94,7 +95,7 @@ const HeaderListBox = ({
         </div>
 
         <div className="flex items-center gap-1">
-          체감 난이도:
+          체감 난이도
           {[...Array(5)].map((_, i) => (
             <span
               key={i}
@@ -107,7 +108,8 @@ const HeaderListBox = ({
       </div>
 
       {/* 오른쪽 하단 버튼 */}
-      <div className="flex justify-end gap-3 pt-2">
+      {onEdit && onDelete && (
+        <div className="flex justify-end gap-3 pt-2">
         <button
           onClick={onEdit}
           className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
@@ -121,6 +123,7 @@ const HeaderListBox = ({
           삭제하기
         </button>
       </div>
+      )}
     </div>
   );
 };

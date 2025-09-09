@@ -4,11 +4,12 @@ import { bbedit } from '@uiw/codemirror-theme-bbedit';
 
 interface CodeEditorProps {
   value: string
-  onChange: (value: string) => void
-  language: "python" | "java" | "javascript"
+  onChange?: (value: string) => void
+  language: string
+  editable?: boolean
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, editable }) => {
   let extension
   switch (language) {
     case "python":
@@ -31,7 +32,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language }) =>
       value={value}
       height="300px"
       extensions={[extension]}
-      onChange={(val) => onChange(val)}
+      onChange={(val) => {onChange && onChange(val)}}
       theme={bbedit}
       basicSetup={{
         lineNumbers: false,
@@ -39,6 +40,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language }) =>
         autocompletion: false,
         highlightActiveLine: false,
       }}
+      editable={editable}
     />
     </div>
 

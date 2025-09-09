@@ -2,7 +2,7 @@ import { FaCheck, FaTimes } from "react-icons/fa"
 
 interface ChipButtonProps {
   selected: boolean
-  onClick: () => void
+  onClick?: () => void
   children: React.ReactNode
 }
 

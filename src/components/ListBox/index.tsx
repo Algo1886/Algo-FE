@@ -6,9 +6,9 @@ interface DefaultListBoxProps extends PropsWithChildren {
 
 const DefaultListBox = ({ boxTitle, children }: DefaultListBoxProps) => {
   return (
-    <div className="bg-white items-start flex flex-col max-w-[1080px] w-full rounded-xl border-gray-200 border p-5 space-y-4">
+    <div className="bg-white items-start flex flex-col w-full rounded border-gray-200 border p-5 space-y-4">
       {boxTitle && typeof boxTitle === "string" ? (
-        <div className="text-xl font-semibold">{boxTitle}</div>
+        <div className="font-semibold">{boxTitle}</div>
       ) : (
         boxTitle
       )}
