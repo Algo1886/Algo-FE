@@ -34,8 +34,8 @@ function App() {
           <Route path="login/github" element={<GithubLoginPage />} />
           <Route path="search-result" element={<SearchResultPage />} />
           <Route path="read/:id" element={<ReadRecordPage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
           <Route element={<LayoutWithSidebar />}>
+            <Route path="dashboard" element={<DashboardPage />} />
             <Route path="record/create" element={<CreateRecordPage />} />
             <Route path="record/edit/:id" element={<EditRecordPage />} />
             <Route path="my-ideas" element={<MyIdeasPage />} />

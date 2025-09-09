@@ -2,6 +2,10 @@ import ProblemChip from "@components/Chip";
 import LinkIconSvg from "@assets/LinkIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 import ClockIcon from "@assets/ClockIcon.svg";
+import Button from "@components/Button";
+import BookmarkIcon from "@assets/BookmarkIcon.svg";
+import SuccessIcon from "@assets/SuccessIcon.svg";
+import FailIcon from "@assets/FailIcon.svg";
 
 export interface HeaderListBoxProps {
   title: string;
@@ -13,8 +17,8 @@ export interface HeaderListBoxProps {
   difficulty: number;
   isBookmarked: boolean;
   onBookmarkToggle?: () => void;
-  onEdit?: () => void; // 수정 핸들러
-  onDelete?: () => void; // 삭제 핸들러
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 const HeaderListBox = ({
@@ -31,29 +35,30 @@ const HeaderListBox = ({
   onDelete,
 }: HeaderListBoxProps) => {
   return (
-    <div className="bg-white w-full rounded-xl border-gray-300 border p-5 space-y-4">
-      <div className="flex justify-between">
-        <div className="flex flex-row gap-4">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-          <div className="flex gap-2 mt-1">
-            {tags.map((tag, index) => (
-              <ProblemChip key={index} type={tag} />
-            ))}
-          </div>
-        </div>
-        <button onClick={onBookmarkToggle}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="w-4 h-4 mr-1"
-            fill={isBookmarked ? "#FACC15" : "#374151"}
+    <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
+      <div className="w-full flex items-start justify-between">
+        <h2 className="text-xl font-semibold">{title}</h2>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-pressed={isBookmarked}
+            onClick={onBookmarkToggle}
+            className="flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 hover:bg-gray-50 active:scale-[0.98] transition"
+            title="북마크"
           >
-            <path d="M5 3v18l7-5 7 5V3H5z" />
-          </svg>
-        </button>
+            <img
+              src={BookmarkIcon}
+              alt="bookmark"
+              className={`w-4 h-4 ${
+                isBookmarked ? "opacity-100" : "opacity-60"
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
-      <div className="w-full flex items-start">
+      <div className="w-full flex items-start mt-2">
         <a href={link} className="text-blue-500 text-base">
           <img
             src={LinkIconSvg}
@@ -64,7 +69,13 @@ const HeaderListBox = ({
         </a>
       </div>
 
-      <div className="flex w-full items-start gap-2">
+      <div className="flex flex-wrap items-center gap-2 mt-3">
+        {tags.map((t) => (
+          <ProblemChip key={t} type={t} />
+        ))}
+      </div>
+
+      <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
         <span>
           <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
           {user}
@@ -79,21 +90,26 @@ const HeaderListBox = ({
         </span>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600 mt-3">
+        <div className="flex items-center gap-2">
           성공 여부
           <span
-            className={`px-2 py-0.5 rounded text-xs font-semibold ${
+            className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
               isSuccess
                 ? "bg-green-100 text-green-800"
                 : "bg-red-100 text-red-700"
             }`}
           >
+            <img
+              src={isSuccess ? SuccessIcon : FailIcon}
+              alt=""
+              className="w-4 h-4 mr-1 inline"
+            />
             {isSuccess ? "성공" : "실패"}
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           체감 난이도:
           {[...Array(5)].map((_, i) => (
             <span
@@ -106,20 +122,21 @@ const HeaderListBox = ({
         </div>
       </div>
 
-      {/* 오른쪽 하단 버튼 */}
-      <div className="flex justify-end gap-3 pt-2">
-        <button
+      <div className="flex justify-end gap-3 pt-4">
+        <Button
           onClick={onEdit}
-          className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
+          theme="light"
+          className="px-3 py-1 text-sm border border-gray-300"
         >
           수정하기
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onDelete}
-          className="px-3 py-1 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-50"
+          theme="light"
+          className="px-3 py-1 text-sm border border-red-300 text-red-600 hover:bg-red-50"
         >
           삭제하기
-        </button>
+        </Button>
       </div>
     </div>
   );
