@@ -15,12 +15,8 @@ interface RecordResponse {
   id: number;
   title: string;
   problemUrl: string;
-  problem: {
-    id: number;
-    source: string;
-    displayId: string;
-  };
   categories: string[];
+  source: string;
   status: string;
   difficulty: number;
   detail: string;
@@ -61,6 +57,14 @@ const FailChip = () => {
   );
 };
 
+const formatYmd = (iso: string): string => {
+  const d = new Date(iso);
+  const y = d.getFullYear();
+  const m = `${d.getMonth() + 1}`.padStart(2, "0");
+  const dd = `${d.getDate()}`.padStart(2, "0");
+  return `${y}/${m}/${dd}`;
+};
+
 const ReadRecordPage = () => {
   const navigate = useNavigate();
   const [record, setRecord] = useState<RecordResponse | null>(null);
@@ -79,28 +83,42 @@ const ReadRecordPage = () => {
     loadRecord();
   }, [id]);
 
-  const handleBookmarkToggle = () => {
-    if (record) {
+  const handleBookmarkToggle = async () => {
+    if (!record) return;
+    try {
       if (record.isBookmarked) {
-        deleteBookmarkById(record.id);
+        await deleteBookmarkById(record.id);
       } else {
-        createBookmarkById(record.id);
+        await createBookmarkById(record.id);
       }
-      setRecord({ ...record, isBookmarked: !record.isBookmarked });
+      const next = { ...record, isBookmarked: !record.isBookmarked };
+      setRecord(next);
+      window.dispatchEvent(
+        new CustomEvent("bookmark:toggled", {
+          detail: { recordId: record.id, isBookmarked: next.isBookmarked },
+        })
+      );
+    } catch (e) {
+      console.error(e);
     }
   };
 
   if (!record) return <div>로딩 중...</div>;
+
+  const created = formatYmd(record.createdAt);
+  const updated = formatYmd(record.updatedAt);
+  const timeText =
+    created === updated ? created : `${created} (수정: ${updated})`;
 
   return (
     <div className="w-full flex flex-col items-center p-5 gap-5">
       <HeaderListBox
         title={record.title}
         category={record.categories[0]}
-        source={record.problem.source}
+        source={record.source}
         link={record.problemUrl}
         user={record.author.username}
-        time={new Date(record.createdAt).toLocaleString()}
+        time={timeText}
         isSuccess={record.status === "success"}
         difficulty={record.difficulty}
         isBookmarked={record.isBookmarked}
@@ -130,9 +148,9 @@ const ReadRecordPage = () => {
                   {c.verdict === "pass" ? <SuccessChip /> : <FailChip />}
                 </span>
               </div>
-              <code className="bg-[#0F172B] w-full text-white text-sm rounded-lg py-4 whitespace-break-spaces flex items-start text-left px-8">
-                {c.code}
-              </code>
+              <pre className="bg-[#0F172B] w-full text-white text-sm rounded-lg py-4 px-6 overflow-x-auto">
+                <code className="whitespace-pre">{c.code}</code>
+              </pre>
             </DefaultListBox>
           ))}
         </div>
@@ -171,7 +189,7 @@ const ReadRecordPage = () => {
               href={l.url}
               target="_blank"
               rel="noreferrer"
-              className="text-left"
+              className="text-left underline"
             >
               {l.url}
             </a>

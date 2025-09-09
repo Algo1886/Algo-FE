@@ -67,7 +67,12 @@ const HeaderListBox = ({
       </div>
 
       <div className="w-full flex items-start mt-2">
-        <a href={link} className="text-blue-500 text-base">
+        <a
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-500 text-base"
+        >
           <img
             src={LinkIconSvg}
             alt="Link Icon"
