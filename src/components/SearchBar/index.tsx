@@ -1,7 +1,7 @@
-"use client"
 import { type Dispatch, type SetStateAction } from "react"
 import Button from "@components/Button"
 import Dropdown from "@components/Dropdown"
+import clsx from "clsx"
 
 interface SearchBarProps {
   filter: string
@@ -13,9 +13,8 @@ interface SearchBarProps {
 
 const SearchBar = ({ filter, setFilter, keyword, setKeyword, onSearch }: SearchBarProps) => {
   return (
-    <div className="flex items-center gap-2 w-full max-w-4xl mx-auto">
-      {/* 검색 아이콘 */}
-      <div className="flex items-center justify-center px-2">
+    <div className="flex items-center gap-2 w-full bg-white border border-gray-200 px-2 py-4 rounded">
+      <div className="flex items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6 text-gray-400"
@@ -31,26 +30,31 @@ const SearchBar = ({ filter, setFilter, keyword, setKeyword, onSearch }: SearchB
           />
         </svg>
       </div>
-
-      {/* 드롭다운 */}
       <Dropdown
         options={["전체", "유형", "제목", "링크", "작성자"]}
         selected={filter}
         onChange={setFilter}
       />
-
-      {/* 입력창 */}
       <input
         type="text"
         placeholder="알고리즘 기록을 검색해 보세요!"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        className={clsx(
+          "flex-1 border border-gray-200 rounded px-4 py-2 focus:outline-none",
+          keyword ? "bg-white" : "bg-gray-50",
+          "placeholder-gray-400"
+        )}
         onKeyDown={(e) => e.key === "Enter" && onSearch()}
       />
-
-      {/* 검색 버튼 */}
-      <Button onClick={onSearch}>검색</Button>
+      <Button
+        theme="dark"
+        onClick={onSearch}
+        disabled={!keyword.trim()}
+        className={clsx(!keyword.trim() && "cursor-not-allowed")}
+      >
+        검색
+      </Button>
     </div>
   )
 }

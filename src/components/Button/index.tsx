@@ -1,39 +1,39 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from "react"
-import { Link } from "react-router-dom"
 import clsx from "clsx"
+import { useNavigate } from "react-router-dom"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  theme?: "dark" | "light"
+  theme?: "dark" | "light" | "white"
   href?: string
+  onClick?: () => void
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
-  theme = "dark",
+  theme = "light",
   href,
   className,
   ...props
 }) => {
-  const baseStyle = "inline-flex items-center justify-center px-4 py-2 rounded font-semibold transition-colors"
-
+  const navigate = useNavigate()
+  const baseStyle = "inline-flex items-center justify-center px-4 py-2 rounded font-medium transition-colors cursor-pointer"
   const colorClasses: Record<string, string> = {
     dark: "bg-black text-white hover:bg-gray-800",
     light: "bg-gray-50 border-1 border-gray-200 text-black hover:bg-gray-100",
+    white: "bg-white border-1 border-gray-200 text-black hover:bg-gray-100"
   }
-
   const finalClass = clsx(baseStyle, colorClasses[theme], className)
 
-  if (href) {
-    return (
-      <Link to={href} className={finalClass}>
-        {children}
-      </Link>
-    )
-  }
-
   return (
-    <button className={finalClass} {...props}>
+    <button
+      className={finalClass}
+      onClick={() => {
+        if (href) navigate(href)
+        if (props.onClick) props.onClick()
+      }}
+      {...props}
+    >
       {children}
     </button>
   )

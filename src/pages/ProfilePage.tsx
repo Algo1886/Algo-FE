@@ -6,6 +6,7 @@ import { fetchUserProfile, updateUserProfile, deleteUserAccount, fetchUserStats 
 import { requestLogout } from "@api/auth"
 import { useNavigate } from "react-router-dom"
 import StatsCards from "@components/StatsCards"
+import Loading from "@components/Loading"
 
 function ProfilePage() {
   const { accessToken, user, setUser, setAccessToken } = useAuth()
@@ -74,7 +75,7 @@ function ProfilePage() {
     }
   }
 
-  if (!user) return <div>Loading...</div>
+  if (!user) return <Loading/>
 
   return (
     <div className="w-full h-screen flex flex-col items-center bg-slate-50">
