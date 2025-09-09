@@ -6,27 +6,27 @@
   },
   {
     "icon": "Book",
-    "label": "문제 기록하기",
+    "label": "기록하기",
     "path": "/record/create"
   },
   {
     "icon": "LineChart",
-    "label": "내가 푼 문제",
+    "label": "내 기록",
     "path": "/my-records"
   },
   {
     "icon": "LineChart",
-    "label": "임시저장 문제",
+    "label": "임시저장 기록",
     "path": "/my-drafts"
   },
   {
     "icon": "BarChart",
-    "label": "추천 복습 문제",
+    "label": "추천 복습 기록",
     "path": "/recommended"
   },
   {
     "icon": "Bookmark",
-    "label": "즐겨찾기 문제",
+    "label": "북마크",
     "path": "/my-bookmarks"
   },
   {

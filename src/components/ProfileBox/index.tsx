@@ -29,11 +29,11 @@ const ProfileBox = ({ type }: ProfileBoxProps) => {
         <img
           src={avatarUrl}
           alt="프로필 이미지"
-          className="w-16 h-16 rounded-full bg-gray-400"
+          className="w-12 h-12 rounded-full bg-gray-200"
         />
         <div className="flex flex-col justify-center gap-1">
-          <span className="text-base font-semibold">닉네임</span>
-          <span className="text-xs text-gray-500">nn일 스트릭</span>
+          <span className="font-semibold">{username}</span>
+          <span className="text-sm text-gray-500">{username}일 스트릭</span>
         </div>
       </div>
     );

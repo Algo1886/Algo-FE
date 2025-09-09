@@ -8,7 +8,7 @@ const DefaultListBox = ({ boxTitle, children }: DefaultListBoxProps) => {
   return (
     <div className="bg-white items-start flex flex-col w-full rounded-xl border-gray-200 border p-5 space-y-4">
       {boxTitle && typeof boxTitle === "string" ? (
-        <div className="text-xl font-semibold">{boxTitle}</div>
+        <div className="font-semibold">{boxTitle}</div>
       ) : (
         boxTitle
       )}

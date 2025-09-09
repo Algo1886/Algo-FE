@@ -1,9 +1,7 @@
-import "./App.css";
-
 import { Routes, Route } from "react-router-dom";
 import MainPage from "@pages/MainPage";
 import LoginPage from "@pages/LoginPage";
-import SearchResultPage from "@pages/SearchResultPage";
+import SearchRecordPage from "@pages/SearchRecordPage";
 import ReadRecordPage from "@pages/ReadRecordPage";
 import CreateRecordPage from "@pages/CreateRecordPage";
 import EditRecordPage from "@pages/EditRecordPage";
@@ -24,15 +22,11 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LayoutWithHeader />}>
-          <Route index element={<MainPage />} /> {/* "/" */}
-          <Route path="/search" element={<SearchResultPage />} />
-          {/* <Route path="/read" element={<ReadSolutionPage />} />
-          <Route path="/create" element={<CreateSolutionPage />} />
-          <Route path="/bookmark" element={<BookmarkPage />} /> */}
+          <Route index element={<MainPage />} />
+          <Route path="search-result" element={<SearchRecordPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="login/kakao" element={<KakaoLoginPage />} />
           <Route path="login/github" element={<GithubLoginPage />} />
-          <Route path="search-result" element={<SearchResultPage />} />
           <Route path="read/:id" element={<ReadRecordPage />} />
           <Route element={<LayoutWithSidebar />}>
             <Route path="dashboard" element={<DashboardPage />} />

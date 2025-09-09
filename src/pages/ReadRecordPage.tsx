@@ -96,7 +96,8 @@ const ReadRecordPage = () => {
     <div className="w-full flex flex-col items-center p-5 gap-5">
       <HeaderListBox
         title={record.title}
-        tags={record.categories}
+        category={record.categories[0]}
+        source={record.problem.source}
         link={record.problemUrl}
         user={record.author.username}
         time={new Date(record.createdAt).toLocaleString()}
@@ -118,6 +119,7 @@ const ReadRecordPage = () => {
           </p>
         </DefaultListBox>
       )}
+
       <DefaultListBox boxTitle="코드">
         <div className="flex gap-4 flex-col">
           {record.codes.map((c, idx) => (
@@ -152,7 +154,7 @@ const ReadRecordPage = () => {
       )}
 
       {record.ideas.length > 0 && (
-        <DefaultListBox boxTitle="아이디어">
+        <DefaultListBox boxTitle="핵심 아이디어">
           {record.ideas.map((i) => (
             <p key={i.id} className="text-left">
               {i.content}
@@ -162,7 +164,7 @@ const ReadRecordPage = () => {
       )}
 
       {record.links.length > 0 && (
-        <DefaultListBox boxTitle="링크">
+        <DefaultListBox boxTitle="다른 풀이 참고">
           {record.links.map((l) => (
             <a
               key={l.id}

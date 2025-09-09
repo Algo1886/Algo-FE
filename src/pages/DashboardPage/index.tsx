@@ -5,11 +5,12 @@ import IdeaSection from "./_sections/IdeaSection";
 import GrassSection from "./_sections/GrassSection";
 import RadarSection from "./_sections/RadarSection";
 import RankingSection from "./_sections/RankingSection";
+import Loading from "@components/Loading";
 
 const DashboardPage = () => {
   const { data, loading, error } = useDashboardData();
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <Loading />;
   if (error || !data) return <div>에러 발생: {error}</div>;
 
   return (

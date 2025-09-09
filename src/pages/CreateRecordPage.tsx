@@ -1,7 +1,15 @@
-"use client"
-import { useState } from "react"
+import { useState, type SetStateAction } from "react"
 import { createRecord } from "@api/records"
 import { useNavigate } from "react-router-dom"
+import InputLine from "@components/Input"
+import Dropdown from "@components/Dropdown"
+import DifficultySelector from "@components/DifficultySelector"
+import CategoryDropdown from "@components/Dropdown/CategoryDropdown"
+import InputBox from "@components/Input/InputBox"
+import InputCode from "@components/Input/InputCode"
+import InputStep from "@components/Input/InputStep"
+import Button from "@components/Button"
+import Loading from "@components/Loading"
 
 function CreateRecordPage() {
   const navigate = useNavigate()
@@ -12,12 +20,30 @@ function CreateRecordPage() {
   const [status, setStatus] = useState<"success" | "fail">("success")
   const [difficulty, setDifficulty] = useState(1)
   const [detail, setDetail] = useState("")
-  const [codes, setCodes] = useState([{ code: "", language: "python", verdict: "fail" }])
+  const [codes, setCodes] = useState([{ code: "", language: "python", verdict: "success" }])
   const [steps, setSteps] = useState([{ text: "" }])
-  const [ideas, setIdeas] = useState([{ content: "" }])
-  const [links, setLinks] = useState([{ url: "" }])
+  const [ideas, setIdeas] = useState("")
+  const [links, setLinks] = useState("")
   const [loading, setLoading] = useState(false)
-
+  const categoriesList = [
+    { label: "DP", value: "dp" },
+    { label: "그리디", value: "greedy" },
+    { label: "백트래킹", value: "backtracking" },
+    { label: "투포인터", value: "two-pointers" },
+    { label: "누적합", value: "prefix-sum" },
+    { label: "최단경로", value: "dijkstra" },
+    { label: "위상정렬", value: "topological-sort" },
+    { label: "BFS", value: "bfs" },
+    { label: "DFS", value: "dfs" },
+    { label: "트리", value: "tree-basic" },
+    { label: "정렬", value: "sorting" },
+    { label: "탐색", value: "searching" },
+    { label: "해시", value: "hash-map" },
+    { label: "스택/큐", value: "stack-queue-deque" },
+    { label: "문자열", value: "string-basic" },
+    { label: "배열", value: "array" },
+    { label: "기타", value: "ect" },
+  ]
   const handleAdd = (setter: any, arr: any[], newItem: any) => setter([...arr, newItem])
   const handleRemove = (setter: any, arr: any[], idx: number) =>
     setter(arr.filter((_, i) => i !== idx))
@@ -34,8 +60,8 @@ function CreateRecordPage() {
         detail,
         codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
         steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
-        ideas: ideas.map((i, idx) => ({ ...i, id: idx })),
-        links: links.map((l, idx) => ({ ...l, id: idx })),
+        ideas: [{"content": ideas}],
+        links: [{"url": links}],
         draft: false,
         published: true
       })
@@ -61,13 +87,13 @@ function CreateRecordPage() {
         detail,
         codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
         steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
-        ideas: ideas.map((i, idx) => ({ ...i, id: idx })),
-        links: links.map((l, idx) => ({ ...l, id: idx })),
+        ideas: [{"content": ideas}],
+        links: [{"url": links}],
         draft: true,
         published: true
       })
       alert("생성 완료")
-      navigate('/my-records')
+      navigate('/my-drafts')
     } catch (err) {
       console.error(err)
       alert("생성 실패")
@@ -77,242 +103,84 @@ function CreateRecordPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-semibold text-gray-900">풀이 작성</h1>
-
-      <div className="space-y-4 bg-white border border-gray-200 rounded-xl shadow p-6">
-        {/* 문제 URL */}
-        <div className="space-y-1">
-          <label className="font-medium text-gray-700">문제 URL</label>
-          <input
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={problemUrl}
-            onChange={e => setProblemUrl(e.target.value)}
-          />
-        </div>
-
-        {/* 문제 제목 */}
-        <div className="space-y-1">
-          <label className="font-medium text-gray-700">문제 제목</label>
-          <input
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* 문제 유형 */}
-        <div className="space-y-1">
-          <label className="font-medium text-gray-700">문제 유형 (콤마로 구분)</label>
-          <input
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={categories}
-            onChange={e => setCategories(e.target.value)}
-          />
-        </div>
-
-        {/* 성공 여부 + 난이도 */}
-        <div className="flex items-center gap-6">
-          <div>
-            <label className="font-medium text-gray-700">성공 여부</label>
-            <select
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              value={status}
-              onChange={e => setStatus(e.target.value as "success" | "fail")}
-            >
-              <option value="success">성공</option>
-              <option value="fail">실패</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-2">
-            <label className="font-medium text-gray-700">체감 난이도</label>
-            {[1, 2, 3, 4, 5].map(n => (
-              <span
-                key={n}
-                onClick={() => setDifficulty(n)}
-                className={`cursor-pointer text-lg ${n <= difficulty ? "text-yellow-400" : "text-gray-300"}`}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* 문제 설명 */}
-        <div className="space-y-1">
-          <label className="font-medium text-gray-700">문제 설명</label>
-          <textarea
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={detail}
-            onChange={e => setDetail(e.target.value)}
-          />
-        </div>
-
-        {/* 코드 블록 */}
-        <div className="space-y-2">
-          <label className="font-medium text-gray-700">소스코드</label>
-          {codes.map((c, idx) => (
-            <div key={idx} className="border border-gray-200 rounded-lg p-3 space-y-2 relative">
-              <textarea
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                value={c.code}
-                onChange={e => {
-                  const newCodes = [...codes]
-                  newCodes[idx].code = e.target.value
-                  setCodes(newCodes)
-                }}
-              />
-              <div className="flex gap-2 items-center">
-                <select
-                  className="border border-gray-300 rounded-lg px-2 py-1"
-                  value={c.language}
-                  onChange={e => {
-                    const newCodes = [...codes]
-                    newCodes[idx].language = e.target.value
-                    setCodes(newCodes)
-                  }}
-                >
-                  <option value="python">Python</option>
-                  <option value="javascript">JavaScript</option>
-                  <option value="java">Java</option>
-                </select>
-                <select
-                  className="border border-gray-300 rounded-lg px-2 py-1"
-                  value={c.verdict}
-                  onChange={e => {
-                    const newCodes = [...codes]
-                    newCodes[idx].verdict = e.target.value as "success" | "fail"
-                    setCodes(newCodes)
-                  }}
-                >
-                  <option value="success">성공</option>
-                  <option value="fail">실패</option>
-                </select>
-                <button
-                  className="ml-auto text-red-500 font-semibold"
-                  onClick={() => handleRemove(setCodes, codes, idx)}
-                >
-                  삭제
-                </button>
-              </div>
-            </div>
-          ))}
-          <button
-            className="text-blue-600 font-medium"
-            onClick={() => handleAdd(setCodes, codes, { code: "", language: "python", verdict: "fail" })}
-          >
-            코드 블록 추가
-          </button>
-        </div>
-
-        {/* 풀이 과정 */}
-        <div className="space-y-2">
-          <label className="font-medium text-gray-700">풀이 과정</label>
-          {steps.map((s, idx) => (
-            <div key={idx} className="border border-gray-200 rounded-lg p-3 relative">
-              <textarea
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                value={s.text}
-                onChange={e => {
-                  const newSteps = [...steps]
-                  newSteps[idx].text = e.target.value
-                  setSteps(newSteps)
-                }}
-              />
-              <button
-                className="absolute top-2 right-2 text-red-500 font-semibold"
-                onClick={() => handleRemove(setSteps, steps, idx)}
-              >
-                삭제
-              </button>
-            </div>
-          ))}
-          <button
-            className="text-blue-600 font-medium"
-            onClick={() => handleAdd(setSteps, steps, { text: "" })}
-          >
-            풀이 과정 추가
-          </button>
-        </div>
-
-        {/* 아이디어 */}
-        <div className="space-y-2">
-          <label className="font-medium text-gray-700">핵심 아이디어</label>
-          {ideas.map((i, idx) => (
-            <div key={idx} className="flex gap-2 items-center">
-              <input
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                value={i.content}
-                onChange={e => {
-                  const newIdeas = [...ideas]
-                  newIdeas[idx].content = e.target.value
-                  setIdeas(newIdeas)
-                }}
-              />
-              <button
-                className="text-red-500 font-semibold"
-                onClick={() => handleRemove(setIdeas, ideas, idx)}
-              >
-                삭제
-              </button>
-            </div>
-          ))}
-          <button
-            className="text-blue-600 font-medium"
-            onClick={() => handleAdd(setIdeas, ideas, { content: "" })}
-          >
-            아이디어 추가
-          </button>
-        </div>
-
-        {/* 링크 */}
-        <div className="space-y-2">
-          <label className="font-medium text-gray-700">다른 기록 참고</label>
-          {links.map((l, idx) => (
-            <div key={idx} className="flex gap-2 items-center">
-              <input
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                value={l.url}
-                onChange={e => {
-                  const newLinks = [...links]
-                  newLinks[idx].url = e.target.value
-                  setLinks(newLinks)
-                }}
-              />
-              <button
-                className="text-red-500 font-semibold"
-                onClick={() => handleRemove(setLinks, links, idx)}
-              >
-                삭제
-              </button>
-            </div>
-          ))}
-          <button
-            className="text-blue-600 font-medium"
-            onClick={() => handleAdd(setLinks, links, { url: "" })}
-          >
-            링크 추가
-          </button>
-        </div>
-
-        {/* 생성 버튼 */}
-        <button
-          className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-          onClick={handleCreate}
-          disabled={loading}
-        >
-          {loading ? "생성 중..." : "풀이 생성"}
-        </button>
-        {/* 임시 저장 버튼 */}
-        <button
-          className="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
-          onClick={handleDraft}
-          disabled={loading}
-        >
-          {loading ? "생성 중..." : "임시 저장"}
-        </button>
-      </div>
+    !loading
+    ? (
+      <div className="max-w-[900px] mx-auto p-6 space-y-10">
+      <InputLine 
+        label="문제 URL"
+        value={problemUrl}
+        setValue={setProblemUrl}
+        placeholder="문제 URL을 입력하세요"
+      />
+      <InputLine 
+        label="문제 제목"
+        value={title}
+        setValue={setTitle}
+        placeholder="문제 제목을 입력하세요"
+      />
+    <div className="flex items-center gap-4">
+      <label className="font-medium text-gray-700">문제 유형</label>
+      <CategoryDropdown
+        categories={categoriesList}
+        selected={categories}
+        onChange={(val: SetStateAction<string>) => setCategories(val)}
+      />
+      <label className="font-medium text-gray-700">성공 여부</label>
+      <Dropdown
+        options={["성공", "실패"]}
+        selected={status == "success" ? "성공" : "실패"}
+        onChange={e => setStatus(e == "성공" ? "success" : "fail")}
+      />
+      <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
     </div>
+    <InputBox
+      label="문제 설명"
+      value={detail}
+      setValue={setDetail}
+      placeholder="문제 설명을 입력하세요"
+    />
+    <InputCode 
+      handleAdd={handleAdd}
+      codes={codes}
+      setCodes={setCodes}
+      handleRemove={handleRemove}
+    />
+    <InputStep
+      handleAdd={handleAdd}
+      steps={steps}
+      setSteps={setSteps}
+      handleRemove={handleRemove}
+    />
+    <InputBox
+      label="핵심 아이디어"
+      value={ideas}
+      setValue={setIdeas}
+      placeholder="아이디어를 입력하세요"
+    />
+    <InputBox
+      label="다른 기록 참고"
+      value={links}
+      setValue={setLinks}
+      placeholder="참고한 다른 기록을 입력하세요"
+    />
+        <div className="flex gap-3 justify-end">
+        <Button
+        theme="white"
+        onClick={handleDraft}
+      >
+        임시 저장
+      </Button>
+      <Button
+        theme="dark"
+        onClick={handleCreate}
+      >
+        기록하기
+      </Button>
+    </div>
+</div>
+    ) : (
+<Loading/>
+    )
   )
 }
 

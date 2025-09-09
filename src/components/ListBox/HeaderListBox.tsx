@@ -9,7 +9,8 @@ import FailIcon from "@assets/FailIcon.svg";
 
 export interface HeaderListBoxProps {
   title: string;
-  tags: string[];
+  category: string;
+  source: string;
   link: string;
   user: string;
   time: string;
@@ -23,7 +24,8 @@ export interface HeaderListBoxProps {
 
 const HeaderListBox = ({
   title,
-  tags,
+  category,
+  source,
   link,
   user,
   time,
@@ -37,7 +39,13 @@ const HeaderListBox = ({
   return (
     <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
       <div className="w-full flex items-start justify-between">
-        <h2 className="text-xl font-semibold">{title}</h2>
+        <div className="flex flex-row gap-4 items-center">
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <div className="flex flex-row items-center gap-2">
+            <ProblemChip label={category} bgColor="blue" textColor="blue" />
+            <ProblemChip label={source} />
+          </div>
+        </div>
 
         <div className="flex items-center gap-2">
           <button
@@ -67,12 +75,6 @@ const HeaderListBox = ({
           />
           문제 링크
         </a>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2 mt-3">
-        {tags.map((t) => (
-          <ProblemChip key={t} type={t} />
-        ))}
       </div>
 
       <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
