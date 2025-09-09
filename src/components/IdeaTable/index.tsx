@@ -17,14 +17,9 @@ const IdeaTable = ({ ideas }: { ideas: Idea[] }) => {
         <div>문제 유형</div>
         <div>핵심 아이디어</div>
       </div>
-
-      {ideas.length > 0 ? (
-        ideas.map((idea) => <IdeaRow key={idea.id} idea={idea} />)
-      ) : (
-        <div className="p-4 text-center text-gray-500">
-          아이디어가 없습니다.
-        </div>
-      )}
+      {ideas.map((idea) => (
+        <IdeaRow key={idea.id} idea={idea} />
+      ))}
     </div>
   );
 };
