@@ -52,7 +52,7 @@ const HeaderListBox = ({
             type="button"
             aria-pressed={isBookmarked}
             onClick={onBookmarkToggle}
-            className="flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 hover:bg-gray-50 active:scale-[0.98] transition"
+            className="flex items-center justify-center w-8 h-8 rounded-md active:scale-[0.98] transition cursor-pointer"
             title="북마크"
           >
             <img
