@@ -149,7 +149,9 @@ const ReadRecordPage = () => {
                 </span>
               </div>
               <pre className="bg-[#0F172B] w-full text-white text-sm rounded-lg py-4 px-6 overflow-x-auto">
-                <code className="whitespace-pre">{c.code}</code>
+                <code className="whitespace-pre-wrap break-words">
+                  {c.code}
+                </code>
               </pre>
             </DefaultListBox>
           ))}
