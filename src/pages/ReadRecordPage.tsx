@@ -86,7 +86,7 @@ const ReadRecordPage = () => {
       source={record.source}
       link={record.problemUrl}
       user={record.author.username}
-      time={new Date(record.createdAt).toLocaleString()}
+      time={record.createdAt}
       isSuccess={record.status === "success"}
       difficulty={record.difficulty}
       isBookmarked={record.isBookmarked}

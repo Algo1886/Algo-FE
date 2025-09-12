@@ -41,7 +41,7 @@ const MainPage = () => {
           site: r.problem?.source || "백준",
           title: r.problem?.title || r.title,
           author: r.author?.username || r.author,
-          date: r.createdAt.slice(2, 10),
+          date: r.createdAt
         }))
         setRecords(mapped)
         setLoading(false)

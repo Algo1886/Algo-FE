@@ -2,6 +2,8 @@ import ProblemChip from "@components/Chip";
 import LinkIconSvg from "@assets/LinkIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 import ClockIcon from "@assets/ClockIcon.svg";
+import { formatDate } from "./_formatDate"
+import { problemTypes } from "@constants/problemTypes"
 
 export interface HeaderListBoxProps {
   title: string;
@@ -32,13 +34,15 @@ const HeaderListBox = ({
   onEdit,
   onDelete,
 }: HeaderListBoxProps) => {
+  const categoryLabel = problemTypes.find(pt => pt.value === category)?.label || category
+
   return (
     <div className="bg-white w-full rounded border-gray-200 border p-5 space-y-4">
       <div className="flex justify-between">
         <div className="flex flex-row gap-4">
           <h2 className="text-xl font-semibold">{title}</h2>
           <div className="flex justify-between flex-row items-center gap-2">
-            <ProblemChip label={category} bgColor="blue" textColor="blue" />
+            <ProblemChip label={categoryLabel} bgColor="blue" textColor="blue" />
             <ProblemChip label={source} />
           </div>
         </div>
@@ -46,7 +50,7 @@ const HeaderListBox = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className="w-5 h-5 mr-1"
+            className="w-5 h-5 mr-1 cursor-pointer"
             fill={isBookmarked ? "#FACC15" : "#374151"}
           >
             <path d="M5 3v18l7-5 7 5V3H5z" />
@@ -76,7 +80,7 @@ const HeaderListBox = ({
             alt="Clock Icon"
             className="inline w-4 h-4 mr-1"
           />
-          {time}
+          {formatDate(time)}
         </span>
       </div>
 
