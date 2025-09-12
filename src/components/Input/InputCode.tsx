@@ -3,6 +3,7 @@ import CodeEditor from "@components/CodeEditor";
 import Dropdown from "@components/Dropdown";
 import ChipButton from "@components/Button/ChipButton";
 import { FaTrash, FaPlus } from "react-icons/fa"
+import { languageTypes } from "@constants/languageTypes";
 
 interface InputCodeProps {
     handleAdd: any
@@ -51,7 +52,7 @@ const InputCode = ({ handleAdd, codes, setCodes, handleRemove }: InputCodeProps)
                 </div>
                 <div className="flex gap-2 items-center">
                 <Dropdown
-                options={["python", "javascript", "java"]}
+                options={languageTypes.map(lang => lang.label)}
                 selected={c.language}
                 onChange={e => {
                     const newCodes = [...codes]
