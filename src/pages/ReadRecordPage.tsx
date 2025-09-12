@@ -111,25 +111,26 @@ const ReadRecordPage = () => {
     created === updated ? created : `${created} (수정: ${updated})`;
 
   return (
-    <div className="w-full flex flex-col items-center p-5 gap-5">
-      <HeaderListBox
-        title={record.title}
-        category={record.categories[0]}
-        source={record.source}
-        link={record.problemUrl}
-        user={record.author.username}
-        time={timeText}
-        isSuccess={record.status === "success"}
-        difficulty={record.difficulty}
-        isBookmarked={record.isBookmarked}
-        onBookmarkToggle={handleBookmarkToggle}
-        onEdit={() => navigate(`/record/edit/${record.id}`)}
-        onDelete={async () => {
-          await deleteRecordById(record.id);
-          navigate(-1);
-        }}
-      />
-
+    <div className="max-w-[1280px] mx-auto p-6 space-y-10">
+    <HeaderListBox
+      title={record.title}
+      category={record.categories[0]}
+      source={record.source}
+      link={record.problemUrl}
+      user={record.author.username}
+      time={record.createdAt}
+      isSuccess={record.status === "success"}
+      difficulty={record.difficulty}
+      isBookmarked={record.isBookmarked}
+      onBookmarkToggle={handleBookmarkToggle}
+      {...(record.isOwner && {
+        onEdit: () => navigate(`/record/edit/${record.id}`),
+        onDelete: async () => {
+          await deleteRecordById(record.id)
+          navigate(-1)
+        },
+      })}
+    />
       {record.detail && (
         <DefaultListBox boxTitle="상세 설명">
           <p className="leading-relaxed text-left whitespace-pre-wrap">
