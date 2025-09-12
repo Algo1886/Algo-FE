@@ -2,6 +2,8 @@ import ProblemChip from "@components/Chip";
 import LinkIconSvg from "@assets/LinkIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 import ClockIcon from "@assets/ClockIcon.svg";
+import { formatDate } from "./_formatDate"
+import { problemTypes } from "@constants/problemTypes"
 import Button from "@components/Button";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
 import SuccessIcon from "@assets/SuccessIcon.svg";
@@ -36,24 +38,24 @@ const HeaderListBox = ({
   onEdit,
   onDelete,
 }: HeaderListBoxProps) => {
+  const categoryLabel = problemTypes.find(pt => pt.value === category)?.label || category
+
   return (
     <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
       <div className="w-full flex items-start justify-between">
         <div className="flex flex-row gap-4 items-center">
           <h2 className="text-xl font-semibold">{title}</h2>
-          <div className="flex flex-row items-center gap-2">
-            <ProblemChip label={category} bgColor="blue" textColor="blue" />
+          <div className="flex justify-between flex-row items-center gap-2">
+            <ProblemChip label={categoryLabel} bgColor="blue" textColor="blue" />
             <ProblemChip label={source} />
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            aria-pressed={isBookmarked}
-            onClick={onBookmarkToggle}
-            className="flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 hover:bg-gray-50 active:scale-[0.98] transition"
-            title="북마크"
+        <button onClick={onBookmarkToggle}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-5 h-5 mr-1 cursor-pointer"
+            fill={isBookmarked ? "#FACC15" : "#374151"}
           >
             <img
               src={BookmarkIcon}
@@ -93,7 +95,7 @@ const HeaderListBox = ({
             alt="Clock Icon"
             className="inline w-4 h-4 mr-1"
           />
-          {time}
+          {formatDate(time)}
         </span>
       </div>
 
