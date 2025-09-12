@@ -21,6 +21,19 @@ const CategoryDropdown: React.FC<AutocompleteDropdownProps> = ({ categories, sel
     if (containerRef.current) setWidth(containerRef.current.offsetWidth);
   }, []);
 
+  // 바깥 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const filtered = categories.filter(cat =>
     cat.label.toLowerCase().includes(query.toLowerCase())
   );
@@ -52,7 +65,7 @@ const CategoryDropdown: React.FC<AutocompleteDropdownProps> = ({ categories, sel
                   setQuery("");
                   setOpen(false);
                 }}
-                className="block px-3 py-2 hover:bg-gray-100 w-full text-left"
+                className="cursor-pointer block px-3 py-2 hover:bg-gray-100 w-full text-left"
               >
                 {cat.label}
               </button>

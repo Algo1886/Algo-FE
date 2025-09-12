@@ -10,6 +10,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange }) => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>();
 
   useEffect(() => {
@@ -17,13 +18,32 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange }) => {
       setWidth(buttonRef.current.offsetWidth)
     }
   }, [])
-  
+
+  // 바깥 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="inline-flex justify-between items-center rounded border border-gray-200 px-4 py-2 bg-white font-medium hover:bg-gray-100 focus:outline-none w-auto"
+        className="cursor-pointer inline-flex justify-between items-center rounded border border-gray-200 px-4 py-2 bg-white font-medium hover:bg-gray-100 focus:outline-none w-auto"
       >
         {selected}
         <svg
@@ -45,18 +65,22 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange }) => {
           className="absolute mt-1 rounded border border-gray-200 bg-white z-50"
         >
           <div className="py-1">
-            {options.map((option, index) => (
+          {options.map((option, index) => (
+            <div key={index} className="text-center">
               <button
-                key={index}
                 onClick={() => {
                   onChange(option);
                   setOpen(false);
                 }}
-                className="block px-3 py-2 hover:bg-gray-100 w-full"
+                className="cursor-pointer block px-3 py-1 hover:bg-gray-100 w-full text-center"
               >
                 {option}
               </button>
-            ))}
+              {index < options.length - 1 && (
+                <hr className="border-t border-gray-200 my-1 mx-2" />
+              )}
+            </div>
+          ))}
           </div>
         </div>
       )}
@@ -64,4 +88,4 @@ const Dropdown: React.FC<DropdownProps> = ({ options, selected, onChange }) => {
   );
 };
 
-export default Dropdown;
+export default Dropdown
