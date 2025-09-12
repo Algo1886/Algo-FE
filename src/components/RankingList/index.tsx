@@ -24,7 +24,6 @@ const RankingList: React.FC<RankingListProps> = ({ data }) => {
 
   return (
     <div className="w-full mx-auto">
-      <h3 className="text-lg font-semibold mb-2">유형 순위</h3>
       <ul className="divide-y divide-gray-200 border-b-gray-200 border-b">
         {visibleData.map((item, idx) => (
           <li key={idx} className="flex justify-between items-center py-2">
