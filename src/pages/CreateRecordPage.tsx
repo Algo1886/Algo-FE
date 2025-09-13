@@ -10,6 +10,7 @@ import InputCode from "@components/Input/InputCode"
 import InputStep from "@components/Input/InputStep"
 import Button from "@components/Button"
 import Loading from "@components/Loading"
+import { problemTypes } from "@constants/problemTypes"
 
 function CreateRecordPage() {
   const navigate = useNavigate()
@@ -25,25 +26,6 @@ function CreateRecordPage() {
   const [ideas, setIdeas] = useState("")
   const [links, setLinks] = useState("")
   const [loading, setLoading] = useState(false)
-  const categoriesList = [
-    { label: "DP", value: "dp" },
-    { label: "그리디", value: "greedy" },
-    { label: "백트래킹", value: "backtracking" },
-    { label: "투포인터", value: "two-pointers" },
-    { label: "누적합", value: "prefix-sum" },
-    { label: "최단경로", value: "dijkstra" },
-    { label: "위상정렬", value: "topological-sort" },
-    { label: "BFS", value: "bfs" },
-    { label: "DFS", value: "dfs" },
-    { label: "트리", value: "tree-basic" },
-    { label: "정렬", value: "sorting" },
-    { label: "탐색", value: "searching" },
-    { label: "해시", value: "hash-map" },
-    { label: "스택/큐", value: "stack-queue-deque" },
-    { label: "문자열", value: "string-basic" },
-    { label: "배열", value: "array" },
-    { label: "기타", value: "ect" },
-  ]
   const handleAdd = (setter: any, arr: any[], newItem: any) => setter([...arr, newItem])
   const handleRemove = (setter: any, arr: any[], idx: number) =>
     setter(arr.filter((_, i) => i !== idx))
@@ -121,7 +103,7 @@ function CreateRecordPage() {
     <div className="flex items-center gap-4">
       <label className="font-medium text-gray-700">문제 유형</label>
       <CategoryDropdown
-        categories={categoriesList}
+        categories={problemTypes}
         selected={categories}
         onChange={(val: SetStateAction<string>) => setCategories(val)}
       />

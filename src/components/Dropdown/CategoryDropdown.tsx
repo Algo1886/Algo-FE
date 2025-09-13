@@ -5,6 +5,23 @@ interface Category {
   value: string;
 }
 
+// 한글 초성 변환 함수
+const CHOSUNG_LIST = [
+  "ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"
+];
+
+function getChosung(str: string) {
+  return str
+    .split("")
+    .map(c => {
+      const code = c.charCodeAt(0) - 0xac00;
+      if (code < 0 || code > 11171) return c;
+      const chosungIndex = Math.floor(code / 588);
+      return CHOSUNG_LIST[chosungIndex];
+    })
+    .join("");
+}
+
 interface AutocompleteDropdownProps {
   categories: Category[];
   selected: string;
@@ -21,9 +38,26 @@ const CategoryDropdown: React.FC<AutocompleteDropdownProps> = ({ categories, sel
     if (containerRef.current) setWidth(containerRef.current.offsetWidth);
   }, []);
 
-  const filtered = categories.filter(cat =>
-    cat.label.toLowerCase().includes(query.toLowerCase())
-  );
+  // 바깥 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const filtered = categories.filter(cat => {
+    const label = cat.label.toLowerCase();
+    const labelChosung = getChosung(cat.label).toLowerCase();
+    const q = query.toLowerCase();
+    const qChosung = getChosung(query).toLowerCase();
+    return label.includes(q) || labelChosung.includes(qChosung);
+  });
 
   return (
     <div className="relative inline-block text-left" ref={containerRef}>
@@ -35,6 +69,9 @@ const CategoryDropdown: React.FC<AutocompleteDropdownProps> = ({ categories, sel
         onChange={e => {
           setQuery(e.target.value);
           setOpen(true);
+          if (e.target.value === "") {
+            onChange("");
+          }
         }}
         className="w-full bg-white rounded border border-gray-200 px-4 py-2 focus:outline-none"
       />
@@ -52,7 +89,7 @@ const CategoryDropdown: React.FC<AutocompleteDropdownProps> = ({ categories, sel
                   setQuery("");
                   setOpen(false);
                 }}
-                className="block px-3 py-2 hover:bg-gray-100 w-full text-left"
+                className="cursor-pointer block px-3 py-2 hover:bg-gray-100 w-full text-left"
               >
                 {cat.label}
               </button>

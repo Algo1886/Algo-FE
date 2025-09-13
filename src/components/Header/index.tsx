@@ -2,6 +2,7 @@ import Button from "@components/Button"
 import { useAuth } from "../../contexts/AuthContext"
 import { useNavigate, useLocation } from "react-router-dom"
 import routes from "@constants/routes.json"
+import ProfileDropdown from "@components/Dropdown/ProfileDropdown"
 
 const Header = () => {
   const { accessToken, user } = useAuth()
@@ -27,11 +28,8 @@ const Header = () => {
                 <Button onClick={() => navigate("/record/create")}>
                   기록하기
                 </Button>
-                <img
-                  src={user.avatarUrl}
-                  alt="프로필"
-                  className="w-10 h-10 rounded-full cursor-pointer"
-                  onClick={() => navigate("/dashboard")}
+                <ProfileDropdown
+                  avatarUrl={user.avatarUrl}
                 />
               </div>
             ) : (

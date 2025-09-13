@@ -33,7 +33,7 @@ const MainPage = () => {
     setLoading(true)
     const loadRecords = async () => {
       try {
-        const res = await fetchRecords({ page: 1, size: 100 })
+        const res = await fetchRecords({ page: 1, size: 100, sort: sort === "최신순" ? "LATEST" : "POPULAR"})
         const r = res.data.records
         const mapped: Record[] = r.map((r: any) => ({
           id: r.id,
@@ -41,7 +41,7 @@ const MainPage = () => {
           site: r.problem?.source || "백준",
           title: r.problem?.title || r.title,
           author: r.author?.username || r.author,
-          date: r.createdAt.slice(2, 10),
+          date: r.createdAt
         }))
         setRecords(mapped)
         setLoading(false)
@@ -50,7 +50,7 @@ const MainPage = () => {
       }
     }
     loadRecords()
-  }, [])
+  }, [sort])
 
   return (
     <div className="flex flex-col items-center w-full p-5 gap-5 max-w-[1280px] mx-auto">

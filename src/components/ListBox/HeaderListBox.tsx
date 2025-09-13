@@ -2,6 +2,8 @@ import ProblemChip from "@components/Chip";
 import LinkIconSvg from "@assets/LinkIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 import ClockIcon from "@assets/ClockIcon.svg";
+import { formatDate } from "./_formatDate";
+import { problemTypes } from "@constants/problemTypes";
 import Button from "@components/Button";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
 import SuccessIcon from "@assets/SuccessIcon.svg";
@@ -36,36 +38,37 @@ const HeaderListBox = ({
   onEdit,
   onDelete,
 }: HeaderListBoxProps) => {
+  const categoryLabel =
+    problemTypes.find((pt) => pt.value === category)?.label || category;
+
   return (
     <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
       <div className="w-full flex items-start justify-between">
         <div className="flex flex-row gap-4 items-center">
           <h2 className="text-xl font-semibold">{title}</h2>
-          <div className="flex flex-row items-center gap-2">
-            <ProblemChip label={category} bgColor="blue" textColor="blue" />
+          <div className="flex justify-between flex-row items-center gap-2">
+            <ProblemChip
+              label={categoryLabel}
+              bgColor="blue"
+              textColor="blue"
+            />
             <ProblemChip label={source} />
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            aria-pressed={isBookmarked}
-            onClick={onBookmarkToggle}
-            className="flex items-center justify-center w-8 h-8 rounded-md active:scale-[0.98] transition cursor-pointer"
-            title="북마크"
-          >
-            <img
-              src={BookmarkIcon}
-              alt="bookmark"
-              className={`w-4 h-4 ${
-                isBookmarked ? "opacity-100" : "opacity-60"
-              }`}
-            />
-          </button>
-        </div>
+        <button onClick={onBookmarkToggle}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-5 h-5 mr-1 cursor-pointer"
+            fill={isBookmarked ? "#FACC15" : "#374151"}
+          />
+          <img
+            src={BookmarkIcon}
+            alt="bookmark"
+            className={`w-4 h-4 ${isBookmarked ? "opacity-100" : "opacity-60"}`}
+          />
+        </button>
       </div>
-
       <div className="w-full flex items-start mt-2">
         <a
           href={link}
@@ -81,7 +84,6 @@ const HeaderListBox = ({
           문제 링크
         </a>
       </div>
-
       <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
         <span>
           <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
@@ -93,10 +95,9 @@ const HeaderListBox = ({
             alt="Clock Icon"
             className="inline w-4 h-4 mr-1"
           />
-          {time}
+          {formatDate(time)}
         </span>
       </div>
-
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600 mt-3">
         <div className="flex items-center gap-2">
           성공 여부
@@ -128,7 +129,6 @@ const HeaderListBox = ({
           ))}
         </div>
       </div>
-
       <div className="flex justify-end gap-3 pt-4">
         <Button
           onClick={onEdit}
