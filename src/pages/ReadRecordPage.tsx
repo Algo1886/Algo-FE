@@ -117,7 +117,7 @@ const ReadRecordPage = () => {
 
       <DefaultListBox boxTitle="코드">
         {record.codes.map((c, index) => (
-          <div className="rounded border border-gray-200 p-5 mb-4">
+          <div key={index} className="rounded border border-gray-200 p-5 mb-4">
             <div className="flex w-full justify-between mb-2">
               <label>코드 {index + 1}</label>
               <span
