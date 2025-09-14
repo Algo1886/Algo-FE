@@ -38,13 +38,13 @@ function CreateRecordPage() {
     try {
       await createRecord({
         problemUrl,
-        title,
+        customTitle: title,
         categories: categories.split(",").map((c) => c.trim()),
         status,
         difficulty,
         detail,
-        codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
-        steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
+        codes: codes.map((c, i) => ({ ...c })),
+        steps: steps.map((s, i) => ({ ...s })),
         ideas: [{ content: ideas }],
         links: [{ url: links }],
         draft: false,
