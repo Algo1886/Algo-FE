@@ -174,7 +174,7 @@ const ReadRecordPage = () => {
         >
           <Toast.Title>{toastMessage}</Toast.Title>
         </Toast.Root>
-        <Toast.Viewport className="fixed top-30 right-5 flex flex-col gap-2 p-4" />
+        <Toast.Viewport className="absolute top-16 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4" />
       </Toast.Provider>
     </div>
   );
