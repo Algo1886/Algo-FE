@@ -14,14 +14,12 @@ interface IdeaRowProps {
 
 const IdeaRow = ({ idea }: IdeaRowProps) => {
   return (
-    <div className="grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm">
+    <div className="grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm px-4">
       {/* 문제 제목 */}
-      <div className="col-span-3 font-medium truncate">
-        {idea.problemTitle}
-      </div>
+      <div className="col-span-3 font-medium truncate">{idea.problemTitle}</div>
 
       {/* 문제 유형 → 여러 개면 Chip 여러 개 */}
-      <div className="col-span-2 flex gap-1 flex-wrap">
+      <div className="col-span-2 flex gap-1 flex-wrap ">
         {idea.categories.map((cat, idx) => (
           <ProblemChip key={idx} label={cat} />
         ))}

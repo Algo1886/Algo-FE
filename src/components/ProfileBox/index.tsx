@@ -5,7 +5,7 @@ interface ProfileBoxProps {
 }
 
 const ProfileBox = ({ type }: ProfileBoxProps) => {
-  const { id, username, avatarUrl, streakDays } = useProfileBox();
+  const { id, username, avatarUrl, streak } = useProfileBox();
 
   if (type === "profileBox") {
     return (
@@ -33,9 +33,7 @@ const ProfileBox = ({ type }: ProfileBoxProps) => {
         />
         <div className="flex flex-col justify-center gap-1">
           <span className="font-semibold">{username}</span>
-          <span className="text-sm text-gray-500">
-            {streakDays || 0}일 스트릭
-          </span>
+          <span className="text-sm text-gray-500">{streak}일 스트릭</span>
         </div>
       </div>
     );

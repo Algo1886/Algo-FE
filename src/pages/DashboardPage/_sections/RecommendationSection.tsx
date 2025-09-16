@@ -16,10 +16,13 @@ const RecommendationSection: React.FC<Props> = ({ recommendations }) => {
             <div className="flex flex-row gap-4 items-center text-xl font-semibold">
               추천 복습 기록
             </div>
-            <div className="flex flex-row gap-1 items-center text-sm text-[#45556C]">
+            <a
+              href="/recommended"
+              className="flex flex-row gap-1 items-center text-sm text-[#45556C] cursor-pointer"
+            >
               전체보기
               <img src={RightChevron} alt=">" className="inline ml-1" />
-            </div>
+            </a>
           </div>
         }
       >

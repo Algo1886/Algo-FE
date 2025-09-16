@@ -5,22 +5,17 @@
     "path": "/dashboard"
   },
   {
-    "icon": "Book",
+    "icon": "Record",
     "label": "기록하기",
     "path": "/record/create"
   },
   {
-    "icon": "LineChart",
+    "icon": "Book",
     "label": "내 기록",
     "path": "/my-records"
   },
   {
-    "icon": "LineChart",
-    "label": "임시저장 기록",
-    "path": "/my-drafts"
-  },
-  {
-    "icon": "BarChart",
+    "icon": "BookChart",
     "label": "추천 복습 기록",
     "path": "/recommended"
   },

@@ -75,7 +75,7 @@ const ReadRecordPage = () => {
         setToastMessage("북마크가 취소되었습니다!");
       } else {
         await createBookmarkById(record.id);
-        setToastMessage("북마크가 추가되었습니다!");
+        setToastMessage("풀이가 북마크되었어요!");
       }
       setRecord({ ...record, isBookmarked: !record.isBookmarked });
       setToastOpen(true);
@@ -117,7 +117,7 @@ const ReadRecordPage = () => {
 
       <DefaultListBox boxTitle="코드">
         {record.codes.map((c, index) => (
-          <div className="rounded border border-gray-200 p-5 mb-4">
+          <div key={index} className="rounded border border-gray-200 p-5 mb-4">
             <div className="flex w-full justify-between mb-2">
               <label>코드 {index + 1}</label>
               <span
@@ -163,18 +163,18 @@ const ReadRecordPage = () => {
         </DefaultListBox>
       )}
       <Toast.Provider
-        duration={1000}
+        duration={300000}
         swipeDirection="right"
         swipeThreshold={100}
       >
         <Toast.Root
           open={toastOpen}
           onOpenChange={setToastOpen}
-          className="bg-white text-black px-4 py-2 rounded shadow"
+          className="bg-white text-black border border-gray-300 px-4 py-2 rounded shadow"
         >
           <Toast.Title>{toastMessage}</Toast.Title>
         </Toast.Root>
-        <Toast.Viewport className="fixed top-30 right-5 flex flex-col gap-2 p-4" />
+        <Toast.Viewport className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4 z-50" />
       </Toast.Provider>
     </div>
   );

@@ -20,9 +20,9 @@ const DashboardPage = () => {
         <RecommendationSection recommendations={data.recommendations} />
         <IdeaSection recentIdeas={data.recentIdeas} />
         <GrassSection streakDays={data.streakDays} data={data.records} />
-        <RadarSection tagDistribution={data.tagDistributionPercent} />
+        <RadarSection categories={data.categoryDistribution} />
         <RankingSection
-          tagDistribution={data.tagDistributionPercent}
+          categories={data.categoryDistribution}
           recordCount={data.recordCount}
         />
       </div>

@@ -2,7 +2,9 @@ import ProfileBox from "@components/ProfileBox";
 import RoutingConstants from "@constants/routes.json";
 
 import DashboardIcon from "@assets/DashboardIcon.svg";
+import RecordIcon from "@assets/RecordIcon.svg";
 import BookIcon from "@assets/BookIcon.svg";
+import BookChartIcon from "@assets/BookChartIcon.svg";
 import LineChartIcon from "@assets/LineChartIcon.svg";
 import BarChartIcon from "@assets/BarChartIcon.svg";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
@@ -13,7 +15,9 @@ import { useLocation } from "react-router-dom";
 
 const ICONS: Record<string, string> = {
   Dashboard: DashboardIcon,
+  Record: RecordIcon,
   Book: BookIcon,
+  BookChart: BookChartIcon,
   LineChart: LineChartIcon,
   BarChart: BarChartIcon,
   Bookmark: BookmarkIcon,

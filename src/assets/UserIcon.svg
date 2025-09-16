@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-user h-4 w-4">
-  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-  <circle cx="12" cy="7" r="4"></circle>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M12.3332 13.3334V11.9803C12.3332 11.1521 11.9603 10.34 11.2067 9.99644C10.2875 9.57744 9.1851 9.33337 7.99984 9.33337C6.81457 9.33337 5.71217 9.57744 4.79296 9.99644C4.03935 10.34 3.6665 11.1521 3.6665 11.9803V13.3334"
+    stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+  <path
+    d="M7.99984 7.33329C9.2885 7.33329 10.3332 6.28862 10.3332 4.99996C10.3332 3.71129 9.2885 2.66663 7.99984 2.66663C6.71117 2.66663 5.6665 3.71129 5.6665 4.99996C5.6665 6.28862 6.71117 7.33329 7.99984 7.33329Z"
+    stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

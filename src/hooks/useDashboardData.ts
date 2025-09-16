@@ -33,12 +33,8 @@ export const useDashboardData = (): UseDashboardDataResult => {
 
       const merged: DashboardData = {
         ...dashboardRes.data,
-        streakDays:
-          calculateStreakDays(streakRes.data.records) ??
-          dashboardRes.data.streakDays,
-        tagDistributionPercent: convertCategoryToTagDistribution(
-          categoryRes.data
-        ),
+        streakDays: dashboardRes.data.streakDays,
+        categoryDistribution: categoryRes.data,
         records: streakRes.data.records,
       };
 
@@ -72,13 +68,4 @@ const calculateStreakDays = (
   }
 
   return streak;
-};
-
-const convertCategoryToTagDistribution = (
-  categories: { category: string; ratio: number }[]
-): Record<string, number> => {
-  return categories.reduce((acc, cur) => {
-    acc[cur.category] = cur.ratio;
-    return acc;
-  }, {} as Record<string, number>);
 };
