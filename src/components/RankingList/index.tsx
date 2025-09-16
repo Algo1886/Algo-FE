@@ -23,17 +23,17 @@ const RankingList: React.FC<RankingListProps> = ({ data }) => {
     total === 0 ? "0%" : ((count / total) * 100).toFixed(1) + "%";
 
   return (
-    <div className="w-full mx-auto">
-      <ul className="divide-y divide-gray-200 border-b-gray-200 border-b">
+    <div className="w-full flex items-center flex-col">
+      <ul className="divide-y divide-gray-200 border-b-gray-100 border-b w-full">
         {visibleData.map((item, idx) => (
           <li key={idx} className="flex justify-between items-center py-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm bg-gray-100 px-2 py-1 rounded-full text-gray-800">
+              <span className="text-sm border-gray-200 border px-2 py-1 rounded">
                 {item.name}
               </span>
             </div>
             <div className="text-right text-sm tabular-nums text-gray-700 min-w-[80px]">
-              <span className="mr-2">{item.count}</span>
+              <span className="mr-4">{item.count}</span>
               <span className="text-gray-500">{formatPercent(item.count)}</span>
             </div>
           </li>
@@ -44,7 +44,7 @@ const RankingList: React.FC<RankingListProps> = ({ data }) => {
           onClick={() =>
             setVisibleCount((prev) => Math.min(prev + 5, sorted.length))
           }
-          className="mt-2 text-sm border px-3 py-1 rounded hover:bg-gray-50"
+          className="mt-2 text-sm border px-3 py-1 border-gray-200 rounded-lg shadow-xs hover:bg-gray-50"
         >
           더 보기 (+{remaining})
         </button>

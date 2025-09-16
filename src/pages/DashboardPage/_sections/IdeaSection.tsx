@@ -32,8 +32,8 @@ const IdeaSection: React.FC<Props> = ({ recentIdeas }) => {
             recentIdeas.map((idea) => (
               <PreviewCard
                 key={idea.id}
-                type={idea.category || "기타"}
-                title={idea.content}
+                type={idea.categories[0] || "기타"}
+                title={idea.content || idea.problemTitle}
                 date={idea.createdAt}
               />
             ))
