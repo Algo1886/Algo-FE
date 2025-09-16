@@ -12,6 +12,8 @@ const useProfileBox = () => {
       id: "",
       username: "Guest",
       avatarUrl: "https://placehold.co/640",
+      streakDays: 0,
+      maxStreakDays: 0,
     };
   }
 
@@ -19,6 +21,8 @@ const useProfileBox = () => {
     id: user.id,
     username: user.username,
     avatarUrl: user.avatarUrl || "https://placehold.co/640",
+    streakDays: user.streakDays,
+    maxStreakDays: user.maxStreakDays,
   };
 };
 

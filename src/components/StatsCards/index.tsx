@@ -12,8 +12,8 @@ interface CardProps {
 
 const Card = ({ title, value, tag, iconBg, iconEmoji }: CardProps) => {
   return (
-    <div className="flex flex-col items-start justify-center gap-1 p-4 bg-white rounded-xl shadow border border-gray-100 aspect-[300/130]">
-      <div className="gap-3 flex flex-row">
+    <div className="flex flex-col items-start justify-center gap-3 p-4 bg-white rounded-xl shadow border border-gray-100 aspect-[300/130]">
+      <div className="gap-3 flex flex-row items-center">
         <div
           className={`w-9 h-9 rounded-md flex items-center justify-center text-lg ${
             iconBg || "bg-gray-100"
