@@ -1,7 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-settings h-4 w-4">
-  <path
-    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
-  </path>
-  <circle cx="12" cy="12" r="3"></circle>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_2003_2541)">
+    <path
+      d="M4.05942 9.99946C3.80715 9.4324 3.6665 8.80153 3.6665 8.13673C3.6665 5.66769 5.6066 3.66614 7.99984 3.66614C10.3931 3.66614 12.3332 5.66769 12.3332 8.13673C12.3332 8.80153 12.1925 9.4324 11.9402 9.99946"
+      stroke="#0F172B" stroke-linecap="round" />
+    <path d="M8 1.33276V1.99943" stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M14.6667 7.99951H14" stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M2.00016 7.99951H1.3335" stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M12.7136 3.28528L12.2422 3.75668" stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M3.75803 3.7573L3.28662 3.28589" stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M9.67784 12.8704C10.3514 12.6525 10.6216 12.036 10.6976 11.4158C10.7202 11.2306 10.5678 11.0769 10.3812 11.0769L5.65107 11.077C5.45801 11.077 5.30295 11.2409 5.32601 11.4326C5.40044 12.0515 5.58831 12.5036 6.30214 12.8704M9.67784 12.8704C9.67784 12.8704 6.41965 12.8704 6.30214 12.8704M9.67784 12.8704C9.59684 14.167 9.22237 14.6806 8.00437 14.6662C6.70157 14.6902 6.40186 14.0555 6.30214 12.8704"
+      stroke="#0F172B" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <defs>
+    <clipPath id="clip0_2003_2541">
+      <rect width="16" height="16" fill="white" />
+    </clipPath>
+  </defs>
 </svg>
