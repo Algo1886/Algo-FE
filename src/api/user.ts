@@ -21,9 +21,8 @@ export const deleteUserAccount = async () => {
   return res.data
 }
 
-export const fetchUserRecords = async () => {
-  const res = await api.get("/users/me/records")
-  console.log(res)
+export const fetchUserRecords = async (page: number = 1, size: number = 12) => {
+  const res = await api.get("/users/me/records", { params: { page, size } })
   return res.data
 }
 
