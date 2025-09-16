@@ -44,7 +44,7 @@ const RankingList: React.FC<RankingListProps> = ({ data }) => {
           onClick={() =>
             setVisibleCount((prev) => Math.min(prev + 5, sorted.length))
           }
-          className="mt-2 text-sm border px-3 py-1 border-gray-200 rounded-lg shadow-xs hover:bg-gray-50"
+          className="mt-2 text-sm border px-3 py-1 border-gray-200 rounded-lg shadow-xs cursor-pointer hover:bg-gray-50"
         >
           더 보기 (+{remaining})
         </button>

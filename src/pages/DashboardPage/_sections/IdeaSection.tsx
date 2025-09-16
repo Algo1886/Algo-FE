@@ -16,10 +16,13 @@ const IdeaSection: React.FC<Props> = ({ recentIdeas }) => {
             <div className="flex flex-row gap-4 items-center text-xl font-semibold">
               최근 핵심 아이디어
             </div>
-            <div className="flex flex-row gap-1 items-center text-sm text-[#45556C]">
+            <a
+              href="/my-ideas"
+              className="flex flex-row gap-1 items-center text-sm text-[#45556C] cursor-pointer"
+            >
               전체보기
               <img src={RightChevron} alt=">" className="inline ml-1" />
-            </div>
+            </a>
           </div>
         }
       >

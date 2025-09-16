@@ -17,7 +17,7 @@
   {
     "icon": "BookChart",
     "label": "추천 복습 기록",
-    "path": "/my-drafts"
+    "path": "/recommended"
   },
   {
     "icon": "Bookmark",

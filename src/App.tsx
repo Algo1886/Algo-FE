@@ -34,6 +34,8 @@ function App() {
             <Route path="record/edit/:id" element={<EditRecordPage />} />
             <Route path="my-ideas" element={<MyIdeasPage />} />
             <Route path="my-records" element={<MyRecordPage />} />
+            {/* TODO: FIX PAGE */}
+            <Route path="recommended" element={<MyRecordPage />} />
             {/* <Route path="my-drafts" element={<MyDraftsPage />} /> */}
             <Route path="my-bookmarks" element={<MyBookmarksPage />} />
             <Route path="my-profile" element={<ProfilePage />} />
