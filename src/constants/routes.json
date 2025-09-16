@@ -22,7 +22,7 @@
   {
     "icon": "BarChart",
     "label": "추천 복습 기록",
-    "path": "/recommended"
+    "path": "/my-recommend"
   },
   {
     "icon": "Bookmark",

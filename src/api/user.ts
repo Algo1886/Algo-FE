@@ -41,3 +41,9 @@ export const fetchUserStats = async () => {
   const res = await api.get("/users/me/stats")
   return res.data
 }
+
+export const fetchUserRecommend = async () => {
+  const res = await api.get("/users/me/reviews")
+  console.log(res.data)
+  return res.data
+}

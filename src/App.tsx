@@ -16,6 +16,7 @@ import LayoutWithHeader from "@components/Layout/layoutWithHeader";
 import { AuthProvider } from "@contexts/AuthContext";
 import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
 import MyDraftsPage from "@pages/MyDraftsPage";
+import MyRecommendPage from "@pages/MyRecommendPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="record/edit/:id" element={<EditRecordPage />} />
             <Route path="my-ideas" element={<MyIdeasPage />} />
             <Route path="my-records" element={<MyRecordPage />} />
+            <Route path="my-recommend" element={<MyRecommendPage />} />
             <Route path="my-drafts" element={<MyDraftsPage />} />
             <Route path="my-bookmarks" element={<MyBookmarksPage />} />
             <Route path="my-profile" element={<ProfilePage />} />
