@@ -14,7 +14,7 @@ export interface RecentIdea {
   id: number;
   recordId: number;
   problemTitle: string;
-  category: string;
+  categories: string[];
   content: string;
   createdAt: string;
 }
@@ -26,7 +26,7 @@ export interface DashboardData {
   recentIdeas: RecentIdea[];
   streakDays?: number;
   successRate?: number;
-  tagDistributionPercent: Record<string, number>;
+  categoryDistribution: CategoryDistributionItem[];
   records: StreakRecord[];
 }
 
@@ -70,7 +70,8 @@ export const getStreakData = async (
 };
 
 export interface CategoryDistributionItem {
-  category: string;
+  slug: string;
+  name: string;
   count: number;
   ratio: number;
 }
