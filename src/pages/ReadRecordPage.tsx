@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import CodeEditor from "@components/CodeEditor";
 import Loading from "@components/Loading";
 import * as Toast from "@radix-ui/react-toast";
+import SuccessIcon from "@assets/SuccessIcon.svg";
+import FailIcon from "@assets/FailIcon.svg";
 
 interface RecordResponse {
   id: number;
@@ -52,6 +54,8 @@ const ReadRecordPage = () => {
   const { id } = useParams<{ id: string }>(); // URL에서 id 가져오기
   const [toastMessage, setToastMessage] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
+
+  console.log(record);
 
   useEffect(() => {
     const loadRecord = async () => {
@@ -97,6 +101,9 @@ const ReadRecordPage = () => {
         link={record.problemUrl}
         user={record.author.username}
         time={record.createdAt}
+        updateTime={
+          record.updatedAt !== record.createdAt ? record.updatedAt : undefined
+        }
         isSuccess={record.status === "success"}
         difficulty={record.difficulty}
         isBookmarked={record.isBookmarked}
@@ -121,13 +128,18 @@ const ReadRecordPage = () => {
             <div className="flex w-full justify-between mb-2">
               <label>코드 {index + 1}</label>
               <span
-                className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                  c.verdict
+                className={`px-2 py-0.5 rounded text-xs font-semibold gap-1 flex items-center ${
+                  c.verdict === "success"
                     ? "bg-green-100 text-green-800"
                     : "bg-red-100 text-red-700"
                 }`}
               >
-                {c.verdict ? "성공" : "실패"}
+                <img
+                  src={c.verdict === "success" ? SuccessIcon : FailIcon}
+                  alt=""
+                  className="w-2.5 h-2.5 mr-1 inline"
+                />
+                {c.verdict === "success" ? "성공" : "실패"}
               </span>
             </div>
             <CodeEditor value={c.code} language={c.language} editable={false} />
