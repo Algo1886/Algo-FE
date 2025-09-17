@@ -8,6 +8,8 @@ import Button from "@components/Button";
 import SuccessIcon from "@assets/SuccessIcon.svg";
 import FailIcon from "@assets/FailIcon.svg";
 import BookmarkIconComponent from "@assets/BookmarkIconComponent";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@contexts/AuthContext";
 
 export interface HeaderListBoxProps {
   title: string;
@@ -16,6 +18,7 @@ export interface HeaderListBoxProps {
   link: string;
   user: string;
   time: string;
+  updateTime?: string;
   isSuccess: boolean;
   difficulty: number;
   isBookmarked: boolean;
@@ -31,6 +34,7 @@ const HeaderListBox = ({
   link,
   user,
   time,
+  updateTime,
   isSuccess,
   difficulty,
   isBookmarked,
@@ -38,8 +42,21 @@ const HeaderListBox = ({
   onEdit,
   onDelete,
 }: HeaderListBoxProps) => {
+  const navigate = useNavigate();
+  const { user: myProfile } = useAuth();
+
+  const isEditable = myProfile?.username === user;
+
   const categoryLabel =
     problemTypes.find((pt) => pt.value === category)?.label || category;
+
+  const handleClickAuthor = (author: string) => {
+    navigate(`/search-result?author=${encodeURIComponent(author)}`);
+  };
+
+  const handleClickCategoryChip = (category: string) => {
+    navigate(`/search-result?category=${encodeURIComponent(category)}`);
+  };
 
   return (
     <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
@@ -47,11 +64,16 @@ const HeaderListBox = ({
         <div className="flex flex-row gap-4 items-center">
           <h2 className="text-xl font-semibold">{title}</h2>
           <div className="flex justify-between flex-row items-center gap-2">
-            <ProblemChip
-              label={categoryLabel}
-              bgColor="blue"
-              textColor="blue"
-            />
+            <button
+              className="cursor-pointer"
+              onClick={() => handleClickCategoryChip(categoryLabel)}
+            >
+              <ProblemChip
+                label={categoryLabel}
+                bgColor="blue"
+                textColor="blue"
+              />
+            </button>
             <ProblemChip label={source} />
           </div>
         </div>
@@ -90,17 +112,21 @@ const HeaderListBox = ({
         </a>
       </div>
       <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
-        <span>
+        <button
+          className="cursor-pointer"
+          onClick={() => handleClickAuthor(user)}
+        >
           <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
           {user}
-        </span>
+        </button>
         <span>
           <img
             src={ClockIcon}
             alt="Clock Icon"
             className="inline w-4 h-4 mr-1"
           />
-          {formatDate(time)}
+          {formatDate(time)}{" "}
+          {updateTime && `수정 후: ${formatDate(updateTime)}`}
         </span>
       </div>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600 mt-3">
@@ -140,22 +166,24 @@ const HeaderListBox = ({
               </span>
             </div>
           </div>
-          <div className="flex justify-end gap-3">
-            <Button
-              onClick={onEdit}
-              theme="light"
-              className="px-3 py-1 text-sm border border-gray-300"
-            >
-              수정하기
-            </Button>
-            <Button
-              onClick={onDelete}
-              theme="light"
-              className="px-3 py-1 text-sm border border-red-300 text-red-600 hover:bg-red-50"
-            >
-              삭제하기
-            </Button>
-          </div>
+          {isEditable && onEdit && onDelete && (
+            <div className="flex justify-end gap-3">
+              <Button
+                onClick={onEdit}
+                theme="light"
+                className="px-3 py-1 text-sm border border-gray-300"
+              >
+                수정하기
+              </Button>
+              <Button
+                onClick={onDelete}
+                theme="light"
+                className="px-3 py-1 text-sm border border-red-300 text-red-600 hover:bg-red-50"
+              >
+                삭제하기
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
