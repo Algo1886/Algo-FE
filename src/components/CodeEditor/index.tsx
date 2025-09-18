@@ -1,8 +1,21 @@
-// CodeEditor.tsx
 import CodeMirror from "@uiw/react-codemirror";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { bbedit } from "@uiw/codemirror-theme-bbedit";
+import { EditorView } from "@codemirror/view";
 
+const customTheme = EditorView.theme({
+  "&": {
+    border: "1px solid #e5e7eb",
+    borderRadius: "10px",
+  },
+  ".cm-placeholder": {
+    color: "#99a1af",
+    fontFamily: "Pretendard",
+    fontWeight: 400,
+    marginLeft: "12px",
+    marginTop: "6px",
+  },
+});
 interface CodeEditorProps {
   value: string;
   onChange?: (value: string) => void;
@@ -27,12 +40,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, edit
   const extension = langMap[language] || langs.py();
 
   return (
-    <div className="border border-gray-200">
       <CodeMirror
         placeholder="코드를 입력하세요"
         value={value}
         height="300px"
-        extensions={[extension]}
+        extensions={[extension, customTheme]}
         onChange={(val) => onChange && onChange(val)}
         theme={bbedit}
         basicSetup={{
@@ -43,7 +55,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, edit
         }}
         editable={editable}
       />
-    </div>
   );
 };
 
