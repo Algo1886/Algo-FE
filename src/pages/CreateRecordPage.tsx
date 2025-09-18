@@ -1,4 +1,4 @@
-import { useState, type SetStateAction } from "react";
+import { useState, useEffect, type SetStateAction } from "react";
 import { createRecord } from "@api/records";
 import { useNavigate } from "react-router-dom";
 import InputLine from "@components/Input";
@@ -11,6 +11,7 @@ import InputStep from "@components/Input/InputStep";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
 import { problemTypes } from "@constants/problemTypes";
+import { extractProblemId, fetchProblemTitle } from "@api/records"
 
 function CreateRecordPage() {
   const navigate = useNavigate();
@@ -86,6 +87,21 @@ function CreateRecordPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const loadProblemInfo = async () => {
+      const problemId = extractProblemId(problemUrl)
+      if (!problemId) return
+      try {
+        const title = await fetchProblemTitle(problemId)
+        setTitle(title)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  
+    if (problemUrl) loadProblemInfo()
+  }, [problemUrl])
 
   return !loading ? (
     <div className="max-w-[900px] mx-auto p-6 space-y-10">

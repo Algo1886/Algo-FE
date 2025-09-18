@@ -1,4 +1,5 @@
 import api from "./axiosInstance"
+import axios from "axios"
 
 export interface FetchRecordsParams {
   page?: number
@@ -52,3 +53,25 @@ export const deleteBookmarkById = async (id: number) => {
   const res = await api.delete(`/bookmarks/${id}`)
   return res.data
 }
+
+export const extractProblemId = (url: string): string | null => {
+  const match = url.match(/\/problem\/(\d+)/)
+  return match ? match[1] : null
+}
+
+export const fetchProblemTitle = async (problemId: string) => {
+  const options = {
+    method: 'GET',
+    url: '/solvedac/problem/show',
+    params: {problemId: problemId},
+    headers: {'x-solvedac-language': 'ko', Accept: 'application/json'}
+  };
+
+  try {
+    const res = await axios.request(options);
+    return(res.data.titleKo)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
