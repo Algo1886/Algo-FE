@@ -7,8 +7,7 @@ interface User {
   id: string;
   username: string;
   avatarUrl?: string;
-  streakDays: number;
-  maxStreakDays: number;
+  streak: number;
 }
 interface AuthContextType {
   accessToken: string | null;

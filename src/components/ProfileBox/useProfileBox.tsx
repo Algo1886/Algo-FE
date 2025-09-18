@@ -21,8 +21,7 @@ const useProfileBox = () => {
     id: user.id,
     username: user.username,
     avatarUrl: user.avatarUrl || "https://placehold.co/640",
-    streakDays: user.streakDays,
-    maxStreakDays: user.maxStreakDays,
+    streak: user.streak,
   };
 };
 

@@ -2,11 +2,33 @@ import DefaultListBox from "@components/ListBox";
 import RadarCanvasChart from "@components/CustomChart";
 
 interface Props {
-  tagDistribution?: Record<string, number>;
+  categories?: Category[];
 }
 
-const RadarSection: React.FC<Props> = ({ tagDistribution }) => {
-  const isEmpty = !tagDistribution || Object.keys(tagDistribution).length === 0;
+interface Category {
+  slug: string;
+  name: string;
+  count: number;
+  ratio: number;
+}
+
+const prepareRadarData = (categories: Category[] = []) => {
+  const sorted = [...categories].sort((a, b) => b.count - a.count);
+  const top = sorted.slice(0, 6);
+  const labels = top.map((c) => c.name || c.slug);
+  const values = top.map((c) => Number(c.ratio || 0));
+  while (labels.length < 6) {
+    labels.push("");
+    values.push(0);
+  }
+  const rawMax = Math.max(...values, 1);
+  const maxValue = Math.ceil(rawMax / 10) * 10;
+  return { labels, values, maxValue };
+};
+
+const RadarSection: React.FC<Props> = ({ categories }) => {
+  const isEmpty = !categories || categories.length < 3;
+  const { labels, values, maxValue } = prepareRadarData(categories);
 
   return (
     <div className="col-span-4">
@@ -18,9 +40,9 @@ const RadarSection: React.FC<Props> = ({ tagDistribution }) => {
         ) : (
           <div className="w-[300px] h-[300px] self-center">
             <RadarCanvasChart
-              labels={Object.keys(tagDistribution)}
-              values={Object.values(tagDistribution)}
-              maxValue={100}
+              labels={labels}
+              values={values}
+              maxValue={maxValue}
               size={300}
             />
           </div>
