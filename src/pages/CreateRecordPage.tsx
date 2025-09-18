@@ -20,7 +20,7 @@ function CreateRecordPage() {
   const [title, setTitle] = useState("");
   const [categories, setCategories] = useState("");
   const [status, setStatus] = useState<"success" | "fail">("success");
-  const [difficulty, setDifficulty] = useState(1);
+  const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
   const [codes, setCodes] = useState([
     { code: "", language: "python", verdict: "pass" },
