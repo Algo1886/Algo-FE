@@ -2,9 +2,10 @@ import { useState, useEffect } from "react"
 import RecordCard from "@components/RecordCard"
 import SearchBar from "@components/SearchBar"
 import { fetchRecords } from "@api/records"
-import { useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import Dropdown from "@components/Dropdown"
 import Loading from "@components/Loading"
+import Pagination from "@components/Pagination"
 
 interface Record {
   id: number
@@ -15,22 +16,28 @@ interface Record {
   date: string
 }
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 12
 
 const SearchRecordPage = () => {
-  const [records, setRecords] = useState<Record[]>([])
-  const [page, setPage] = useState(1)
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  const pageFromUrl = parseInt(searchParams.get("page") || "1", 10)
+
+  const [records, setRecords] = useState<Record[]>([])
+  const [page, setPage] = useState(pageFromUrl)
+  const [totalPages, setTotalPages] = useState(1)
+  const [loading, setLoading] = useState(false)
   const [filter, setFilter] = useState(searchParams.get("filter") || "제목")
-  const [keyword, setKeyword] = useState(searchParams.get("keyword") || "")
+  const keyword = searchParams.get("keyword") || ""
+  const [newKeyword, setNewKeyword] = useState(keyword)
   const [sort, setSort] = useState("최신순")
   
   const loadRecords = async (p: number = page) => {
     setLoading(true)
     try {
-      const params: any = { page: p, size: PAGE_SIZE }
+      const params: any = { page: p, size: PAGE_SIZE, sort: sort === "최신순" ? "LATEST" : "POPULAR" }
 
       if (keyword) {
         if (filter === "제목") {
@@ -55,6 +62,7 @@ const SearchRecordPage = () => {
         date: r.createdAt.slice(0, 10),
       }))
       setRecords(mapped)
+      setTotalPages(res.data.totalPages || 1)
     } catch (err) {
       console.error(err)
     } finally {
@@ -64,11 +72,17 @@ const SearchRecordPage = () => {
 
   useEffect(() => {
     loadRecords(page)
-  }, [page])
+  }, [page, keyword, filter, sort])
+
+  useEffect(() => {
+    const newPage = parseInt(searchParams.get("page") || "1", 10)
+    setPage(newPage)
+  }, [location.search])
 
   const handleSearch = () => {
-    setPage(1)
-    loadRecords(1)
+    navigate(
+      `/search-result?filter=${encodeURIComponent(filter)}&keyword=${encodeURIComponent(newKeyword)}&page=1`
+    )
   }
 
   return (
@@ -79,8 +93,8 @@ const SearchRecordPage = () => {
             <SearchBar
               filter={filter}
               setFilter={setFilter}
-              keyword={keyword}
-              setKeyword={setKeyword}
+              keyword={newKeyword}
+              setKeyword={setNewKeyword}
               onSearch={handleSearch}
             />
             <div className="w-full">
@@ -106,6 +120,7 @@ const SearchRecordPage = () => {
                   />
                 ))}
               </div>
+              <Pagination totalPages={totalPages} currentPage={page} />
             </div>
           </>
         ):(

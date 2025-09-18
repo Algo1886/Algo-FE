@@ -45,7 +45,11 @@ const SearchBar = ({ filter, setFilter, keyword, setKeyword, onSearch }: SearchB
           keyword ? "bg-white" : "bg-gray-50",
           "placeholder-gray-400"
         )}
-        onKeyDown={(e) => e.key === "Enter" && onSearch()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && keyword.trim()) {
+            onSearch()
+          }
+        }}
       />
       <Button
         theme="dark"
