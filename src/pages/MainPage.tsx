@@ -17,7 +17,7 @@ interface Record {
 
 const MainPage = () => {
   const [records, setRecords] = useState<Record[]>([])
-  const [filter, setFilter] = useState("전체")
+  const [filter, setFilter] = useState("제목")
   const [sort, setSort] = useState("최신순")
   const [keyword, setKeyword] = useState("")
   const [loading, setLoading] = useState(false)

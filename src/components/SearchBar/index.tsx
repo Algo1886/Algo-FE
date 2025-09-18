@@ -31,7 +31,7 @@ const SearchBar = ({ filter, setFilter, keyword, setKeyword, onSearch }: SearchB
         </svg>
       </div>
       <Dropdown
-        options={["전체", "유형", "제목", "링크", "작성자"]}
+        options={["제목", "유형", "링크", "작성자"]}
         selected={filter}
         onChange={setFilter}
       />

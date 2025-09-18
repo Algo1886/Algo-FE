@@ -23,7 +23,7 @@ const SearchRecordPage = () => {
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
-  const [filter, setFilter] = useState(searchParams.get("filter") || "전체")
+  const [filter, setFilter] = useState(searchParams.get("filter") || "제목")
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "")
   const [sort, setSort] = useState("최신순")
   
@@ -33,9 +33,7 @@ const SearchRecordPage = () => {
       const params: any = { page: p, size: PAGE_SIZE }
 
       if (keyword) {
-        if (filter === "전체") {
-          params.search = keyword
-        } else if (filter === "제목") {
+        if (filter === "제목") {
           params.search = keyword
         } else if (filter === "유형") {
           params.category = keyword
