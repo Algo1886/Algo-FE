@@ -43,17 +43,19 @@ const RecordCard = ({
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded border border-gray-200 p-4 min-w-[220px] cursor-pointer hover:bg-gray-100 transition"
+      className="bg-white rounded border border-gray-200 p-4 min-w-[220px] cursor-pointer hover:bg-gray-100 transition flex flex-col"
     >
       <div className="flex justify-between mb-4">
         <ProblemChip label={problemTypeLabel} bgColor="blue" textColor="blue" />
         <ProblemChip label={problemSite} />
       </div>
       <h3 className="text-lg font-semibold mb-8 line-clamp-2">{title}</h3>
-      <hr className="border-t border-gray-200 my-2" />
-      <div className="flex justify-between text-sm text-gray-400">
-        <span>{author}</span>
-        <span>{createdAt.replaceAll(".", "/")}</span>
+        <div className="mt-auto">
+        <hr className="border-t border-gray-200 my-2" />
+        <div className="flex justify-between text-sm text-gray-400">
+          <span>{author}</span>
+          <span>{createdAt.replaceAll(".", "/")}</span>
+        </div>
       </div>
     </div>
   )

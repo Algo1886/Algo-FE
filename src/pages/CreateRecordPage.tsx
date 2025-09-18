@@ -43,8 +43,8 @@ function CreateRecordPage() {
         status,
         difficulty,
         detail,
-        codes: codes.map((c, i) => ({ ...c })),
-        steps: steps.map((s, i) => ({ ...s })),
+        codes: codes.map((c) => ({ ...c })),
+        steps: steps.map((s) => ({ ...s })),
         ideas: [{ content: ideas }],
         links: [{ url: links }],
         draft: false,
@@ -142,6 +142,7 @@ function CreateRecordPage() {
         value={ideas}
         setValue={setIdeas}
         placeholder="아이디어를 입력하세요"
+        wordCount={true}
       />
       <InputBox
         label="다른 기록 참고"
