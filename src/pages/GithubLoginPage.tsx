@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestGithubLoginToken } from "@api/auth";
 import { useAuth } from "@contexts/AuthContext";
@@ -9,9 +9,11 @@ const GithubLoginPage = () => {
   const { setAccessToken, setRefreshToken } = useAuth();
 
   const code = new URLSearchParams(window.location.search).get("code");
+  const didRun = useRef(false);
 
   useEffect(() => {
-    if (code) {
+    if (code && !didRun.current) {
+      didRun.current = true;
       requestGithubLoginToken(code)
         .then((data) => {
           if (data.success && data.data) {
@@ -22,9 +24,9 @@ const GithubLoginPage = () => {
             console.error("로그인 실패:", data);
           }
         })
-        .catch(console.error)
+        .catch(console.error);
     }
-  }, [code, setAccessToken, setRefreshToken, navigate]);
+  }, [code]);
 
   return (
     <Loading />

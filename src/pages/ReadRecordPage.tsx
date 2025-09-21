@@ -146,7 +146,7 @@ const ReadRecordPage = () => {
           </div>
         ))}
       </DefaultListBox>
-      {record.steps.length > 0 && (
+      {record.steps && record.steps.length > 0 && (
         <DefaultListBox boxTitle="풀이 과정">
           {record.steps.map((s) => (
             <div key={s.id} className="flex items-center gap-2 mb-2">
@@ -159,7 +159,7 @@ const ReadRecordPage = () => {
         </DefaultListBox>
       )}
 
-      {record.ideas.length > 0 && (
+      {record.ideas && record.ideas.length > 0 && (
         <DefaultListBox boxTitle="핵심 아이디어">
           {record.ideas.map((i) => (
             <p key={i.id}>{i.content}</p>
@@ -167,7 +167,7 @@ const ReadRecordPage = () => {
         </DefaultListBox>
       )}
 
-      {record.links.length > 0 && (
+      {record.links && record.links.length > 0 && (
         <DefaultListBox boxTitle="다른 풀이 참고">
           {record.links.map((l) => (
             <p key={l.id}>{l.url}</p>

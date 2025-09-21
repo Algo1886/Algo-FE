@@ -2,7 +2,7 @@ import axios from "axios"
 import { requestRefreshToken } from "@api/auth"
 
 const api = axios.create({
-  baseURL: "http://13.209.211.225:8080/api",
+  baseURL: "https://algo-server.site/api",
   headers: {
     "Content-Type": "application/json",
   },
