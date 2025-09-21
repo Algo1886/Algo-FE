@@ -118,7 +118,7 @@ const ReadRecordPage = () => {
       />
       {record.detail && (
         <DefaultListBox boxTitle="상세사항">
-          <p>{record.detail}</p>
+          <p className="whitespace-pre-wrap">{record.detail}</p>
         </DefaultListBox>
       )}
 
@@ -128,10 +128,10 @@ const ReadRecordPage = () => {
             <div className="flex w-full justify-between mb-2">
               <label>코드 {index + 1}</label>
               <span
-                className={`px-2 py-0.5 rounded text-xs font-semibold gap-1 flex items-center ${
+                className={`px-2 py-0.5 rounded text-xs font-semibold gap-1 flex items-center border ${
                   c.verdict === "success"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-700"
+                    ? "bg-green-100 text-green-800 border-green-300"
+                    : "bg-red-100 text-red-700 border-red-200"
                 }`}
               >
                 <img
@@ -149,7 +149,7 @@ const ReadRecordPage = () => {
       {record.steps?.length > 0 && (
         <DefaultListBox boxTitle="풀이 과정">
           {record.steps.map((s) => (
-            <div key={s.id} className="flex items-center gap-2 mb-2">
+            <div key={s.id} className="flex items-center gap-3 mb-3">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-white text-sm">
                 {s.stepOrder + 1}
               </span>
@@ -175,7 +175,7 @@ const ReadRecordPage = () => {
         </DefaultListBox>
       )}
       <Toast.Provider
-        duration={300000}
+        duration={3000}
         swipeDirection="right"
         swipeThreshold={100}
       >
@@ -184,7 +184,25 @@ const ReadRecordPage = () => {
           onOpenChange={setToastOpen}
           className="bg-white text-black border border-gray-300 px-4 py-2 rounded shadow"
         >
-          <Toast.Title>{toastMessage}</Toast.Title>
+          <Toast.Title className="flex flex-row items-center gap-2">
+            {toastMessage === "풀이가 북마크되었어요!" && (
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 3L4.5 8.5L2 6"
+                  stroke="black"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
+            {toastMessage}
+          </Toast.Title>
         </Toast.Root>
         <Toast.Viewport className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4 z-50" />
       </Toast.Provider>
