@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import RecordCard from "@components/RecordCard";
 import { fetchUserRecommend } from "@api/user";
-import Button from "@components/Button";
 import type { Record } from "types/record";
 
 const MyRecommendPage = () => {
@@ -38,13 +37,6 @@ const MyRecommendPage = () => {
             <br />
             복습하셨어요!
           </p>
-          <Button
-            onClick={() => {
-              window.location.href = "/record/create";
-            }}
-          >
-            기록하기
-          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-4 gap-4 w-full max-w-6xl">
@@ -57,7 +49,8 @@ const MyRecommendPage = () => {
               title={r.title}
               author={r.author}
               createdAt={r.date}
-              draft={true}
+              draft={false}
+              isReviewing={true}
             />
           ))}
         </div>

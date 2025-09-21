@@ -1,16 +1,17 @@
-import { useNavigate } from "react-router-dom"
-import ProblemChip from "@components/Chip"
-import { problemTypes } from "@constants/problemTypes"
-import { useAuth } from "@contexts/AuthContext"
+import { useNavigate } from "react-router-dom";
+import ProblemChip from "@components/Chip";
+import { problemTypes } from "@constants/problemTypes";
+import { useAuth } from "@contexts/AuthContext";
 
 interface RecordCardProps {
-  id: number
-  problemType: string
-  problemSite: string
-  title: string
-  author: string
-  createdAt: string
-  draft: boolean
+  id: number;
+  problemType: string;
+  problemSite: string;
+  title: string;
+  author: string;
+  createdAt: string;
+  draft: boolean;
+  isReviewing?: boolean;
 }
 
 const RecordCard = ({
@@ -21,24 +22,31 @@ const RecordCard = ({
   author,
   createdAt,
   draft,
+  isReviewing = false,
 }: RecordCardProps) => {
-  const navigate = useNavigate()
-  const { accessToken } = useAuth()
+  const navigate = useNavigate();
+  const { accessToken } = useAuth();
 
   const handleClick = () => {
     if (!accessToken) {
-      navigate("/login")
-      return
+      navigate("/login");
+      return;
+    }
+
+    if (isReviewing) {
+      navigate(`/read/${id}?isReviewing=true`);
+      return;
     }
 
     if (draft) {
-      navigate(`/record/edit/${id}`)
+      navigate(`/record/edit/${id}`);
     } else {
-      navigate(`/read/${id}`)
+      navigate(`/read/${id}`);
     }
-  }
+  };
 
-  const problemTypeLabel = problemTypes.find(pt => pt.value === problemType)?.label || problemType
+  const problemTypeLabel =
+    problemTypes.find((pt) => pt.value === problemType)?.label || problemType;
 
   return (
     <div
@@ -50,7 +58,7 @@ const RecordCard = ({
         <ProblemChip label={problemSite} />
       </div>
       <h3 className="text-lg font-semibold mb-8 line-clamp-2">{title}</h3>
-        <div className="mt-auto">
+      <div className="mt-auto">
         <hr className="border-t border-gray-200 my-2" />
         <div className="flex justify-between text-sm text-gray-400">
           <span>{author}</span>
@@ -58,7 +66,7 @@ const RecordCard = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RecordCard
+export default RecordCard;

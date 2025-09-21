@@ -28,7 +28,7 @@ export default defineConfig({
         target: "https://solved.ac/api/v3",
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace(/^\/solvedac/, ""), 
+        rewrite: (path) => path.replace(/^\/solvedac/, ""),
       },
     },
   },

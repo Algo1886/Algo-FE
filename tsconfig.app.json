@@ -30,7 +30,8 @@
       "@contexts/*": ["contexts/*"],
       "@api/*": ["api/*"],
       "@constants/*": ["constants/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"]
     }
   },
   "include": ["src"]
