@@ -9,6 +9,7 @@ import LineChartIcon from "@assets/LineChartIcon.svg";
 import BarChartIcon from "@assets/BarChartIcon.svg";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
 import SettingIcon from "@assets/SettingIcon.svg";
+import FolderIcon from "@assets/FolderIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 
 import { useLocation } from "react-router-dom";
@@ -17,6 +18,7 @@ const ICONS: Record<string, string> = {
   Dashboard: DashboardIcon,
   Record: RecordIcon,
   Book: BookIcon,
+  Folder: FolderIcon,
   BookChart: BookChartIcon,
   LineChart: LineChartIcon,
   BarChart: BarChartIcon,

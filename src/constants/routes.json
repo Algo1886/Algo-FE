@@ -25,6 +25,11 @@
     "path": "/my-bookmarks"
   },
   {
+    "icon": "Folder",
+    "label": "임시 저장",
+    "path": "/temp-record"
+  },
+  {
     "icon": "Setting",
     "label": "핵심 아이디어",
     "path": "/my-ideas"
