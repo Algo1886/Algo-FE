@@ -43,18 +43,6 @@ const MyDraftsPage = () => {
         <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
           <div className="w-50 h-50 rounded-full bg-gray-300" />
           <p className="text-xl font-semibold">아직 기록이 없어요</p>
-          <p className="text-gray-600">
-            첫 번째 알고리즘 문제를 풀고
-            <br />
-            기록을 남겨보세요!
-          </p>
-          <Button
-            onClick={() => {
-              window.location.href = "/record/create";
-            }}
-          >
-            기록하기
-          </Button>
         </div>
       ) : (
         <>
