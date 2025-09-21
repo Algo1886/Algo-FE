@@ -1,15 +1,17 @@
-import Button from "@components/Button";
-import CodeEditor from "@components/CodeEditor";
-import Dropdown from "@components/Dropdown";
-import ChipButton from "@components/Button/ChipButton";
-import { FaTrash, FaPlus } from "react-icons/fa";
-import { languageTypes } from "@constants/languageTypes";
+import Button from "@components/Button"
+import CodeEditor from "@components/CodeEditor"
+import Dropdown from "@components/Dropdown"
+import ChipButton from "@components/Button/ChipButton"
+import { FaTrash, FaPlus } from "react-icons/fa"
+import { languageTypes } from "@constants/languageTypes"
 
 interface InputCodeProps {
-  handleAdd: any;
-  codes: any;
-  setCodes: any;
-  handleRemove: any;
+  handleAdd: any
+  codes: any
+  setCodes: any
+  handleRemove: any
+  required?: boolean
+  showError?: boolean
 }
 
 const InputCode = ({
@@ -17,11 +19,20 @@ const InputCode = ({
   codes,
   setCodes,
   handleRemove,
+  required = false,
+  showError = false,
 }: InputCodeProps) => {
+  const isError =
+    required &&
+    showError &&
+    (codes.length === 0 || codes.some((c: any) => !c.code.trim()))
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-1">
       <div className="flex justify-between items-center">
-        <label className="font-medium text-gray-700">풀이 코드</label>
+        <label className="font-medium text-gray-700">
+          풀이 코드 {required && <span className="text-blue-500">*</span>}
+        </label>
         <Button
           theme="white"
           onClick={() =>
@@ -38,10 +49,19 @@ const InputCode = ({
           </div>
         </Button>
       </div>
+
+      {isError && (
+        <span className="text-red-500 text-sm">
+          풀이 코드를 최소 1개 이상 입력해주세요
+        </span>
+      )}
+
       {codes.map((c: any, idx: any) => (
         <div
           key={idx}
-          className="border border-gray-200 rounded-lg p-3 space-y-2 relative"
+          className={`border rounded-lg p-3 space-y-2 relative ${
+            isError && !c.code.trim() ? "border-red-500" : "border-gray-200"
+          }`}
         >
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
@@ -51,9 +71,9 @@ const InputCode = ({
               <ChipButton
                 selected={c.verdict === "pass"}
                 onClick={() => {
-                  const newCodes = [...codes];
-                  newCodes[idx].verdict = "pass";
-                  setCodes(newCodes);
+                  const newCodes = [...codes]
+                  newCodes[idx].verdict = "pass"
+                  setCodes(newCodes)
                 }}
               >
                 성공
@@ -61,9 +81,9 @@ const InputCode = ({
               <ChipButton
                 selected={c.verdict === "fail"}
                 onClick={() => {
-                  const newCodes = [...codes];
-                  newCodes[idx].verdict = "fail";
-                  setCodes(newCodes);
+                  const newCodes = [...codes]
+                  newCodes[idx].verdict = "fail"
+                  setCodes(newCodes)
                 }}
               >
                 실패
@@ -74,9 +94,9 @@ const InputCode = ({
                 options={languageTypes.map((lang) => lang.label)}
                 selected={c.language}
                 onChange={(e) => {
-                  const newCodes = [...codes];
-                  newCodes[idx].language = e;
-                  setCodes(newCodes);
+                  const newCodes = [...codes]
+                  newCodes[idx].language = e
+                  setCodes(newCodes)
                 }}
               />
               {idx > 0 && (
@@ -93,15 +113,15 @@ const InputCode = ({
             value={c.code}
             language={c.language}
             onChange={(newCode) => {
-              const newCodes = [...codes];
-              newCodes[idx].code = newCode;
-              setCodes(newCodes);
+              const newCodes = [...codes]
+              newCodes[idx].code = newCode
+              setCodes(newCodes)
             }}
           />
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default InputCode;
+export default InputCode

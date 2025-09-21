@@ -18,7 +18,7 @@ export const requestLogout = async (refreshToken: string) => {
 
 // refresh 요청은 api 대신 순수 axios 사용 (만료된 accessToken 헤더 방지)
 export const requestRefreshToken = async (refreshToken: string) => {
-  const res = await axios.post("http://13.209.211.225:8080/api/auth/refresh", { refreshToken }, {
+  const res = await axios.post("https://algo-server.site/api/auth/refresh", { refreshToken }, {
     headers: { "Content-Type": "application/json" }
   })
   return res.data

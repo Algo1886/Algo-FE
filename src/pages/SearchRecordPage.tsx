@@ -115,7 +115,7 @@ const SearchRecordPage = () => {
                 onChange={setSort}
               />
             </div>
-            <div className="grid grid-cols-4 gap-4 w-full max-w-6xl">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {records.map((r) => (
                 <RecordCard
                   key={r.id}

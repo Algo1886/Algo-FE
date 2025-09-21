@@ -48,7 +48,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     <CodeMirror
       placeholder="코드를 입력하세요"
       value={value}
-      height="auto"
+      height="300px"
       extensions={[extension, customTheme]}
       onChange={(val) => onChange && onChange(val)}
       theme={bbedit}

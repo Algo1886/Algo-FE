@@ -20,7 +20,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://13.209.211.225:8080",
+        target: "https://algo-server.site/",
         changeOrigin: true,
         secure: false,
       },
