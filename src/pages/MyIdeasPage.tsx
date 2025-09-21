@@ -15,20 +15,29 @@ interface Idea {
   categories: string[];
 }
 
+interface IdeaResponse {
+  ideas: Idea[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+}
+
 const MyIdeasPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
-  const totalPages = 10;
 
-  const [ideas, setIdeas] = useState<Idea[]>([]);
+  const [ideas, setIdeas] = useState<IdeaResponse>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
         const res = await fetchUserIdeas();
-        setIdeas(res.data.ideas);
+        setIdeas(res.data);
       } catch (err) {
         console.error("아이디어 불러오기 실패:", err);
       } finally {
@@ -43,7 +52,7 @@ const MyIdeasPage = () => {
 
   return (
     <div className="p-4 flex flex-col items-center w-full gap-5">
-      {ideas.length === 0 ? (
+      {ideas?.ideas?.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
           <div className="w-50 h-50 rounded-full bg-gray-300" />
           <p className="text-xl font-semibold">아직 핵심 아이디어가 없어요</p>
@@ -61,8 +70,11 @@ const MyIdeasPage = () => {
         </div>
       ) : (
         <>
-          <IdeaTable ideas={ideas} />
-          <Pagination totalPages={totalPages} currentPage={currentPage} />
+          <IdeaTable ideas={ideas?.ideas!} />
+          <Pagination
+            totalPages={ideas?.totalPages!}
+            currentPage={ideas?.page!}
+          />
         </>
       )}
     </div>

@@ -23,7 +23,12 @@ interface CodeEditorProps {
   editable?: boolean;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, editable }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({
+  value,
+  onChange,
+  language,
+  editable,
+}) => {
   const langMap: { [key: string]: any } = {
     py: langs.py(),
     java: langs.java(),
@@ -40,21 +45,21 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, edit
   const extension = langMap[language] || langs.py();
 
   return (
-      <CodeMirror
-        placeholder="코드를 입력하세요"
-        value={value}
-        height="300px"
-        extensions={[extension, customTheme]}
-        onChange={(val) => onChange && onChange(val)}
-        theme={bbedit}
-        basicSetup={{
-          lineNumbers: false,
-          foldGutter: false,
-          autocompletion: false,
-          highlightActiveLine: false,
-        }}
-        editable={editable}
-      />
+    <CodeMirror
+      placeholder="코드를 입력하세요"
+      value={value}
+      height="auto"
+      extensions={[extension, customTheme]}
+      onChange={(val) => onChange && onChange(val)}
+      theme={bbedit}
+      basicSetup={{
+        lineNumbers: false,
+        foldGutter: false,
+        autocompletion: false,
+        highlightActiveLine: false,
+      }}
+      editable={editable}
+    />
   );
 };
 

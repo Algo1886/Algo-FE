@@ -1,32 +1,39 @@
-import { useState, useEffect, type SetStateAction } from "react"
-import { createRecord, editRecord, fetchRecordById, deleteRecordById } from "@api/records"
-import { useNavigate, useParams } from "react-router-dom"
-import InputLine from "@components/Input"
-import InputBox from "@components/Input/InputBox"
-import InputCode from "@components/Input/InputCode"
-import InputStep from "@components/Input/InputStep"
-import Dropdown from "@components/Dropdown"
-import CategoryDropdown from "@components/Dropdown/CategoryDropdown"
-import DifficultySelector from "@components/DifficultySelector"
-import Button from "@components/Button"
-import Loading from "@components/Loading"
+import { useState, useEffect, type SetStateAction } from "react";
+import {
+  createRecord,
+  editRecord,
+  fetchRecordById,
+  deleteRecordById,
+} from "@api/records";
+import { useNavigate, useParams } from "react-router-dom";
+import InputLine from "@components/Input";
+import InputBox from "@components/Input/InputBox";
+import InputCode from "@components/Input/InputCode";
+import InputStep from "@components/Input/InputStep";
+import Dropdown from "@components/Dropdown";
+import CategoryDropdown from "@components/Dropdown/CategoryDropdown";
+import DifficultySelector from "@components/DifficultySelector";
+import Button from "@components/Button";
+import Loading from "@components/Loading";
 
 function EditRecordPage() {
-  const navigate = useNavigate()
-  const { id } = useParams<{ id: string }>()  
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
-  const [problemUrl, setProblemUrl] = useState("")
-  const [title, setTitle] = useState("")
-  const [categories, setCategories] = useState("")
-  const [status, setStatus] = useState<"success" | "fail">("success")
-  const [difficulty, setDifficulty] = useState(1)
-  const [detail, setDetail] = useState("")
-  const [codes, setCodes] = useState([{ code: "", language: "python", verdict: "fail" }])
-  const [steps, setSteps] = useState([{ text: "" }])
-  const [ideas, setIdeas] = useState("")
-  const [links, setLinks] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [isDraft, setIsDraft] = useState(false)
+  const [problemUrl, setProblemUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [categories, setCategories] = useState("");
+  const [status, setStatus] = useState<"success" | "fail">("success");
+  const [difficulty, setDifficulty] = useState(1);
+  const [detail, setDetail] = useState("");
+  const [codes, setCodes] = useState([
+    { code: "", language: "python", verdict: "fail" },
+  ]);
+  const [steps, setSteps] = useState([{ text: "" }]);
+  const [ideas, setIdeas] = useState("");
+  const [links, setLinks] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isDraft, setIsDraft] = useState(false);
 
   const categoriesList = [
     { label: "DP", value: "dp" },
@@ -46,198 +53,208 @@ function EditRecordPage() {
     { label: "문자열", value: "string-basic" },
     { label: "배열", value: "array" },
     { label: "기타", value: "ect" },
-  ]
+  ];
 
   useEffect(() => {
     const loadRecord = async () => {
       try {
-        if (!id) return
-        const res = await fetchRecordById(Number(id))
-        const data = res.data
-        console.log(data)
-        setProblemUrl(data.problemUrl || "")
-        setTitle(data.title || "")
-        setIsDraft(data.isDraft || false)
-        setCategories((data.categories || []).join(", "))
-        setStatus(data.status as "success" | "fail")
-        setDifficulty(data.difficulty || 1)
-        setDetail(data.detail || "")
-        setCodes(data.codes?.map((c: any) => ({
-          code: c.code,
-          language: c.language,
-          verdict: c.verdict
-        })) || [])
-        setSteps(data.steps?.map((s: any) => ({ text: s.text })) || [])
-        setIdeas(data.ideas[0].content || "")
-        setLinks(data.links[0].url || "")
+        if (!id) return;
+        const res = await fetchRecordById(Number(id));
+        const data = res.data;
+        console.log(data);
+        setProblemUrl(data.problemUrl || "");
+        setTitle(data.title || "");
+        setIsDraft(data.isDraft || false);
+        setCategories((data.categories || []).join(", "));
+        setStatus(data.status as "success" | "fail");
+        setDifficulty(data.difficulty || 1);
+        setDetail(data.detail || "");
+        setCodes(
+          data.codes?.map((c: any) => ({
+            code: c.code,
+            language: c.language,
+            verdict: c.verdict,
+          })) || []
+        );
+        setSteps(data.steps?.map((s: any) => ({ text: s.text })) || []);
+        setIdeas(data.ideas[0].content || "");
+        setLinks(data.links[0].url || "");
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
-    }
-    loadRecord()
-  }, [id])
+    };
+    loadRecord();
+  }, [id]);
 
-  const handleAdd = (setter: any, arr: any[], newItem: any) => setter([...arr, newItem])
+  const handleAdd = (setter: any, arr: any[], newItem: any) =>
+    setter([...arr, newItem]);
   const handleRemove = (setter: any, arr: any[], idx: number) =>
-    setter(arr.filter((_, i) => i !== idx))
+    setter(arr.filter((_, i) => i !== idx));
 
   const handleEdit = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categories: categories.split(",").map(c => c.trim()),
+        categories: categories.split(",").map((c) => c.trim()),
         status,
         difficulty,
         detail,
         codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
         steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
-        ideas: [{"content": ideas}],
-        links: [{"url": links}],
+        ideas: [{ content: ideas }],
+        links: [{ url: links }],
         draft: false,
-        published: true
-      })
-      alert("수정 완료")
-      navigate('/my-records')
+        published: true,
+      });
+      alert("수정 완료");
+      navigate("/my-records");
     } catch (err) {
-      console.error(err)
-      alert("수정 실패")
+      console.error(err);
+      alert("수정 실패");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDraft = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categories: categories.split(",").map(c => c.trim()),
+        categories: categories.split(",").map((c) => c.trim()),
         status,
         difficulty,
         detail,
         codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
         steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
-        ideas: [{"content": ideas}],
-        links: [{"url": links}],
+        ideas: [{ content: ideas }],
+        links: [{ url: links }],
         draft: true,
-        published: true
-      })
-      alert("임시 저장 완료")
-      navigate('/my-drafts')
+        published: true,
+      });
+      alert("임시 저장 완료");
+      navigate("/temp-record");
     } catch (err) {
-      console.error(err)
-      alert("임시 저장 실패")
+      console.error(err);
+      alert("임시 저장 실패");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCreate = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await createRecord({
         problemUrl,
         title,
-        categories: categories.split(",").map(c => c.trim()),
+        categories: categories.split(",").map((c) => c.trim()),
         status,
         difficulty,
         detail,
         codes: codes.map((c, i) => ({ ...c, id: i, snippetOrder: i })),
         steps: steps.map((s, i) => ({ ...s, id: i, stepOrder: i })),
-        ideas: [{"content": ideas}],
-        links: [{"url": links}],
+        ideas: [{ content: ideas }],
+        links: [{ url: links }],
         draft: false,
-        published: true
-      })
-      await deleteRecordById(Number(id))
-      alert("새 기록 생성 완료")
-      navigate('/my-records')
+        published: true,
+      });
+      await deleteRecordById(Number(id));
+      alert("새 기록 생성 완료");
+      navigate("/my-records");
     } catch (err) {
-      console.error(err)
-      alert("생성 실패")
+      console.error(err);
+      alert("생성 실패");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  return (
-    !loading ? (
-      <div className="max-w-[900px] mx-auto p-6 space-y-10">
-        <InputLine 
-          label="문제 URL"
-          value={problemUrl}
-          setValue={setProblemUrl}
-          placeholder="문제 URL을 입력하세요"
+  return !loading ? (
+    <div className="max-w-[900px] mx-auto p-6 space-y-10">
+      <InputLine
+        label="문제 URL"
+        value={problemUrl}
+        setValue={setProblemUrl}
+        placeholder="문제 URL을 입력하세요"
+      />
+      <InputLine
+        label="문제 제목"
+        value={title}
+        setValue={setTitle}
+        placeholder="문제 제목을 입력하세요"
+      />
+      <div className="flex items-center gap-4">
+        <label className="font-medium text-gray-700">문제 유형</label>
+        <CategoryDropdown
+          categories={categoriesList}
+          selected={categories}
+          onChange={(val: SetStateAction<string>) => setCategories(val)}
         />
-        <InputLine 
-          label="문제 제목"
-          value={title}
-          setValue={setTitle}
-          placeholder="문제 제목을 입력하세요"
+        <label className="font-medium text-gray-700">성공 여부</label>
+        <Dropdown
+          options={["성공", "실패"]}
+          selected={status == "success" ? "성공" : "실패"}
+          onChange={(e) => setStatus(e == "성공" ? "success" : "fail")}
         />
-        <div className="flex items-center gap-4">
-          <label className="font-medium text-gray-700">문제 유형</label>
-          <CategoryDropdown
-            categories={categoriesList}
-            selected={categories}
-            onChange={(val: SetStateAction<string>) => setCategories(val)}
-          />
-          <label className="font-medium text-gray-700">성공 여부</label>
-          <Dropdown
-            options={["성공", "실패"]}
-            selected={status == "success" ? "성공" : "실패"}
-            onChange={e => setStatus(e == "성공" ? "success" : "fail")}
-          />
-          <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
-        </div>
-        <InputBox
-          label="문제 설명"
-          value={detail}
-          setValue={setDetail}
-          placeholder="문제 설명을 입력하세요"
+        <DifficultySelector
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
         />
-        <InputCode 
-          handleAdd={handleAdd}
-          codes={codes}
-          setCodes={setCodes}
-          handleRemove={handleRemove}
-        />
-        <InputStep
-          handleAdd={handleAdd}
-          steps={steps}
-          setSteps={setSteps}
-          handleRemove={handleRemove}
-        />
-    <InputBox
-      label="핵심 아이디어"
-      value={ideas}
-      setValue={setIdeas}
-      placeholder="아이디어를 입력하세요"
-    />
-    <InputBox
-      label="다른 기록 참고"
-      value={links}
-      setValue={setLinks}
-      placeholder="참고한 다른 기록을 입력하세요"
-    />
-        <div className="flex gap-3 justify-end">
-          {isDraft ? (
-            <>
-              <Button theme="dark" onClick={handleCreate}>풀이 생성</Button>
-              <Button theme="white" onClick={handleDraft}>임시 저장</Button>
-            </>
-          ) : (
-            <Button theme="dark" onClick={handleEdit}>수정하기</Button>
-          )}
-        </div>
       </div>
-    ) : (
-      <Loading/>
-    )
-  )
+      <InputBox
+        label="문제 설명"
+        value={detail}
+        setValue={setDetail}
+        placeholder="문제 설명을 입력하세요"
+      />
+      <InputCode
+        handleAdd={handleAdd}
+        codes={codes}
+        setCodes={setCodes}
+        handleRemove={handleRemove}
+      />
+      <InputStep
+        handleAdd={handleAdd}
+        steps={steps}
+        setSteps={setSteps}
+        handleRemove={handleRemove}
+      />
+      <InputBox
+        label="핵심 아이디어"
+        value={ideas}
+        setValue={setIdeas}
+        placeholder="아이디어를 입력하세요"
+      />
+      <InputBox
+        label="다른 기록 참고"
+        value={links}
+        setValue={setLinks}
+        placeholder="참고한 다른 기록을 입력하세요"
+      />
+      <div className="flex gap-3 justify-end">
+        {isDraft ? (
+          <>
+            <Button theme="dark" onClick={handleCreate}>
+              풀이 생성
+            </Button>
+            <Button theme="white" onClick={handleDraft}>
+              임시 저장
+            </Button>
+          </>
+        ) : (
+          <Button theme="dark" onClick={handleEdit}>
+            수정하기
+          </Button>
+        )}
+      </div>
+    </div>
+  ) : (
+    <Loading />
+  );
 }
 
-export default EditRecordPage
+export default EditRecordPage;
