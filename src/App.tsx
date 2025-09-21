@@ -36,7 +36,7 @@ function App() {
             <Route path="my-ideas" element={<MyIdeasPage />} />
             <Route path="my-records" element={<MyRecordPage />} />
             <Route path="my-recommend" element={<MyRecommendPage />} />
-            <Route path="my-drafts" element={<MyDraftsPage />} />
+            <Route path="temp-record" element={<MyDraftsPage />} />
             <Route path="my-bookmarks" element={<MyBookmarksPage />} />
             <Route path="my-profile" element={<ProfilePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />

@@ -51,15 +51,23 @@ const HeaderListBox = ({
     problemTypes.find((pt) => pt.value === category)?.label || category;
 
   const handleClickAuthor = (author: string) => {
-    navigate(`/search-result?author=${encodeURIComponent(author)}`);
+    navigate(
+      `/search-result?filter=${encodeURIComponent(
+        "작성자"
+      )}&keyword=${encodeURIComponent(author)}`
+    );
   };
 
   const handleClickCategoryChip = (category: string) => {
-    navigate(`/search-result?category=${encodeURIComponent(category)}`);
+    navigate(
+      `/search-result?filter=${encodeURIComponent(
+        "유형"
+      )}&keyword=${encodeURIComponent(category)}`
+    );
   };
 
   return (
-    <div className="bg-white w-full rounded-lg p-5 shadow-sm border border-gray-100">
+    <div className="bg-white w-full rounded-lg p-5 border border-gray-200">
       <div className="w-full flex items-start justify-between">
         <div className="flex flex-row gap-4 items-center">
           <h2 className="text-xl font-semibold">{title}</h2>
@@ -78,17 +86,6 @@ const HeaderListBox = ({
           </div>
         </div>
         <button onClick={onBookmarkToggle}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="w-5 h-5 mr-1 cursor-pointer"
-            fill={isBookmarked ? "#FACC15" : "#374151"}
-          />
-          {/* <img
-            src={BookmarkIcon}
-            alt="bookmark"
-            className={`w-4 h-4 ${isBookmarked ? "opacity-100" : "opacity-60"}`}
-          /> */}
           <BookmarkIconComponent
             width={18}
             height={22}
@@ -96,12 +93,12 @@ const HeaderListBox = ({
           />
         </button>
       </div>
-      <div className="w-full flex items-start mt-2">
+      <div className="w-full flex items-center mt-2">
         <a
           href={link}
           target="_blank"
           rel="noreferrer"
-          className="text-blue-500 text-base"
+          className="text-blue-500 text-base flex items-center gap-1.5"
         >
           <img
             src={LinkIconSvg}
@@ -113,17 +110,17 @@ const HeaderListBox = ({
       </div>
       <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
         <button
-          className="cursor-pointer"
+          className="cursor-pointer flex gap-1"
           onClick={() => handleClickAuthor(user)}
         >
-          <img src={UserIcon} alt="User Icon" className="inline w-4 h-4 mr-1" />
+          <img src={UserIcon} alt="User Icon" className="inline w-5 h-5 mr-1" />
           {user}
         </button>
-        <span>
+        <span className="flex gap-1">
           <img
             src={ClockIcon}
             alt="Clock Icon"
-            className="inline w-4 h-4 mr-1"
+            className="inline w-5 h-5 mr-1"
           />
           {formatDate(time)}{" "}
           {updateTime && `수정 후: ${formatDate(updateTime)}`}
@@ -135,16 +132,16 @@ const HeaderListBox = ({
             <div className="flex items-center gap-4">
               성공 여부
               <span
-                className={`inline-flex items-center px-2 py-1 gap-1 rounded text-xs font-semibold ${
+                className={`inline-flex items-center px-2.5 py-1 gap-1 rounded text-xs font-semibold border ${
                   isSuccess
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-700"
+                    ? "bg-green-100 text-green-800 border-green-300"
+                    : "bg-red-100 text-red-700 border-red-300"
                 }`}
               >
                 <img
                   src={isSuccess ? SuccessIcon : FailIcon}
                   alt=""
-                  className="w-2.5 h-2.5 mr-1 inline"
+                  className={`w-2.5 h-2.5 mr-1 inline `}
                 />
                 {isSuccess ? "성공" : "실패"}
               </span>
@@ -178,7 +175,7 @@ const HeaderListBox = ({
               <Button
                 onClick={onDelete}
                 theme="light"
-                className="px-3 py-1 text-sm border border-red-300 text-red-600 hover:bg-red-50"
+                className="px-3 py-1 text-sm border border-gray-300"
               >
                 삭제하기
               </Button>

@@ -11,7 +11,7 @@ import InputStep from "@components/Input/InputStep";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
 import { problemTypes } from "@constants/problemTypes";
-import { extractProblemId, fetchProblemTitle } from "@api/records"
+import { extractProblemId, fetchProblemTitle } from "@api/records";
 
 function CreateRecordPage() {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ function CreateRecordPage() {
         published: true,
       });
       alert("생성 완료");
-      navigate("/my-drafts");
+      navigate("/temp-record");
     } catch (err) {
       console.error(err);
       alert("생성 실패");
@@ -90,18 +90,18 @@ function CreateRecordPage() {
 
   useEffect(() => {
     const loadProblemInfo = async () => {
-      const problemId = extractProblemId(problemUrl)
-      if (!problemId) return
+      const problemId = extractProblemId(problemUrl);
+      if (!problemId) return;
       try {
-        const title = await fetchProblemTitle(problemId)
-        setTitle(title)
+        const title = await fetchProblemTitle(problemId);
+        setTitle(title);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    }
-  
-    if (problemUrl) loadProblemInfo()
-  }, [problemUrl])
+    };
+
+    if (problemUrl) loadProblemInfo();
+  }, [problemUrl]);
 
   return !loading ? (
     <div className="max-w-[900px] mx-auto p-6 space-y-10">
