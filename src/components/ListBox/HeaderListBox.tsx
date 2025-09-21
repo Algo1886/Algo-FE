@@ -10,8 +10,10 @@ import FailIcon from "@assets/FailIcon.svg";
 import BookmarkIconComponent from "@assets/BookmarkIconComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@contexts/AuthContext";
+import { postReviewComplete } from "@api/records";
 
 export interface HeaderListBoxProps {
+  id: string;
   title: string;
   category: string;
   source: string;
@@ -25,9 +27,11 @@ export interface HeaderListBoxProps {
   onBookmarkToggle?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  isReviewing?: boolean;
 }
 
 const HeaderListBox = ({
+  id,
   title,
   category,
   source,
@@ -41,6 +45,7 @@ const HeaderListBox = ({
   onBookmarkToggle,
   onEdit,
   onDelete,
+  isReviewing,
 }: HeaderListBoxProps) => {
   const navigate = useNavigate();
   const { user: myProfile } = useAuth();
@@ -49,6 +54,14 @@ const HeaderListBox = ({
 
   const categoryLabel =
     problemTypes.find((pt) => pt.value === category)?.label || category;
+
+  const handleClickReviewComplete = async () => {
+    await postReviewComplete(id).then(() => {
+      navigate("/my-recommend", {
+        replace: true,
+      });
+    });
+  };
 
   const handleClickAuthor = (author: string) => {
     navigate(
@@ -85,7 +98,7 @@ const HeaderListBox = ({
             <ProblemChip label={source} />
           </div>
         </div>
-        <button onClick={onBookmarkToggle}>
+        <button onClick={onBookmarkToggle} className="cursor-pointer">
           <BookmarkIconComponent
             width={18}
             height={22}
@@ -183,6 +196,15 @@ const HeaderListBox = ({
           )}
         </div>
       </div>
+      {isReviewing && (
+        <div
+          role="button"
+          onClick={handleClickReviewComplete}
+          className="w-full mt-4 py-4 text-base rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] text-center cursor-pointer hover:bg-[#dfdfdf]"
+        >
+          복습 완료
+        </div>
+      )}
     </div>
   );
 };

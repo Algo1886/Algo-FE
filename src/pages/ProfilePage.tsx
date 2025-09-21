@@ -1,22 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ProfileBox from "@components/ProfileBox";
 import Button from "@components/Button";
 import {
   fetchUserProfile,
-  updateUserProfile,
+  updateUserData,
   deleteUserAccount,
   fetchUserStats,
+  updateUserImage,
 } from "@api/user";
 import { requestLogout } from "@api/auth";
 import { useNavigate } from "react-router-dom";
 import StatsCards from "@components/StatsCards";
 import EditButtonSvg from "@assets/EditButton.svg";
+import PencilIcon from "@assets/PencilIcon.svg";
 
 const EditButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <span
       onClick={onClick}
-      className="flex flex-row gap-2 h-fit items-center px-2 py-1 rounded-sm border border-gray-200"
+      className="flex flex-row gap-2 h-fit items-center px-2 py-1 rounded-sm border border-gray-200 cursor-pointer"
     >
       <img src={EditButtonSvg} alt="편집 버튼" className="w-3 h-3" />
       <span className="font-semibold text-sm">편집</span>
@@ -31,6 +33,8 @@ function ProfilePage() {
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const navigate = useNavigate();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -47,6 +51,21 @@ function ProfilePage() {
     };
     init();
   }, []);
+
+  const handleChangeProfileImage = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.onchange = async (event: any) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        await updateUserImage(file);
+      }
+    };
+
+    input.click();
+  };
 
   const onLogout = async () => {
     try {
@@ -73,10 +92,18 @@ function ProfilePage() {
 
   const onSave = async () => {
     try {
-      const res = await updateUserProfile({ username, avatarUrl });
+      const res = await updateUserData({ username, avatarUrl });
       setProfile(res.data);
       setIsEditing(false);
-    } catch (err) {
+    } catch (err: any) {
+      if (err.response && err.response.status === 409) {
+        alert("이미 사용중인 닉네임입니다");
+        if (inputRef.current) {
+          inputRef.current.focus();
+          inputRef.current.select();
+        }
+        return;
+      }
       console.error("프로필 저장 실패:", err);
     }
   };
@@ -111,22 +138,33 @@ function ProfilePage() {
         {!isEditing ? (
           <ProfileBox type="profileBox" />
         ) : (
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-xs text-gray-500">닉네임</label>
-              <input
-                className="border rounded px-3 py-2 w-64"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-xs text-gray-500">아바타 URL</label>
-              <input
-                className="border rounded px-3 py-2 w-[28rem]"
-                value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-              />
+          <div className="flex flex-col gap-4 items-start">
+            <div className="flex flex-row gap-4">
+              <span
+                onClick={handleChangeProfileImage}
+                className="cursor-pointer"
+              >
+                <img
+                  src={avatarUrl}
+                  alt="프로필 이미지"
+                  className="w-16 h-16 rounded-full bg-gray-400"
+                />
+                <img
+                  src={PencilIcon}
+                  alt="프로필 이미지 편집 아이콘"
+                  className="w-6 h-6 -mt-5 ml-10 bg-white rounded-full border border-gray-200 p-1 cursor-pointer"
+                />
+              </span>
+
+              <div className="flex flex-col gap-2 text-left">
+                <span className="text-sm">닉네임</span>
+                <input
+                  ref={inputRef}
+                  className="border rounded px-3 py-2 w-64"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         )}
