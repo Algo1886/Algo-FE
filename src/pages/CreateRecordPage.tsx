@@ -1,18 +1,9 @@
-import { useState, useEffect, type SetStateAction } from "react";
-import { createRecord } from "@api/records";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import InputLine from "@components/Input";
-import Dropdown from "@components/Dropdown";
-import DifficultySelector from "@components/DifficultySelector";
-import CategoryDropdown from "@components/Dropdown/CategoryDropdown";
-import InputBox from "@components/Input/InputBox";
-import InputCode from "@components/Input/InputCode";
-import InputStep from "@components/Input/InputStep";
+import { fetchProblemTitle, createRecord } from "@api/records";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
-import { problemTypes } from "@constants/problemTypes";
-import { extractProblemId, fetchProblemTitle } from "@api/records";
-import clsx from "clsx"
+import RecordForm from "@components/RecordForm";
 
 function CreateRecordPage() {
   const navigate = useNavigate();
@@ -28,8 +19,8 @@ function CreateRecordPage() {
   const [ideas, setIdeas] = useState("");
   const [links, setLinks] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false); // 🔹 추가
-  const categoryError = isSubmitAttempted && !categories.trim()
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
 
   const handleAdd = (setter: any, arr: any[], newItem: any) =>
     setter([...arr, newItem]);
@@ -43,6 +34,7 @@ function CreateRecordPage() {
     if (difficulty <= 0) return false;
     if (!codes.some(c => c.code.trim())) return false;
     if (!steps.some(s => s.text.trim())) return false;
+    if (categoryError) return false;
     return true;
   };
 
@@ -107,115 +99,57 @@ function CreateRecordPage() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const loadProblemInfo = async () => {
-      const problemId = extractProblemId(problemUrl);
-      if (!problemId) return;
       try {
-        const title = await fetchProblemTitle(problemId);
-        setTitle(title);
+        const res = await fetchProblemTitle(problemUrl);
+        setTitle(res.title)
       } catch (e) {
         console.error(e);
       }
     };
-
     if (problemUrl) loadProblemInfo();
+    setLoading(false)
   }, [problemUrl]);
 
   return !loading ? (
-    <div className="max-w-[900px] mx-auto p-6 space-y-10">
-      <InputLine
-        label="문제 URL"
-        value={problemUrl}
-        setValue={setProblemUrl}
-        placeholder="문제 URL을 입력하세요"
-        required
-        showError={isSubmitAttempted}
-      />
-      <InputLine
-        label="문제 제목"
-        value={title}
-        setValue={setTitle}
-        placeholder="문제 제목을 입력하세요"
-        required
-        showError={isSubmitAttempted}
-      />
-      <div className="flex items-center gap-4">
-      <div className="flex flex-col gap-1">
-        <label className="font-medium text-gray-700">
-          문제 유형 <span className="text-blue-500">*</span>
-        </label>
-        <div className={clsx("rounded", categoryError ? "border border-red-500" : "")}>
-          <CategoryDropdown
-            categories={problemTypes}
-            selected={categories}
-            onChange={(val: SetStateAction<string>) => setCategories(val)}
-          />
+    <RecordForm
+      problemUrl={problemUrl}
+      setProblemUrl={setProblemUrl}
+      title={title}
+      setTitle={setTitle}
+      categories={categories}
+      categoryError={categoryError}
+      setCategoryError={setCategoryError}
+      setCategories={setCategories}
+      status={status}
+      setStatus={setStatus}
+      difficulty={difficulty}
+      setDifficulty={setDifficulty}
+      detail={detail}
+      setDetail={setDetail}
+      codes={codes}
+      setCodes={setCodes}
+      steps={steps}
+      setSteps={setSteps}
+      ideas={ideas}
+      setIdeas={setIdeas}
+      links={links}
+      setLinks={setLinks}
+      handleAdd={handleAdd}
+      handleRemove={handleRemove}
+      isSubmitAttempted={isSubmitAttempted}
+      buttons={
+        <div className="flex gap-3 justify-end">
+          <Button theme="white" onClick={handleDraft}>
+            임시 저장
+          </Button>
+          <Button theme="dark" onClick={handleCreate}>
+            기록하기
+          </Button>
         </div>
-        {categoryError && <span className="text-red-500 text-sm">문제 유형을 선택해주세요</span>}
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <label className="font-medium text-gray-700">
-          성공 여부 <span className="text-blue-500">*</span>
-        </label>
-          <Dropdown
-            options={["성공", "실패"]}
-            selected={status == "success" ? "성공" : "실패"}
-            onChange={(e) => setStatus(e == "성공" ? "success" : "fail")}
-          />
-      </div>
-
-      <DifficultySelector
-        difficulty={difficulty}
-        setDifficulty={setDifficulty}
-        required
-        showError={isSubmitAttempted}
-      />
-    </div>
-      <InputBox
-        label="문제 설명"
-        value={detail}
-        setValue={setDetail}
-        placeholder="문제 설명을 입력하세요"
-        wordCount={true}
-      />
-      <InputCode
-        handleAdd={handleAdd}
-        codes={codes}
-        setCodes={setCodes}
-        handleRemove={handleRemove}
-        required
-        showError={isSubmitAttempted}
-      />
-      <InputStep
-        handleAdd={handleAdd}
-        steps={steps}
-        setSteps={setSteps}
-        handleRemove={handleRemove}
-        required
-        showError={isSubmitAttempted}
-      />
-      <InputBox
-        label="핵심 아이디어"
-        value={ideas}
-        setValue={setIdeas}
-        placeholder="아이디어를 입력하세요"
-      />
-      <InputBox
-        label="다른 기록 참고"
-        value={links}
-        setValue={setLinks}
-        placeholder="참고한 다른 기록을 입력하세요"
-      />
-      <div className="flex gap-3 justify-end">
-        <Button theme="white" onClick={handleDraft}>
-          임시 저장
-        </Button>
-        <Button theme="dark" onClick={handleCreate}>
-          기록하기
-        </Button>
-      </div>
-    </div>
+      }
+    />
   ) : (
     <Loading />
   );

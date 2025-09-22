@@ -1,5 +1,4 @@
-import api from "./axiosInstance";
-import axios from "axios";
+import api from "./axiosInstance"
 
 export interface FetchRecordsParams {
   page?: number;
@@ -39,9 +38,9 @@ export const deleteRecordById = async (id: number) => {
 };
 
 export const editRecord = async (id: number, record: any) => {
-  const res = await api.put(`/records/${id}`, record);
-  return res.data;
-};
+  const res = await api.put(`/records/${id}`, record)
+  return res.data
+}
 
 export const createBookmarkById = async (id: number) => {
   const res = await api.post(`/bookmarks/${id}`);
@@ -58,21 +57,12 @@ export const extractProblemId = (url: string): string | null => {
   return match ? match[1] : null;
 };
 
-export const fetchProblemTitle = async (problemId: string) => {
-  const options = {
-    method: "GET",
-    url: "/solvedac/problem/show",
-    params: { problemId: problemId },
-    headers: { "x-solvedac-language": "ko", Accept: "application/json" },
-  };
-
-  try {
-    const res = await axios.request(options);
-    return res.data.titleKo;
-  } catch (error) {
-    console.error(error);
-  }
-};
+export const fetchProblemTitle = async (url: string) => {
+  const res = await api.get("/problems/fetch", {
+    params: { url }
+  })
+  return res.data
+}
 
 export const postReviewComplete = async (recordId: string) => {
   // /api/users/me/reviews/{recordId}
