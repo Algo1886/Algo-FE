@@ -1,5 +1,4 @@
 import api from "./axiosInstance"
-import axios from "axios"
 
 export interface FetchRecordsParams {
   page?: number
@@ -43,7 +42,6 @@ export const editRecord = async (id: number, record: any) => {
   return res.data
 }
 
-
 export const createBookmarkById = async (id: number) => {
   const res = await api.post(`/bookmarks/${id}`)
   return res.data
@@ -59,19 +57,10 @@ export const extractProblemId = (url: string): string | null => {
   return match ? match[1] : null
 }
 
-export const fetchProblemTitle = async (problemId: string) => {
-  const options = {
-    method: 'GET',
-    url: '/solvedac/problem/show',
-    params: {problemId: problemId},
-    headers: {'x-solvedac-language': 'ko', Accept: 'application/json'}
-  };
-
-  try {
-    const res = await axios.request(options);
-    return(res.data.titleKo)
-  } catch (error) {
-    console.error(error);
-  }
+export const fetchProblemTitle = async (url: string) => {
+  const res = await api.get("/problems/fetch", {
+    params: { url }
+  })
+  return res.data
 }
 
