@@ -1,5 +1,5 @@
 const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API;
-const REDIRECT_URI = "http://localhost:5173/login/kakao";
+const REDIRECT_URI = "https://algo-fe-five.vercel.app/login/kakao";
 
 const KakaoLoginButton = () => {
   const goToKakaoAuth = () => {
