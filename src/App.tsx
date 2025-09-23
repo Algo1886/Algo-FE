@@ -27,7 +27,7 @@ function App() {
   return (
     <AmplitudeProvider
       apiKey="15ff9515f122b93f1d910f7f063e5d82"
-      isTrackingEnabled={isProd}
+      isTrackingEnabled={false}
     >
       <AuthProvider>
         {isProd && <PageTracker />}
