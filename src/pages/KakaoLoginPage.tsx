@@ -17,15 +17,18 @@ const KakaoLoginPage = () => {
       requestKakaoLoginToken(code)
         .then((data) => {
           if (data.success && data.data) {
-            console.log(data)
             setAccessToken(data.data.accessToken);
             setRefreshToken(data.data.refreshToken);
+            // 페이지에서 바로 확인
+            alert(`로그인 성공\nAccessToken: ${data.data.accessToken}`);
             // navigate("/");
           } else {
-            console.error("로그인 실패:", data);
+            alert(`로그인 실패: ${JSON.stringify(data)}`);
           }
         })
-        .catch(console.error);
+        .catch((err) => {
+          alert(`에러: ${err}`);
+        });
     }
   }, [code]);
 
