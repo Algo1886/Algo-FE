@@ -19,9 +19,7 @@ const KakaoLoginPage = () => {
           if (data.success && data.data) {
             setAccessToken(data.data.accessToken);
             setRefreshToken(data.data.refreshToken);
-            // 페이지에서 바로 확인
-            alert(`로그인 성공\nAccessToken: ${data.data.accessToken}`);
-            // navigate("/");
+            navigate("/");
           } else {
             alert(`로그인 실패: ${JSON.stringify(data)}`);
           }

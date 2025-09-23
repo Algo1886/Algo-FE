@@ -1,5 +1,5 @@
 const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID
-const REDIRECT_URI = "http://localhost:5173/login/github"
+const REDIRECT_URI = import.meta.env.VITE_GITHUB_REDIRECT_URI
 
 const GithubLoginButton = () => {
   const goToGithubAuth = () => {
