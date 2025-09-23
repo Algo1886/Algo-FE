@@ -17,9 +17,10 @@ const KakaoLoginPage = () => {
       requestKakaoLoginToken(code)
         .then((data) => {
           if (data.success && data.data) {
+            console.log(data)
             setAccessToken(data.data.accessToken);
             setRefreshToken(data.data.refreshToken);
-            navigate("/");
+            // navigate("/");
           } else {
             console.error("로그인 실패:", data);
           }
