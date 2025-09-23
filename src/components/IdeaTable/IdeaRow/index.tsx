@@ -20,7 +20,7 @@ const IdeaRow = ({ idea }: IdeaRowProps) => {
     navigate(`/read/${idea.recordId}`);
   };
   return (
-    <div className="grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm px-4">
+    <div className="bg-white grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm px-4">
       {/* 문제 제목 */}
       <div
         role="button"

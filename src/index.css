@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
-html, body, #root {
-    height: 100%;
-    width: 100%;
-    background-color: #F8FAFC;
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: #f8fafc;
 }
 body {
-    font-size: 16px;
+  font-size: 16px;
 }
 .rounded {
-    border-radius: 10px;
+  border-radius: 10px;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -12,7 +12,8 @@
   {
     "icon": "Book",
     "label": "내 기록",
-    "path": "/my-records"
+    "path": "/my-records",
+    "filter": true
   },
   {
     "icon": "BookChart",
@@ -22,7 +23,8 @@
   {
     "icon": "Bookmark",
     "label": "북마크",
-    "path": "/my-bookmarks"
+    "path": "/my-bookmarks",
+    "filter": true
   },
   {
     "icon": "Folder",
@@ -32,7 +34,8 @@
   {
     "icon": "Setting",
     "label": "핵심 아이디어",
-    "path": "/my-ideas"
+    "path": "/my-ideas",
+    "filter": true
   },
   {
     "icon": "User",

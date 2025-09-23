@@ -103,6 +103,10 @@ function ProfilePage() {
           inputRef.current.select();
         }
         return;
+      } else {
+        alert(
+          err.response?.data?.message || "프로필 저장 중 오류가 발생했습니다"
+        );
       }
       console.error("프로필 저장 실패:", err);
     }

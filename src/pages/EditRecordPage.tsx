@@ -104,7 +104,7 @@ function EditRecordPage() {
     try {
       await editRecord(Number(id), {
         problemUrl,
-        title,
+        customTitle: title,
         categories: categories.split(",").map((c) => c.trim()),
         status,
         difficulty,
