@@ -17,35 +17,42 @@ import { AuthProvider } from "@contexts/AuthContext";
 import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
 import MyDraftsPage from "@pages/MyDraftsPage";
 import MyRecommendPage from "@pages/MyRecommendPage";
+import { AmplitudeProvider } from "react-amplitude-provider";
+import PageTracker from "@components/Analytics/PageTracker";
 
 function App() {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route path="/" element={<LayoutWithHeader />}>
-          <Route index element={<MainPage />} />
-          <Route path="search-result" element={<SearchRecordPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="login/kakao" element={<KakaoLoginPage />} />
-          <Route path="login/github" element={<GithubLoginPage />} />
-          <Route path="read/:id" element={<ReadRecordPage />} />
-          <Route element={<LayoutWithSidebar />}>
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="record/create" element={<CreateRecordPage />} />
-            <Route path="record/edit/:id" element={<EditRecordPage />} />
-            <Route path="my-ideas" element={<MyIdeasPage />} />
-            <Route path="my-records" element={<MyRecordPage />} />
-            <Route path="my-recommend" element={<MyRecommendPage />} />
-            <Route path="temp-record" element={<MyDraftsPage />} />
-            <Route path="my-bookmarks" element={<MyBookmarksPage />} />
-            <Route path="my-profile" element={<ProfilePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            {/* <Route path="/idea" element={<IdeaPage />} /> */}
-            <Route path="/profile" element={<ProfilePage />} />
+    <AmplitudeProvider
+      apiKey="15ff9515f122b93f1d910f7f063e5d82"
+      isTrackingEnabled={true}
+    >
+      <AuthProvider>
+        <PageTracker />
+        <Routes>
+          <Route path="/" element={<LayoutWithHeader />}>
+            <Route index element={<MainPage />} />
+            <Route path="search-result" element={<SearchRecordPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="login/kakao" element={<KakaoLoginPage />} />
+            <Route path="login/github" element={<GithubLoginPage />} />
+            <Route path="read/:id" element={<ReadRecordPage />} />
+            <Route element={<LayoutWithSidebar />}>
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="record/create" element={<CreateRecordPage />} />
+              <Route path="record/edit/:id" element={<EditRecordPage />} />
+              <Route path="my-ideas" element={<MyIdeasPage />} />
+              <Route path="my-records" element={<MyRecordPage />} />
+              <Route path="my-recommend" element={<MyRecommendPage />} />
+              <Route path="temp-record" element={<MyDraftsPage />} />
+              <Route path="my-bookmarks" element={<MyBookmarksPage />} />
+              <Route path="my-profile" element={<ProfilePage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </AuthProvider>
+        </Routes>
+      </AuthProvider>
+    </AmplitudeProvider>
   );
 }
 
