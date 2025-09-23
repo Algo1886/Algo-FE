@@ -2,6 +2,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import api from "@api/axiosInstance";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 
 interface User {
   id: string;
@@ -31,6 +33,8 @@ export const AuthProvider = ({ children }: Props) => {
   const [refreshToken, setRefreshTokenState] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
+  const amplitude = useAmplitude();
+
   // 앱 초기 렌더 시 로컬스토리지에서 토큰 불러오기
   useEffect(() => {
     const storedAccess = localStorage.getItem("accessToken");
@@ -58,6 +62,7 @@ export const AuthProvider = ({ children }: Props) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.data);
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Login_Success);
     } catch (err) {
       console.error(err);
       setUser(null);

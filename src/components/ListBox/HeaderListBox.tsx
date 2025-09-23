@@ -11,6 +11,8 @@ import BookmarkIconComponent from "@assets/BookmarkIconComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@contexts/AuthContext";
 import { postReviewComplete } from "@api/records";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 
 export interface HeaderListBoxProps {
   id: string;
@@ -49,6 +51,7 @@ const HeaderListBox = ({
 }: HeaderListBoxProps) => {
   const navigate = useNavigate();
   const { user: myProfile } = useAuth();
+  const amplitude = useAmplitude();
 
   const isEditable = myProfile?.username === user;
 
@@ -57,6 +60,9 @@ const HeaderListBox = ({
 
   const handleClickReviewComplete = async () => {
     await postReviewComplete(id).then(() => {
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Review_Submitted, {
+        recordId: id,
+      });
       navigate("/my-recommend", {
         replace: true,
       });

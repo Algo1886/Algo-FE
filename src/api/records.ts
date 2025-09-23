@@ -1,4 +1,4 @@
-import api from "./axiosInstance"
+import api from "./axiosInstance";
 
 export interface FetchRecordsParams {
   page?: number;
@@ -38,9 +38,9 @@ export const deleteRecordById = async (id: number) => {
 };
 
 export const editRecord = async (id: number, record: any) => {
-  const res = await api.put(`/records/${id}`, record)
-  return res.data
-}
+  const res = await api.put(`/records/${id}`, record);
+  return res.data;
+};
 
 export const createBookmarkById = async (id: number) => {
   const res = await api.post(`/bookmarks/${id}`);
@@ -59,10 +59,10 @@ export const extractProblemId = (url: string): string | null => {
 
 export const fetchProblemTitle = async (url: string) => {
   const res = await api.get("/problems/fetch", {
-    params: { url }
-  })
-  return res.data
-}
+    params: { url },
+  });
+  return res.data;
+};
 
 export const postReviewComplete = async (recordId: string) => {
   // /api/users/me/reviews/{recordId}

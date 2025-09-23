@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProblemTitle, createRecord } from "@api/records";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
 import RecordForm from "@components/RecordForm";
 
 function CreateRecordPage() {
   const navigate = useNavigate();
+  const amplitude = useAmplitude();
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -14,7 +17,9 @@ function CreateRecordPage() {
   const [status, setStatus] = useState<"success" | "fail">("success");
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
-  const [codes, setCodes] = useState([{ code: "", language: "python", verdict: "pass" }]);
+  const [codes, setCodes] = useState([
+    { code: "", language: "python", verdict: "pass" },
+  ]);
   const [steps, setSteps] = useState([{ text: "" }]);
   const [ideas, setIdeas] = useState("");
   const [links, setLinks] = useState("");
@@ -32,8 +37,8 @@ function CreateRecordPage() {
     if (!title.trim()) return false;
     if (!categories.trim()) return false;
     if (difficulty <= 0) return false;
-    if (!codes.some(c => c.code.trim())) return false;
-    if (!steps.some(s => s.text.trim())) return false;
+    if (!codes.some((c) => c.code.trim())) return false;
+    if (!steps.some((s) => s.text.trim())) return false;
     if (categoryError) return false;
     return true;
   };
@@ -61,6 +66,7 @@ function CreateRecordPage() {
         draft: false,
         published: true,
       });
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Record_Finalized);
       alert("생성 완료");
       navigate("/my-records");
     } catch (err) {
@@ -103,13 +109,13 @@ function CreateRecordPage() {
     const loadProblemInfo = async () => {
       try {
         const res = await fetchProblemTitle(problemUrl);
-        setTitle(res.title)
+        setTitle(res.title);
       } catch (e) {
         console.error(e);
       }
     };
     if (problemUrl) loadProblemInfo();
-    setLoading(false)
+    setLoading(false);
   }, [problemUrl]);
 
   return !loading ? (

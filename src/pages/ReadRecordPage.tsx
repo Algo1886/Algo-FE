@@ -9,6 +9,8 @@ import {
 import { useParams } from "react-router-dom";
 import { deleteRecordById } from "@api/records";
 import { useNavigate } from "react-router-dom";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import CodeEditor from "@components/CodeEditor";
 import Loading from "@components/Loading";
 import * as Toast from "@radix-ui/react-toast";
@@ -50,6 +52,7 @@ interface RecordResponse {
 
 const ReadRecordPage = () => {
   const navigate = useNavigate();
+  const amplitude = useAmplitude();
   const [record, setRecord] = useState<RecordResponse | null>(null);
   const { id } = useParams<{ id: string }>(); // URL에서 id 가져오기
   const [toastMessage, setToastMessage] = useState("");
@@ -82,6 +85,9 @@ const ReadRecordPage = () => {
       } else {
         await createBookmarkById(record.id);
         setToastMessage("풀이가 북마크되었어요!");
+        trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Bookmark_Added, {
+          recordId: record.id,
+        });
       }
       setRecord({ ...record, isBookmarked: !record.isBookmarked });
       setToastOpen(true);

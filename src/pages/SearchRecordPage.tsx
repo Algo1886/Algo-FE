@@ -3,6 +3,8 @@ import RecordCard from "@components/RecordCard";
 import SearchBar from "@components/SearchBar";
 import { fetchRecords } from "@api/records";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import Dropdown from "@components/Dropdown";
 import Loading from "@components/Loading";
 import Pagination from "@components/Pagination";
@@ -21,6 +23,7 @@ const PAGE_SIZE = 12;
 const SearchRecordPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const amplitude = useAmplitude();
   const searchParams = new URLSearchParams(location.search);
 
   console.log("sP:", searchParams.toString());
@@ -86,6 +89,11 @@ const SearchRecordPage = () => {
   }, [location.search]);
 
   const handleSearch = () => {
+    trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Search_Performed, {
+      keyword: newKeyword,
+      filter,
+      sort,
+    });
     navigate(
       `/search-result?filter=${encodeURIComponent(
         filter
