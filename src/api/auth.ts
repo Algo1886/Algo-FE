@@ -2,7 +2,11 @@ import api from "./axiosInstance"
 import axios from "axios"
 
 export const requestKakaoLoginToken = async (code: string) => {
-  const res = await api.post("/auth/kakao-login", { token: code })
+  const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI
+  const res = await api.post("/auth/kakao-login", { 
+    token: code,
+    redirectUri: REDIRECT_URI
+  })
   return res.data
 }
 
