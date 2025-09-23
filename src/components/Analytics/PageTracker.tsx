@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAmplitude } from "react-amplitude-provider";
 import { useAuth } from "@contexts/AuthContext";
+import { setSignupAt } from "@utils/analytics";
 function PageTracker() {
   const location = useLocation();
   const { user } = useAuth();
@@ -31,6 +32,7 @@ function PageTracker() {
         streak: user.streak,
         signup_at: user.createdAt,
       });
+      setSignupAt(user.createdAt);
       trackEvent("user_identified", { userId: user.id });
     } else {
       setUserId(undefined);
