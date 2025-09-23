@@ -4,16 +4,19 @@ import {
   editRecord,
   fetchRecordById,
   deleteRecordById,
-  fetchProblemTitle
+  fetchProblemTitle,
 } from "@api/records";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
 import RecordForm from "@components/RecordForm";
+import { useAmplitude } from "react-amplitude-provider";
+import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 
 function EditRecordPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const amplitude = useAmplitude();
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -21,7 +24,9 @@ function EditRecordPage() {
   const [status, setStatus] = useState<"success" | "fail">("success");
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
-  const [codes, setCodes] = useState([{ code: "", language: "python", verdict: "pass" }]);
+  const [codes, setCodes] = useState([
+    { code: "", language: "python", verdict: "pass" },
+  ]);
   const [steps, setSteps] = useState([{ text: "" }]);
   const [ideas, setIdeas] = useState("");
   const [links, setLinks] = useState("");
@@ -64,8 +69,8 @@ function EditRecordPage() {
     const loadProblemInfo = async () => {
       try {
         const res = await fetchProblemTitle(problemUrl);
-        console.log(res)
-        setTitle(res.title)
+        console.log(res);
+        setTitle(res.title);
       } catch (e) {
         console.error(e);
       }
@@ -78,8 +83,8 @@ function EditRecordPage() {
     if (!title.trim()) return false;
     if (!categories.trim()) return false;
     if (difficulty <= 0) return false;
-    if (!codes.some(c => c.code.trim())) return false;
-    if (!steps.some(s => s.text.trim())) return false;
+    if (!codes.some((c) => c.code.trim())) return false;
+    if (!steps.some((s) => s.text.trim())) return false;
     if (categoryError) return false;
     return true;
   };
@@ -110,6 +115,9 @@ function EditRecordPage() {
         links: [{ url: links }],
         draft: false,
         published: true,
+      });
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Record_Edited, {
+        recordId: Number(id),
       });
       alert("수정 완료");
       navigate("/my-records");
@@ -145,6 +153,10 @@ function EditRecordPage() {
       });
       alert("임시 저장 완료");
       navigate("/temp-record");
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Draft_Saved, {
+        stage: "edit",
+        recordId: Number(id),
+      });
     } catch (err) {
       console.error(err);
       alert("임시 저장 실패");
@@ -216,11 +228,17 @@ function EditRecordPage() {
       buttons={
         isDraft ? (
           <>
-            <Button theme="dark" onClick={handleCreate}>풀이 생성</Button>
-            <Button theme="white" onClick={handleDraft}>임시 저장</Button>
+            <Button theme="dark" onClick={handleCreate}>
+              풀이 생성
+            </Button>
+            <Button theme="white" onClick={handleDraft}>
+              임시 저장
+            </Button>
           </>
         ) : (
-          <Button theme="dark" onClick={handleEdit}>수정하기</Button>
+          <Button theme="dark" onClick={handleEdit}>
+            수정하기
+          </Button>
         )
       }
     />

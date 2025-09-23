@@ -26,7 +26,11 @@ function PageTracker() {
   useEffect(() => {
     if (user?.id) {
       setUserId(user.id);
-      updateUserProperties({ username: user.username, streak: user.streak });
+      updateUserProperties({
+        username: user.username,
+        streak: user.streak,
+        signup_at: user.createdAt,
+      });
       trackEvent("user_identified", { userId: user.id });
     } else {
       setUserId(undefined);

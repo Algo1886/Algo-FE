@@ -16,6 +16,8 @@ export const MEANINGFUL_EVENT_NAMES = {
   Record_Finalized: "Record_Finalized",
   Review_Submitted: "Review_Submitted",
   Bookmark_Added: "Bookmark_Added",
+  Draft_Saved: "Draft_Saved",
+  Record_Edited: "Record_Edited",
 } as const;
 
 export type MeaningfulEventName =
@@ -34,5 +36,7 @@ export function trackMeaningfulEvent(
   properties?: AmpProperties
 ) {
   amplitude.trackEvent(name, properties);
-  amplitude.updateUserProperties({ last_event_at: new Date().toISOString() });
+  amplitude.updateUserProperties({
+    last_event_at: new Date().toISOString(),
+  });
 }

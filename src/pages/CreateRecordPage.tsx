@@ -96,6 +96,9 @@ function CreateRecordPage() {
       });
       alert("생성 완료");
       navigate("/temp-record");
+      trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Draft_Saved, {
+        stage: "create",
+      });
     } catch (err) {
       console.error(err);
       alert("생성 실패");

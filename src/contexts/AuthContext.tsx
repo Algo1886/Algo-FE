@@ -10,6 +10,7 @@ interface User {
   username: string;
   avatarUrl?: string;
   streak: number;
+  createdAt: string;
 }
 interface AuthContextType {
   accessToken: string | null;
