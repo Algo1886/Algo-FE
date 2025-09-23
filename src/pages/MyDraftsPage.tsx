@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RecordCard from "@components/RecordCard";
 import Pagination from "@components/Pagination";
 import { fetchUserDrafts } from "@api/user";
-import Button from "@components/Button";
+import FolrderIcon from "@assets/FolderIcon.svg";
 import type { Record, RecordResponse } from "types/record";
 
 const MyDraftsPage = () => {
@@ -41,7 +41,9 @@ const MyDraftsPage = () => {
     <div className="flex flex-col items-center w-full p-5 gap-5">
       {records?.records?.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-          <div className="w-50 h-50 rounded-full bg-gray-300" />
+          <div className="w-50 h-50 flex rounded-full items-center justify-center bg-[#E5E5E5]">
+            <img src={FolrderIcon} className="w-24 h-24" />
+          </div>
           <p className="text-xl font-semibold">아직 기록이 없어요</p>
         </div>
       ) : (

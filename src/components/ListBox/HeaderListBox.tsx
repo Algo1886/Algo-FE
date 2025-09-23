@@ -206,7 +206,7 @@ const HeaderListBox = ({
         <div
           role="button"
           onClick={handleClickReviewComplete}
-          className="w-full mt-4 py-4 text-base rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] text-center cursor-pointer hover:bg-[#dfdfdf]"
+          className="w-full mt-4 py-4 text-base rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] text-center cursor-pointer hover:bg-gray-100"
         >
           복습 완료
         </div>

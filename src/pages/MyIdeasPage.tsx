@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { fetchUserIdeas } from "@api/user";
 import Loading from "@components/Loading";
 import Button from "@components/Button";
+import SettingIcon from "@assets/SettingIcon.svg";
 
 interface Idea {
   id: number;
@@ -54,7 +55,9 @@ const MyIdeasPage = () => {
     <div className="p-4 flex flex-col items-center w-full gap-5">
       {ideas?.ideas?.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-          <div className="w-50 h-50 rounded-full bg-gray-300" />
+          <div className="w-50 h-50 rounded-full bg-[#E5E5E5] flex items-center justify-center">
+            <img src={SettingIcon} className="w-24 h-24" />
+          </div>
           <p className="text-xl font-semibold">아직 핵심 아이디어가 없어요</p>
           <p className="text-gray-600">
             풀이 기록 시<br />
