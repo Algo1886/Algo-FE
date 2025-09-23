@@ -25,7 +25,7 @@ function EditRecordPage() {
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
   const [codes, setCodes] = useState([
-    { code: "", language: "python", verdict: "pass" },
+    { code: "", language: "python", verdict: "success" },
   ]);
   const [steps, setSteps] = useState([{ text: "" }]);
   const [ideas, setIdeas] = useState("");

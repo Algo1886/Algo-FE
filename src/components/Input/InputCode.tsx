@@ -1,17 +1,17 @@
-import Button from "@components/Button"
-import CodeEditor from "@components/CodeEditor"
-import Dropdown from "@components/Dropdown"
-import ChipButton from "@components/Button/ChipButton"
-import { FaTrash, FaPlus } from "react-icons/fa"
-import { languageTypes } from "@constants/languageTypes"
+import Button from "@components/Button";
+import CodeEditor from "@components/CodeEditor";
+import Dropdown from "@components/Dropdown";
+import ChipButton from "@components/Button/ChipButton";
+import { FaTrash, FaPlus } from "react-icons/fa";
+import { languageTypes } from "@constants/languageTypes";
 
 interface InputCodeProps {
-  handleAdd: any
-  codes: any
-  setCodes: any
-  handleRemove: any
-  required?: boolean
-  showError?: boolean
+  handleAdd: any;
+  codes: any;
+  setCodes: any;
+  handleRemove: any;
+  required?: boolean;
+  showError?: boolean;
 }
 
 const InputCode = ({
@@ -25,7 +25,7 @@ const InputCode = ({
   const isError =
     required &&
     showError &&
-    (codes.length === 0 || codes.some((c: any) => !c.code.trim()))
+    (codes.length === 0 || codes.some((c: any) => !c.code.trim()));
 
   return (
     <div className="flex flex-col gap-1">
@@ -39,7 +39,7 @@ const InputCode = ({
             handleAdd(setCodes, codes, {
               code: "",
               language: "python",
-              verdict: "pass",
+              verdict: "success",
             })
           }
         >
@@ -69,11 +69,11 @@ const InputCode = ({
                 코드 {idx + 1}
               </label>
               <ChipButton
-                selected={c.verdict === "pass"}
+                selected={c.verdict === "success"}
                 onClick={() => {
-                  const newCodes = [...codes]
-                  newCodes[idx].verdict = "pass"
-                  setCodes(newCodes)
+                  const newCodes = [...codes];
+                  newCodes[idx].verdict = "success";
+                  setCodes(newCodes);
                 }}
               >
                 성공
@@ -81,9 +81,9 @@ const InputCode = ({
               <ChipButton
                 selected={c.verdict === "fail"}
                 onClick={() => {
-                  const newCodes = [...codes]
-                  newCodes[idx].verdict = "fail"
-                  setCodes(newCodes)
+                  const newCodes = [...codes];
+                  newCodes[idx].verdict = "fail";
+                  setCodes(newCodes);
                 }}
               >
                 실패
@@ -94,9 +94,9 @@ const InputCode = ({
                 options={languageTypes.map((lang) => lang.label)}
                 selected={c.language}
                 onChange={(e) => {
-                  const newCodes = [...codes]
-                  newCodes[idx].language = e
-                  setCodes(newCodes)
+                  const newCodes = [...codes];
+                  newCodes[idx].language = e;
+                  setCodes(newCodes);
                 }}
               />
               {idx > 0 && (
@@ -113,15 +113,15 @@ const InputCode = ({
             value={c.code}
             language={c.language}
             onChange={(newCode) => {
-              const newCodes = [...codes]
-              newCodes[idx].code = newCode
-              setCodes(newCodes)
+              const newCodes = [...codes];
+              newCodes[idx].code = newCode;
+              setCodes(newCodes);
             }}
           />
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default InputCode
+export default InputCode;
