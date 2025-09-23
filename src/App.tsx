@@ -21,13 +21,16 @@ import { AmplitudeProvider } from "react-amplitude-provider";
 import PageTracker from "@components/Analytics/PageTracker";
 
 function App() {
+  const isProd =
+    typeof window !== "undefined" &&
+    window.location.hostname === "algo-fe-five.vercel.app";
   return (
     <AmplitudeProvider
       apiKey="15ff9515f122b93f1d910f7f063e5d82"
-      isTrackingEnabled={true}
+      isTrackingEnabled={isProd}
     >
       <AuthProvider>
-        <PageTracker />
+        {isProd && <PageTracker />}
         <Routes>
           <Route path="/" element={<LayoutWithHeader />}>
             <Route index element={<MainPage />} />
