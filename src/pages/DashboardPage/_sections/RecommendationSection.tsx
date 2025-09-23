@@ -2,12 +2,18 @@ import DefaultListBox from "@components/ListBox";
 import PreviewCard from "@components/PreviewCard";
 import RightChevron from "@assets/RightChevron.svg";
 import { type Recommendation } from "@api/dashboard";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   recommendations: Recommendation[];
 }
 
 const RecommendationSection: React.FC<Props> = ({ recommendations }) => {
+  const navigate = useNavigate();
+  const handleClickRec = (rec: Recommendation) => {
+    console.log("추천 복습 기록 클릭:", rec);
+    navigate(`/read/${rec.id}?isReviewing=true`);
+  };
   return (
     <div className="col-span-2">
       <DefaultListBox
@@ -17,7 +23,7 @@ const RecommendationSection: React.FC<Props> = ({ recommendations }) => {
               추천 복습 기록
             </div>
             <a
-              href="/recommended"
+              href="/my-recommend"
               className="flex flex-row gap-1 items-center text-sm text-[#45556C] cursor-pointer"
             >
               전체보기
@@ -33,12 +39,18 @@ const RecommendationSection: React.FC<Props> = ({ recommendations }) => {
             </div>
           ) : (
             recommendations.map((rec) => (
-              <PreviewCard
+              <span
+                role="button"
                 key={rec.id}
-                type={rec.categories[0] || "기타"}
-                title={rec.title}
-                date={rec.reviewDate}
-              />
+                className="cursor-pointer"
+                onClick={() => handleClickRec(rec)}
+              >
+                <PreviewCard
+                  type={rec.categories[0] || "기타"}
+                  title={rec.title}
+                  date={rec.reviewDate}
+                />
+              </span>
             ))
           )}
         </div>

@@ -2,12 +2,19 @@ import DefaultListBox from "@components/ListBox";
 import PreviewCard from "@components/PreviewCard";
 import RightChevron from "@assets/RightChevron.svg";
 import { type RecentIdea } from "@api/dashboard";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   recentIdeas: RecentIdea[];
 }
 
 const IdeaSection: React.FC<Props> = ({ recentIdeas }) => {
+  const navigate = useNavigate();
+
+  const handleClickIdea = (idea: RecentIdea) => {
+    // console.log("idea", idea);
+    navigate(`/read/${idea.recordId}`);
+  };
   return (
     <div className="col-span-2">
       <DefaultListBox
@@ -33,12 +40,18 @@ const IdeaSection: React.FC<Props> = ({ recentIdeas }) => {
             </div>
           ) : (
             recentIdeas.map((idea) => (
-              <PreviewCard
+              <span
                 key={idea.id}
-                type={idea.categories[0] || "기타"}
-                title={idea.content || idea.problemTitle}
-                date={idea.createdAt}
-              />
+                className="cursor-pointer"
+                role="button"
+                onClick={() => handleClickIdea(idea)}
+              >
+                <PreviewCard
+                  type={idea.categories[0] || "기타"}
+                  title={idea.content || idea.problemTitle}
+                  date={idea.createdAt}
+                />
+              </span>
             ))
           )}
         </div>
