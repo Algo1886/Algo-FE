@@ -1,4 +1,3 @@
-// MyIdeasPage.tsx
 import { useEffect, useState } from "react";
 import IdeaTable from "@components/IdeaTable";
 import Pagination from "@components/Pagination";
@@ -30,6 +29,7 @@ const MyIdeasPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const keyword = searchParams.get("keyword") || "";
 
   const [ideas, setIdeas] = useState<IdeaResponse>();
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,8 @@ const MyIdeasPage = () => {
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        const res = await fetchUserIdeas();
+        const category = keyword || undefined;
+        const res = await fetchUserIdeas(category);
         setIdeas(res.data);
       } catch (err) {
         console.error("아이디어 불러오기 실패:", err);
@@ -47,7 +48,7 @@ const MyIdeasPage = () => {
     };
 
     fetchIdeas();
-  }, [currentPage]);
+  }, [currentPage, keyword]);
 
   if (loading) return <Loading />;
 
