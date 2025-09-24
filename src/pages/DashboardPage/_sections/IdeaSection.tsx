@@ -3,6 +3,7 @@ import PreviewCard from "@components/PreviewCard";
 import RightChevron from "@assets/RightChevron.svg";
 import { type RecentIdea } from "@api/dashboard";
 import { useNavigate } from "react-router-dom";
+import { getCategoryKoreanName } from "@utils/category";
 
 interface Props {
   recentIdeas: RecentIdea[];
@@ -47,9 +48,9 @@ const IdeaSection: React.FC<Props> = ({ recentIdeas }) => {
                 onClick={() => handleClickIdea(idea)}
               >
                 <PreviewCard
-                  type={idea.categories[0] || "기타"}
+                  type={getCategoryKoreanName(idea.categories[0]) || "기타"}
                   title={idea.content || idea.problemTitle}
-                  date={idea.createdAt}
+                  date={idea.createdAt.replaceAll(".", "/")}
                 />
               </span>
             ))

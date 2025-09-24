@@ -3,6 +3,7 @@ import PreviewCard from "@components/PreviewCard";
 import RightChevron from "@assets/RightChevron.svg";
 import { type Recommendation } from "@api/dashboard";
 import { useNavigate } from "react-router-dom";
+import { getCategoryKoreanName } from "@utils/category";
 
 interface Props {
   recommendations: Recommendation[];
@@ -46,9 +47,9 @@ const RecommendationSection: React.FC<Props> = ({ recommendations }) => {
                 onClick={() => handleClickRec(rec)}
               >
                 <PreviewCard
-                  type={rec.categories[0] || "기타"}
+                  type={getCategoryKoreanName(rec.categories[0]) || "기타"}
                   title={rec.title}
-                  date={rec.reviewDate}
+                  date={rec.createdAt.replaceAll(".", "/")}
                 />
               </span>
             ))
