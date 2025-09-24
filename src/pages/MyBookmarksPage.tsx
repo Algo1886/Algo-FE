@@ -5,38 +5,44 @@ import Button from "@components/Button";
 import type { Record, RecordResponse } from "types/record";
 import Pagination from "@components/Pagination";
 import BookmarkIcon from "@assets/BookmarkIcon.svg";
+import { useLocation } from "react-router-dom";
 
 const MyBookmarksPage = () => {
   const [records, setRecords] = useState<RecordResponse>();
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const keyword = searchParams.get("keyword") || "";
+
+  const loadRecords = async () => {
+    try {
+      const category = keyword ?? undefined;
+      const res = await fetchBookmarks(category);
+      const r = res.data.bookmarks;
+      const mapped: Record[] = r.map((r: any) => ({
+        id: r.id,
+        type: r.categories[0],
+        site: r.source,
+        title: r.title,
+        author: r.author,
+        date: r.createdAt.slice(0, 10),
+      }));
+      setRecords({
+        records: mapped,
+        page: res.data.page,
+        size: res.data.size,
+        totalElements: res.data.totalElements,
+        totalPages: res.data.totalPages,
+        first: res.data.first,
+        last: res.data.last,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   useEffect(() => {
-    const loadRecords = async () => {
-      try {
-        const res = await fetchBookmarks();
-        const r = res.data.bookmarks;
-        const mapped: Record[] = r.map((r: any) => ({
-          id: r.id,
-          type: r.categories[0],
-          site: r.source,
-          title: r.title,
-          author: r.author,
-          date: r.createdAt.slice(0, 10),
-        }));
-        setRecords({
-          records: mapped,
-          page: res.data.page,
-          size: res.data.size,
-          totalElements: res.data.totalElements,
-          totalPages: res.data.totalPages,
-          first: res.data.first,
-          last: res.data.last,
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    };
     loadRecords();
-  }, []);
+  }, [keyword]);
 
   return (
     <div className="flex flex-col items-center w-full p-5 gap-5">

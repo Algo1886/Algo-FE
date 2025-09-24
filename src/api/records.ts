@@ -27,8 +27,10 @@ export const fetchRecordById = async (id: number) => {
   return res.data;
 };
 
-export const fetchBookmarks = async () => {
-  const res = await api.get("/bookmarks");
+export const fetchBookmarks = async (category: string) => {
+  const res = await api.get("/bookmarks", {
+    params: { category },
+  });
   return res.data;
 };
 

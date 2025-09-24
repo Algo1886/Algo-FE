@@ -17,11 +17,13 @@ const MyRecordPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const page = Number(searchParams.get("page")) || 1;
+  const keyword = searchParams.get("keyword") || "";
 
-  const loadRecords = async (page: number) => {
+  const loadRecords = async (page: number, keyword?: string) => {
     setLoading(true);
     try {
-      const res = await fetchUserRecords(page, size);
+      const category = keyword ?? undefined;
+      const res = await fetchUserRecords(page, size, category);
       const r = res.data.records;
       const mapped: Record[] = r.map((r: any) => ({
         id: r.id,
@@ -42,14 +44,23 @@ const MyRecordPage = () => {
       });
     } catch (err) {
       console.error(err);
+      setRecords({
+        records: [],
+        page: 1,
+        size,
+        totalElements: 0,
+        totalPages: 0,
+        first: true,
+        last: true,
+      });
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadRecords(page);
-  }, [page]);
+    loadRecords(page, keyword || undefined);
+  }, [page, keyword]);
 
   return (
     <div className="flex flex-col items-center w-full p-5 gap-5">

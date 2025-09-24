@@ -12,15 +12,20 @@ interface Idea {
 
 interface IdeaRowProps {
   idea: Idea;
+  isLast: boolean;
 }
 
-const IdeaRow = ({ idea }: IdeaRowProps) => {
+const IdeaRow = ({ idea, isLast }: IdeaRowProps) => {
   const navigate = useNavigate();
   const handleClickProblem = () => {
     navigate(`/read/${idea.recordId}`);
   };
   return (
-    <div className="bg-white grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm px-4">
+    <div
+      className={`bg-white grid grid-cols-11 items-center border-t border-t-gray-200 py-4 p-2 hover:bg-gray-50 text-sm px-4 ${
+        isLast && "rounded-b-xl"
+      }`}
+    >
       {/* 문제 제목 */}
       <div
         role="button"

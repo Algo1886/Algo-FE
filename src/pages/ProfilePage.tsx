@@ -114,7 +114,7 @@ function ProfilePage() {
 
   return (
     <div className="w-full flex flex-col gap-6 p-6 bg-[#F8FAFC]">
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+      <div className="bg-white rounded-xl border border-gray-200 p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">프로필 정보</h2>
           {!isEditing ? (
@@ -177,17 +177,17 @@ function ProfilePage() {
       <StatsCards stats={stats || {}} />
 
       <div className="w-full flex items-start">
-        <Button
+        {/* <Button
           theme="light"
           onClick={onLogout}
           className="mr-2 border border-gray-300"
         >
           로그아웃
-        </Button>
+        </Button> */}
         <Button
           theme="light"
           onClick={onDelete}
-          className="border border-gray-300 text-red-600"
+          className="border border-[#E5E5E5] bg-white font-medium"
         >
           회원탈퇴
         </Button>

@@ -20,7 +20,7 @@ const Card = ({
   textColor,
 }: CardProps) => {
   return (
-    <div className="flex flex-col items-start justify-center gap-3 p-4 bg-white rounded-xl shadow border border-gray-100 aspect-[300/130]">
+    <div className="flex flex-col items-start justify-center gap-3 p-4 bg-white rounded-xl border border-gray-200 aspect-[300/130]">
       <div className="gap-3 flex flex-row items-center">
         <div
           className={`w-9 h-9 rounded-md flex items-center justify-center text-lg ${
@@ -36,7 +36,7 @@ const Card = ({
           </span>
           <span
             style={{ color: textColor || "black" }}
-            className="font-semibold text-lg"
+            className="font-bold text-2xl"
           >
             {value}
           </span>
@@ -63,9 +63,11 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
 
   const ideaCount = stats?.ideas?.totalCount || 0;
   const topIdeaType = stats?.ideas?.topCategory?.name || "";
+  const topIdeaTypeRatio = stats?.ideas?.topCategory?.ratio || 0;
 
   const topCategory = stats?.categories?.mostSolvedCategory?.name || "";
   const topCategoryCount = stats?.categories?.mostSolvedCategory?.count || 0;
+  const topCategoryRate = stats?.categories?.mostSolvedCategory?.ratio || 0;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -210,7 +212,13 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
       <Card
         title="핵심 아이디어"
         value={`${ideaCount}개`}
-        tag={topIdeaType ? `가장 많은 유형: ${topIdeaType}` : undefined}
+        tag={
+          topIdeaType
+            ? `가장 아이디어 많은 유형: ${topIdeaType} (${Number(
+                topIdeaTypeRatio
+              ).toFixed(1)}%)`
+            : undefined
+        }
         iconBg="bg-indigo-100"
         textColor="#4F39F6"
         iconEmoji={
@@ -241,7 +249,7 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
       <Card
         title="가장 많이 기록한 유형"
         value={topCategory || "-"}
-        tag={`${topCategoryCount}문제`}
+        tag={`${topCategoryCount}문제 (${topCategoryRate}%)`}
         iconBg="bg-yellow-100"
         textColor="#E17100"
         iconEmoji={

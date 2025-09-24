@@ -23,10 +23,7 @@ export const updateUserImage = async (file: File) => {
   const formData = new FormData();
   formData.append("image", file);
 
-  // for (const x of formData.entries()) {
-  //   console.log(x);
-  // }
-  const res = await api.post("/users/me/image", formData, {
+  const res = await api.post("/images", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -40,8 +37,14 @@ export const deleteUserAccount = async () => {
   return res.data;
 };
 
-export const fetchUserRecords = async (page: number = 1, size: number = 12) => {
-  const res = await api.get("/users/me/records", { params: { page, size } });
+export const fetchUserRecords = async (
+  page: number = 1,
+  size: number = 12,
+  category?: string
+) => {
+  const res = await api.get("/users/me/records", {
+    params: { page, size, category },
+  });
   return res.data;
 };
 
@@ -51,8 +54,10 @@ export const fetchUserDrafts = async () => {
   return res.data;
 };
 
-export const fetchUserIdeas = async () => {
-  const res = await api.get("/users/me/ideas");
+export const fetchUserIdeas = async (category?: string) => {
+  const res = await api.get("/users/me/ideas", {
+    params: { category },
+  });
   return res.data;
 };
 

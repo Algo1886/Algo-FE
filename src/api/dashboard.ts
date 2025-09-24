@@ -6,7 +6,7 @@ export interface Recommendation {
   id: number;
   title: string;
   categories: string[];
-  reviewDate: string;
+  createdAt: string;
   priority: Priority;
 }
 
