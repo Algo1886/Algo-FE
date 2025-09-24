@@ -50,7 +50,6 @@ function App() {
               <Route path="my-bookmarks" element={<MyBookmarksPage />} />
               <Route path="my-profile" element={<ProfilePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
             </Route>
           </Route>
         </Routes>

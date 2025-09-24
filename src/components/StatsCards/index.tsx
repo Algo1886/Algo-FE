@@ -62,7 +62,7 @@ const StatsCards = ({ stats }: StatsCardsProps) => {
   const bookmarkDelta = stats?.bookmarks?.thisWeekCount || 0;
 
   const ideaCount = stats?.ideas?.totalCount || 0;
-  const topIdeaType = stats?.ideas?.topCategory.name || "";
+  const topIdeaType = stats?.ideas?.topCategory?.name || "";
 
   const topCategory = stats?.categories?.mostSolvedCategory?.name || "";
   const topCategoryCount = stats?.categories?.mostSolvedCategory?.count || 0;
