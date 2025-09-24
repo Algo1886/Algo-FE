@@ -26,7 +26,7 @@ function App() {
     window.location.hostname === "algo-fe-five.vercel.app";
   return (
     <AmplitudeProvider
-      apiKey="15ff9515f122b93f1d910f7f063e5d82"
+      apiKey="20c27ab00f81358951cc8725ef6401c3"
       isTrackingEnabled={false}
     >
       <AuthProvider>
