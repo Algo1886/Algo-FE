@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import StatsCards from "@components/StatsCards";
 import EditButtonSvg from "@assets/EditButton.svg";
 import PencilIcon from "@assets/PencilIcon.svg";
+import { useAuth } from "@contexts/AuthContext";
 
 const EditButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -27,11 +28,11 @@ const EditButton = ({ onClick }: { onClick: () => void }) => {
 };
 
 function ProfilePage() {
-  const [profile, setProfile] = useState<any>(null);
   const [stats, setStats] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,7 +41,6 @@ function ProfilePage() {
     const init = async () => {
       try {
         const p = await fetchUserProfile();
-        setProfile(p.data);
         setUsername(p.data?.username || "");
         setAvatarUrl(p.data?.avatarUrl || "");
         const s = await fetchUserStats();
@@ -60,7 +60,13 @@ function ProfilePage() {
     input.onchange = async (event: any) => {
       const file = event.target.files?.[0];
       if (file) {
-        await updateUserImage(file);
+        await updateUserImage(file)
+          .then((res) => {
+            setAvatarUrl(res.data.url);
+          })
+          .catch((err) => {
+            throw err;
+          });
       }
     };
 
@@ -93,7 +99,7 @@ function ProfilePage() {
   const onSave = async () => {
     try {
       const res = await updateUserData({ username, avatarUrl });
-      setProfile(res.data);
+      setUser(res.data);
       setIsEditing(false);
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
@@ -156,7 +162,7 @@ function ProfilePage() {
                 <img
                   src={PencilIcon}
                   alt="프로필 이미지 편집 아이콘"
-                  className="w-6 h-6 -mt-5 ml-10 bg-white rounded-full border border-gray-200 p-1 cursor-pointer"
+                  className="relative w-6 h-6 -mt-5 ml-10 z-10 bg-white rounded-full border border-gray-200 p-1 cursor-pointer"
                 />
               </span>
 
