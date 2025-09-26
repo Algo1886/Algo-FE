@@ -33,7 +33,6 @@ function EditRecordPage() {
   const [loading, setLoading] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
-  const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
     const loadRecord = async () => {
@@ -85,7 +84,6 @@ function EditRecordPage() {
     if (difficulty <= 0) return false;
     if (!codes.some((c) => c.code.trim())) return false;
     if (!steps.some((s) => s.text.trim())) return false;
-    if (categoryError) return false;
     return true;
   };
 
@@ -206,8 +204,6 @@ function EditRecordPage() {
       setTitle={setTitle}
       categories={categories}
       setCategories={setCategories}
-      categoryError={categoryError}
-      setCategoryError={setCategoryError}
       status={status}
       setStatus={setStatus}
       difficulty={difficulty}
