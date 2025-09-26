@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react"
+import { useNavigate } from "react-router-dom"
+import { fetchRecords } from "@api/records"
 import RecordCard from "@components/RecordCard"
 import SearchBar from "@components/SearchBar"
-import { fetchRecords } from "@api/records"
-import { useNavigate } from "react-router-dom"
 import Dropdown from "@components/Dropdown"
 import Loading from "@components/Loading"
 
@@ -16,14 +16,14 @@ interface Record {
 }
 
 const MainPage = () => {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const [records, setRecords] = useState<Record[]>([])
   const [filter, setFilter] = useState("제목")
   const [sort, setSort] = useState("최신순")
   const [keyword, setKeyword] = useState("")
-  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const navigate = useNavigate()
   const containerRef = useRef<HTMLDivElement>(null)
 
   const handleSearch = () => {

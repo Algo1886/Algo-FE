@@ -25,7 +25,6 @@ function CreateRecordPage() {
   const [links, setLinks] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
-  const [categoryError, setCategoryError] = useState(false);
 
   const handleAdd = (setter: any, arr: any[], newItem: any) =>
     setter([...arr, newItem]);
@@ -39,7 +38,6 @@ function CreateRecordPage() {
     if (difficulty <= 0) return false;
     if (!codes.some((c) => c.code.trim())) return false;
     if (!steps.some((s) => s.text.trim())) return false;
-    if (categoryError) return false;
     return true;
   };
 
@@ -121,6 +119,10 @@ function CreateRecordPage() {
     setLoading(false);
   }, [problemUrl]);
 
+  useEffect(() => {
+    console.log(categories)
+  }, [categories])
+
   return !loading ? (
     <RecordForm
       problemUrl={problemUrl}
@@ -128,8 +130,6 @@ function CreateRecordPage() {
       title={title}
       setTitle={setTitle}
       categories={categories}
-      categoryError={categoryError}
-      setCategoryError={setCategoryError}
       setCategories={setCategories}
       status={status}
       setStatus={setStatus}

@@ -4,7 +4,8 @@ import InputBox from "@components/Input/InputBox";
 import InputCode from "@components/Input/InputCode";
 import InputStep from "@components/Input/InputStep";
 import Dropdown from "@components/Dropdown";
-import CategoryDropdown from "@components/Dropdown/CategoryDropdown";
+import CategoryAutocomplete from "@components/Dropdown/CategoryAutocomplete";
+
 import DifficultySelector from "@components/DifficultySelector";
 import { problemTypes } from "@constants/problemTypes";
 
@@ -15,8 +16,6 @@ interface RecordFormProps {
   setTitle: Dispatch<SetStateAction<string>>;
   categories: string;
   setCategories: Dispatch<SetStateAction<string>>;
-  categoryError: boolean;
-  setCategoryError: Dispatch<SetStateAction<boolean>>;
   status: "success" | "fail";
   setStatus: Dispatch<SetStateAction<"success" | "fail">>;
   difficulty: number;
@@ -44,8 +43,6 @@ export default function RecordForm({
   setTitle,
   categories,
   setCategories,
-  categoryError,
-  setCategoryError,
   status,
   setStatus,
   difficulty,
@@ -83,16 +80,13 @@ export default function RecordForm({
         required
         showError={isSubmitAttempted}
       />
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4">
         <div className="flex flex-col gap-1">
-          <CategoryDropdown
+          <CategoryAutocomplete
             categories={problemTypes}
             selected={categories}
             onChange={setCategories}
-            categoryError={categoryError}
-            setCategoryError={setCategoryError}
-            required
-            showError={isSubmitAttempted}
+            isSubmitAttempted={isSubmitAttempted}
           />
         </div>
         <div className="flex flex-col gap-1">
