@@ -1,13 +1,14 @@
-import { type Dispatch, type SetStateAction } from "react"
-import clsx from "clsx"
+import { type Dispatch, type SetStateAction } from "react";
+import clsx from "clsx";
 
 interface InputLineProps {
-  label: string
-  value: string
-  setValue: Dispatch<SetStateAction<string>>
-  placeholder: string
-  required?: boolean
-  showError?: boolean // 기록하기 눌렀을 때 에러 표시용
+  label: string;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
+  placeholder: string;
+  required?: boolean;
+  showError?: boolean; // 기록하기 눌렀을 때 에러 표시용
+  additionalText?: string;
 }
 
 const InputLine = ({
@@ -17,8 +18,9 @@ const InputLine = ({
   placeholder,
   required = false,
   showError = false,
+  additionalText,
 }: InputLineProps) => {
-  const isError = required && showError && !value.trim()
+  const isError = required && showError && !value.trim();
 
   return (
     <div className="flex flex-col gap-2">
@@ -36,9 +38,14 @@ const InputLine = ({
           isError ? "border-red-500" : "border-gray-200"
         )}
       />
-      {isError && <span className="text-red-500 text-sm">필수 입력 항목입니다</span>}
+      {additionalText && (
+        <span className="text-[#62748E] text-sm">{additionalText}</span>
+      )}
+      {isError && (
+        <span className="text-red-500 text-sm">필수 입력 항목입니다</span>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default InputLine
+export default InputLine;
