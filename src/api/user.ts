@@ -40,10 +40,10 @@ export const deleteUserAccount = async () => {
 export const fetchUserRecords = async (
   page: number = 1,
   size: number = 12,
-  category?: string
+  categoryId?: string
 ) => {
   const res = await api.get("/users/me/records", {
-    params: { page, size, category },
+    params: { page, size, categoryId },
   });
   return res.data;
 };
@@ -54,9 +54,9 @@ export const fetchUserDrafts = async () => {
   return res.data;
 };
 
-export const fetchUserIdeas = async (category?: string) => {
+export const fetchUserIdeas = async (categoryId?: string) => {
   const res = await api.get("/users/me/ideas", {
-    params: { category },
+    params: { categoryId },
   });
   return res.data;
 };

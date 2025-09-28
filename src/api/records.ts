@@ -4,7 +4,7 @@ export interface FetchRecordsParams {
   page?: number;
   size?: number;
   sort?: "LATEST" | "POPULAR";
-  category?: string;
+  categoryId?: string;
   search?: string;
   author?: string;
   startDate?: string;
@@ -27,9 +27,9 @@ export const fetchRecordById = async (id: number) => {
   return res.data;
 };
 
-export const fetchBookmarks = async (category: string) => {
+export const fetchBookmarks = async (categoryId: string) => {
   const res = await api.get("/bookmarks", {
-    params: { category },
+    params: { categoryId },
   });
   return res.data;
 };
@@ -69,5 +69,10 @@ export const fetchProblemTitle = async (url: string) => {
 export const postReviewComplete = async (recordId: string) => {
   // /api/users/me/reviews/{recordId}
   const res = await api.post(`/users/me/reviews/${recordId}`);
+  return res.data;
+};
+
+export const fetchCategories = async () => {
+  const res = await api.get("/records/categories");
   return res.data;
 };

@@ -23,7 +23,9 @@ interface RecordFormProps {
   detail: string;
   setDetail: Dispatch<SetStateAction<string>>;
   codes: { code: string; language: string; verdict: string }[];
-  setCodes: Dispatch<SetStateAction<{ code: string; language: string; verdict: string }[]>>;
+  setCodes: Dispatch<
+    SetStateAction<{ code: string; language: string; verdict: string }[]>
+  >;
   steps: { text: string }[];
   setSteps: Dispatch<SetStateAction<{ text: string }[]>>;
   ideas: string;
@@ -71,6 +73,7 @@ export default function RecordForm({
         placeholder="문제 URL을 입력하세요"
         required
         showError={isSubmitAttempted}
+        additionalText="백준/프로그래머스 문제는 자동으로 문제 제목이 입력됩니다."
       />
       <InputLine
         label="문제 제목"
@@ -143,9 +146,7 @@ export default function RecordForm({
         setValue={setLinks}
         placeholder="참고한 다른 기록을 입력하세요"
       />
-      <div className="flex gap-3 justify-end">
-        {buttons}
-      </div>
+      <div className="flex gap-3 justify-end">{buttons}</div>
     </div>
   );
 }
