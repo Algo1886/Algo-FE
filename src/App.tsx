@@ -13,6 +13,7 @@ import ProfilePage from "@pages/ProfilePage";
 import KakaoLoginPage from "@pages/KakaoLoginPage";
 import GithubLoginPage from "@pages/GithubLoginPage";
 import LayoutWithHeader from "@components/Layout/layoutWithHeader";
+import LayoutWithFooter from "@components/Layout/layoutWithFooter";
 import { AuthProvider } from "@contexts/AuthContext";
 import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
 import MyDraftsPage from "@pages/MyDraftsPage";
@@ -33,12 +34,14 @@ function App() {
         {isProd && <PageTracker />}
         <Routes>
           <Route path="/" element={<LayoutWithHeader />}>
-            <Route index element={<MainPage />} />
-            <Route path="search-result" element={<SearchRecordPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="login/kakao" element={<KakaoLoginPage />} />
-            <Route path="login/github" element={<GithubLoginPage />} />
-            <Route path="read/:id" element={<ReadRecordPage />} />
+            <Route element={<LayoutWithFooter />}>
+              <Route index element={<MainPage />} />
+              <Route path="search-result" element={<SearchRecordPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="login/kakao" element={<KakaoLoginPage />} />
+              <Route path="login/github" element={<GithubLoginPage />} />
+              <Route path="read/:id" element={<ReadRecordPage />} />
+            </Route>
             <Route element={<LayoutWithSidebar />}>
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="record/create" element={<CreateRecordPage />} />
