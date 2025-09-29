@@ -13,6 +13,7 @@ interface RecordFormProps {
   setProblemUrl: Dispatch<SetStateAction<string>>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
+  titleLoading: boolean;
   categories: number;
   setCategories: Dispatch<SetStateAction<number>>;
   status: "success" | "fail";
@@ -42,6 +43,7 @@ export default function RecordForm({
   setProblemUrl,
   title,
   setTitle,
+  titleLoading,
   categories,
   setCategories,
   status,
@@ -87,6 +89,7 @@ export default function RecordForm({
         placeholder="문제 제목을 입력하세요"
         required
         showError={isSubmitAttempted}
+        titleLoading={titleLoading}
       />
       <div className="flex gap-4">
         <div className="flex flex-col gap-1">

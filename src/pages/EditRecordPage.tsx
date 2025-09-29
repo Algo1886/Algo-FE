@@ -31,6 +31,7 @@ function EditRecordPage() {
   const [ideas, setIdeas] = useState("");
   const [links, setLinks] = useState("");
   const [loading, setLoading] = useState(false);
+  const [titleLoading, setTitleLoading] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
 
@@ -66,16 +67,19 @@ function EditRecordPage() {
 
   useEffect(() => {
     const loadProblemInfo = async () => {
+      if (!problemUrl) return
+      setTitleLoading(true)
       try {
-        const res = await fetchProblemTitle(problemUrl);
-        console.log(res);
-        setTitle(res.title);
+        const res = await fetchProblemTitle(problemUrl)
+        setTitle(res.title)
       } catch (e) {
-        console.error(e);
+        console.error(e)
+      } finally {
+        setTitleLoading(false)
       }
-    };
-    if (problemUrl) loadProblemInfo();
-  }, [problemUrl]);
+    }
+    loadProblemInfo()
+  }, [problemUrl])
 
   const validateRequired = () => {
     if (!problemUrl.trim()) return false;
@@ -202,6 +206,7 @@ function EditRecordPage() {
       setProblemUrl={setProblemUrl}
       title={title}
       setTitle={setTitle}
+      titleLoading={titleLoading}
       categories={categories}
       setCategories={setCategories}
       status={status}
