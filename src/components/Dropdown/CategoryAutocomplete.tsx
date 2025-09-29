@@ -3,14 +3,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 interface Category {
-  label: string;
-  value: string;
+  id: number;
+  name: string;
 }
 
 interface CategoryAutocompleteProps {
   categories: Category[];
-  selected: string;
-  onChange: (value: string) => void;
+  selected: number;
+  onChange: (value: number) => void;
   isSubmitAttempted: boolean;
 }
 
@@ -21,10 +21,6 @@ const CategoryAutocomplete: React.FC<CategoryAutocompleteProps> = ({
   isSubmitAttempted,
 }) => {
   const [inputValue, setInputValue] = React.useState("");
-  const filteredOptions = categories.filter(cat => {
-    const label = cat.label.toLowerCase();
-    return label
-  });
 
   return (
     <div className="flex flex-col gap-1" >
@@ -32,16 +28,16 @@ const CategoryAutocomplete: React.FC<CategoryAutocompleteProps> = ({
         문제 유형 <span className="text-blue-500">*</span>
       </label>
       <Autocomplete
-  value={categories.find(c => c.value === selected) || null}
+  value={categories.find(c => c.id === selected) || null}
   onChange={(_event, newValue) => {
-    if (newValue) onChange(newValue.value)
-    else onChange("")
+    if (newValue) onChange(newValue.id)
+    else onChange(0)
   }}
   inputValue={inputValue}
   onInputChange={(_event, newInputValue) => setInputValue(newInputValue)}
-  options={filteredOptions}
-  getOptionLabel={(option) => option.label}
-  isOptionEqualToValue={(option, value) => option.value === value.value}
+  options={categories}
+  getOptionLabel={(option) => option.name}
+  isOptionEqualToValue={(option, value) => option.name === value.name}
   renderInput={(params) => (
     <TextField
       {...params}

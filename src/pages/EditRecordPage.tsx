@@ -20,7 +20,7 @@ function EditRecordPage() {
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState(0);
   const [status, setStatus] = useState<"success" | "fail">("success");
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
@@ -80,7 +80,7 @@ function EditRecordPage() {
   const validateRequired = () => {
     if (!problemUrl.trim()) return false;
     if (!title.trim()) return false;
-    if (!categories.trim()) return false;
+    if (!categories) return false;
     if (difficulty <= 0) return false;
     if (!codes.some((c) => c.code.trim())) return false;
     if (!steps.some((s) => s.text.trim())) return false;
@@ -103,7 +103,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         customTitle: title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categories: [categories],
         status,
         difficulty,
         detail,
@@ -138,7 +138,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categories: [categories],
         status,
         difficulty,
         detail,
@@ -174,7 +174,7 @@ function EditRecordPage() {
       await createRecord({
         problemUrl,
         title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categories: [categories],
         status,
         difficulty,
         detail,

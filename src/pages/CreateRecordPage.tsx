@@ -13,7 +13,7 @@ function CreateRecordPage() {
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState(0);
   const [status, setStatus] = useState<"success" | "fail">("success");
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
@@ -34,7 +34,7 @@ function CreateRecordPage() {
   const validateRequired = () => {
     if (!problemUrl.trim()) return false;
     if (!title.trim()) return false;
-    if (!categories.trim()) return false;
+    if (!categories) return false;
     if (difficulty <= 0) return false;
     if (!codes.some((c) => c.code.trim())) return false;
     if (!steps.some((s) => s.text.trim())) return false;
@@ -53,7 +53,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         customTitle: title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
@@ -81,7 +81,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
