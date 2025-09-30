@@ -1,8 +1,8 @@
-// ProfileDropdown.tsx
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@contexts/AuthContext";
 import { requestLogout } from "@api/auth";
+import { useConfirm } from "@contexts/ConfirmContext";
 
 interface ProfileDropdownProps {
   avatarUrl?: string;
@@ -15,6 +15,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ avatarUrl }) => {
   const { refreshToken, logout } = useAuth();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const defaultAvatar = "https://www.gravatar.com/avatar/"; // TODO: default 이미지 주소로 변경
+  const { confirm } = useConfirm();
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -40,6 +41,8 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ avatarUrl }) => {
     {
       label: "로그아웃",
       action: async () => {
+        const result = await confirm({ title: "로그아웃", detail: "로그아웃 하시겠습니까?"});
+        if (!result) return;
         if (refreshToken) {
           try {
             await requestLogout(refreshToken);
@@ -49,7 +52,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ avatarUrl }) => {
         }
         logout();
       },
-    },
+    }
   ];
 
   return (

@@ -3,7 +3,6 @@ import LinkIconSvg from "@assets/LinkIcon.svg";
 import UserIcon from "@assets/UserIcon.svg";
 import ClockIcon from "@assets/ClockIcon.svg";
 import { formatDate } from "./_formatDate";
-import { problemTypes } from "@constants/problemTypes";
 import Button from "@components/Button";
 import SuccessIcon from "@assets/SuccessIcon.svg";
 import FailIcon from "@assets/FailIcon.svg";
@@ -52,11 +51,7 @@ const HeaderListBox = ({
   const navigate = useNavigate();
   const { user: myProfile } = useAuth();
   const amplitude = useAmplitude();
-
   const isEditable = myProfile?.username === user;
-
-  const categoryLabel =
-    problemTypes.find((pt) => pt.value === category)?.label || category;
 
   const handleClickReviewComplete = async () => {
     await postReviewComplete(id).then(() => {
@@ -93,10 +88,10 @@ const HeaderListBox = ({
           <div className="flex justify-between flex-row items-center gap-2">
             <button
               className="cursor-pointer"
-              onClick={() => handleClickCategoryChip(categoryLabel)}
+              onClick={() => handleClickCategoryChip(category)}
             >
               <ProblemChip
-                label={categoryLabel}
+                label={category}
                 bgColor="blue"
                 textColor="blue"
               />

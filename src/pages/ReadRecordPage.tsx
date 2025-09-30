@@ -13,9 +13,10 @@ import { useAmplitude } from "react-amplitude-provider";
 import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import CodeEditor from "@components/CodeEditor";
 import Loading from "@components/Loading";
-import * as Toast from "@radix-ui/react-toast";
 import SuccessIcon from "@assets/SuccessIcon.svg";
 import FailIcon from "@assets/FailIcon.svg";
+import { useConfirm } from "@contexts/ConfirmContext";
+import { useToast } from "@contexts/ToastContext";
 
 interface RecordResponse {
   id: number;
@@ -52,11 +53,11 @@ interface RecordResponse {
 
 const ReadRecordPage = () => {
   const navigate = useNavigate();
+  const { confirm } = useConfirm();
   const amplitude = useAmplitude();
   const [record, setRecord] = useState<RecordResponse | null>(null);
   const { id } = useParams<{ id: string }>(); // URL에서 id 가져오기
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastOpen, setToastOpen] = useState(false);
+  const {showToast} = useToast()
 
   const isReviewing = new URLSearchParams(window.location.search).get(
     "isReviewing"
@@ -76,25 +77,41 @@ const ReadRecordPage = () => {
     loadRecord();
   }, [id]);
 
+  const handleDelete = async () => {
+    const ok = await confirm({
+      title: "기록 삭제",
+      detail: "기록을 삭제하시겠습니까?",
+      confirmButtonLabel: "삭제"
+    });
+  
+    if (ok && record) {
+      try {
+        await deleteRecordById(record.id);
+        showToast("게시물이 삭제되었습니다"); 
+        navigate(-1);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   const handleBookmarkToggle = async () => {
     if (!record) return;
     try {
       if (record.isBookmarked) {
         await deleteBookmarkById(record.id);
-        setToastMessage("북마크가 취소되었습니다!");
+        showToast("북마크가 취소되었습니다!");
       } else {
         await createBookmarkById(record.id);
-        setToastMessage("풀이가 북마크되었어요!");
+        showToast("풀이가 북마크되었어요!");
         trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Bookmark_Added, {
           recordId: record.id,
         });
       }
       setRecord({ ...record, isBookmarked: !record.isBookmarked });
-      setToastOpen(true);
     } catch (err) {
       console.error(err);
-      setToastMessage("북마크 변경에 실패했습니다");
-      setToastOpen(true);
+      showToast("북마크 변경에 실패했습니다");
     }
   };
 
@@ -120,10 +137,7 @@ const ReadRecordPage = () => {
           onBookmarkToggle={handleBookmarkToggle}
           {...(record.isOwner && {
             onEdit: () => navigate(`/record/edit/${record.id}`),
-            onDelete: async () => {
-              await deleteRecordById(record.id);
-              navigate(-1);
-            },
+            onDelete: handleDelete,
           })}
           isReviewing={isReviewing === "true"}
         />
@@ -192,38 +206,6 @@ const ReadRecordPage = () => {
             ))}
           </DefaultListBox>
         )}
-        <Toast.Provider
-          duration={3000}
-          swipeDirection="right"
-          swipeThreshold={100}
-        >
-          <Toast.Root
-            open={toastOpen}
-            onOpenChange={setToastOpen}
-            className="bg-white text-black border border-gray-300 px-4 py-2 rounded shadow"
-          >
-            <Toast.Title className="flex flex-row items-center gap-2">
-              {toastMessage === "풀이가 북마크되었어요!" && (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10 3L4.5 8.5L2 6"
-                    stroke="black"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-              {toastMessage}
-            </Toast.Title>
-          </Toast.Root>
-          <Toast.Viewport className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4 z-50" />
-        </Toast.Provider>
       </div>
     )
   );

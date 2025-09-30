@@ -20,7 +20,7 @@ function EditRecordPage() {
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState(0);
   const [status, setStatus] = useState<"success" | "fail">("success");
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
@@ -31,9 +31,9 @@ function EditRecordPage() {
   const [ideas, setIdeas] = useState("");
   const [links, setLinks] = useState("");
   const [loading, setLoading] = useState(false);
+  const [titleLoading, setTitleLoading] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
-  const [categoryError, setCategoryError] = useState(false);
 
   useEffect(() => {
     const loadRecord = async () => {
@@ -67,25 +67,27 @@ function EditRecordPage() {
 
   useEffect(() => {
     const loadProblemInfo = async () => {
+      if (!problemUrl) return
+      setTitleLoading(true)
       try {
-        const res = await fetchProblemTitle(problemUrl);
-        console.log(res);
-        setTitle(res.title);
+        const res = await fetchProblemTitle(problemUrl)
+        setTitle(res.title)
       } catch (e) {
-        console.error(e);
+        console.error(e)
+      } finally {
+        setTitleLoading(false)
       }
-    };
-    if (problemUrl) loadProblemInfo();
-  }, [problemUrl]);
+    }
+    loadProblemInfo()
+  }, [problemUrl])
 
   const validateRequired = () => {
     if (!problemUrl.trim()) return false;
     if (!title.trim()) return false;
-    if (!categories.trim()) return false;
+    if (!categories) return false;
     if (difficulty <= 0) return false;
     if (!codes.some((c) => c.code.trim())) return false;
     if (!steps.some((s) => s.text.trim())) return false;
-    if (categoryError) return false;
     return true;
   };
 
@@ -105,7 +107,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         customTitle: title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
@@ -140,7 +142,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
@@ -176,7 +178,7 @@ function EditRecordPage() {
       await createRecord({
         problemUrl,
         title,
-        categories: categories.split(",").map((c) => c.trim()),
+        categories: [categories],
         status,
         difficulty,
         detail,
@@ -204,10 +206,9 @@ function EditRecordPage() {
       setProblemUrl={setProblemUrl}
       title={title}
       setTitle={setTitle}
+      titleLoading={titleLoading}
       categories={categories}
       setCategories={setCategories}
-      categoryError={categoryError}
-      setCategoryError={setCategoryError}
       status={status}
       setStatus={setStatus}
       difficulty={difficulty}

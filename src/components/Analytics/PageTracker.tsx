@@ -58,6 +58,17 @@ function PageTracker() {
     }
   }, [location.pathname, user?.id, trackEvent]);
 
+  // Minimal UTM capture: only utm_source, once per browser (localStorage)
+  useEffect(() => {
+    const STORAGE_KEY = "utm_source";
+    const params = new URLSearchParams(location.search);
+    const utm = params.get("utm_source");
+    if (utm && !localStorage.getItem(STORAGE_KEY)) {
+      localStorage.setItem(STORAGE_KEY, utm);
+      updateUserProperties({ utm_source: utm });
+    }
+  }, [location.search, updateUserProperties]);
+
   return null;
 }
 

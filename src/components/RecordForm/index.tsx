@@ -1,22 +1,21 @@
-import { type Dispatch, type SetStateAction } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import InputLine from "@components/Input";
 import InputBox from "@components/Input/InputBox";
 import InputCode from "@components/Input/InputCode";
 import InputStep from "@components/Input/InputStep";
 import Dropdown from "@components/Dropdown";
-import CategoryDropdown from "@components/Dropdown/CategoryDropdown";
+import CategoryAutocomplete from "@components/Dropdown/CategoryAutocomplete";
 import DifficultySelector from "@components/DifficultySelector";
-import { problemTypes } from "@constants/problemTypes";
+import { fetchCategories } from "@api/records";
 
 interface RecordFormProps {
   problemUrl: string;
   setProblemUrl: Dispatch<SetStateAction<string>>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
-  categories: string;
-  setCategories: Dispatch<SetStateAction<string>>;
-  categoryError: boolean;
-  setCategoryError: Dispatch<SetStateAction<boolean>>;
+  titleLoading: boolean;
+  categories: number;
+  setCategories: Dispatch<SetStateAction<number>>;
   status: "success" | "fail";
   setStatus: Dispatch<SetStateAction<"success" | "fail">>;
   difficulty: number;
@@ -44,10 +43,9 @@ export default function RecordForm({
   setProblemUrl,
   title,
   setTitle,
+  titleLoading,
   categories,
   setCategories,
-  categoryError,
-  setCategoryError,
   status,
   setStatus,
   difficulty,
@@ -67,6 +65,12 @@ export default function RecordForm({
   isSubmitAttempted,
   buttons,
 }: RecordFormProps) {
+  const [types, setTypes] = useState([]);
+  useEffect(() => {
+    fetchCategories().then(res => {
+      setTypes(res.data)
+    })
+  }, [])
   return (
     <div className="max-w-[900px] mx-auto p-6 space-y-10">
       <InputLine
@@ -85,17 +89,15 @@ export default function RecordForm({
         placeholder="문제 제목을 입력하세요"
         required
         showError={isSubmitAttempted}
+        titleLoading={titleLoading}
       />
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4">
         <div className="flex flex-col gap-1">
-          <CategoryDropdown
-            categories={problemTypes}
+          <CategoryAutocomplete
+            categories={types}
             selected={categories}
             onChange={setCategories}
-            categoryError={categoryError}
-            setCategoryError={setCategoryError}
-            required
-            showError={isSubmitAttempted}
+            isSubmitAttempted={isSubmitAttempted}
           />
         </div>
         <div className="flex flex-col gap-1">
