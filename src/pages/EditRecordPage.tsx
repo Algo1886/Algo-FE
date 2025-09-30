@@ -107,7 +107,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         customTitle: title,
-        categories: [categories],
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
@@ -142,7 +142,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categories: [categories],
+        categoryIds: [categories],
         status,
         difficulty,
         detail,
