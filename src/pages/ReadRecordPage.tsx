@@ -27,7 +27,7 @@ interface RecordResponse {
     source: string;
     displayId: string;
   };
-  categories: string[];
+  categories: number;
   source: string;
   status: string;
   difficulty: number;
@@ -69,7 +69,6 @@ const ReadRecordPage = () => {
         if (!id) return;
         const res = await fetchRecordById(Number(id));
         setRecord(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -123,7 +122,7 @@ const ReadRecordPage = () => {
         <HeaderListBox
           id={id}
           title={record.title}
-          category={record.categories[0]}
+          category={record.categories}
           source={record.source}
           link={record.problemUrl}
           user={record.author.username}

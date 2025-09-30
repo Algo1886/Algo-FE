@@ -44,7 +44,7 @@ function EditRecordPage() {
         setProblemUrl(data.problemUrl || "");
         setTitle(data.title || "");
         setIsDraft(data.isDraft || false);
-        setCategories((data.categories || []).join(", "));
+        setCategories(data.categories[0].id || []);
         setStatus(data.status as "success" | "fail");
         setDifficulty(data.difficulty || 1);
         setDetail(data.detail || "");

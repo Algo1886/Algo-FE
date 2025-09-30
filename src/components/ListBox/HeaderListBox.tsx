@@ -12,11 +12,16 @@ import { useAuth } from "@contexts/AuthContext";
 import { postReviewComplete } from "@api/records";
 import { useAmplitude } from "react-amplitude-provider";
 import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
+import { useCategories } from "@hooks/useCategories";
 
+interface Category {
+  id: number
+  name: string
+}
 export interface HeaderListBoxProps {
   id: string;
   title: string;
-  category: string;
+  category: Category[];
   source: string;
   link: string;
   user: string;
@@ -48,6 +53,8 @@ const HeaderListBox = ({
   onDelete,
   isReviewing,
 }: HeaderListBoxProps) => {
+  const { getCategoryLabel } = useCategories()
+  const categoryLabel = getCategoryLabel(category[0].id)
   const navigate = useNavigate();
   const { user: myProfile } = useAuth();
   const amplitude = useAmplitude();
@@ -88,10 +95,10 @@ const HeaderListBox = ({
           <div className="flex justify-between flex-row items-center gap-2">
             <button
               className="cursor-pointer"
-              onClick={() => handleClickCategoryChip(category)}
+              onClick={() => handleClickCategoryChip(categoryLabel)}
             >
               <ProblemChip
-                label={category}
+                label={categoryLabel}
                 bgColor="blue"
                 textColor="blue"
               />
