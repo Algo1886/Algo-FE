@@ -51,7 +51,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
               {toastMessage}
             </Toast.Title>
         </Toast.Root>
-        <Toast.Viewport className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4 z-50" />
+        <Toast.Viewport className="fixed top-8 left-1/2 -translate-x-1/2 flex flex-col gap-2 p-4 z-50" />
       </Toast.Provider>
     </ToastContext.Provider>
   );

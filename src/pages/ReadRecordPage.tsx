@@ -18,6 +18,11 @@ import FailIcon from "@assets/FailIcon.svg";
 import { useConfirm } from "@contexts/ConfirmContext";
 import { useToast } from "@contexts/ToastContext";
 
+interface Category {
+  id: number
+  name: string
+}
+
 interface RecordResponse {
   id: number;
   title: string;
@@ -27,7 +32,7 @@ interface RecordResponse {
     source: string;
     displayId: string;
   };
-  categories: number;
+  categories: Category[];
   source: string;
   status: string;
   difficulty: number;

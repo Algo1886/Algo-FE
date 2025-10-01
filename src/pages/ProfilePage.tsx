@@ -14,6 +14,7 @@ import StatsCards from "@components/StatsCards";
 import EditButtonSvg from "@assets/EditButton.svg";
 import PencilIcon from "@assets/PencilIcon.svg";
 import { useAuth } from "@contexts/AuthContext";
+import { useToast } from "@contexts/ToastContext";
 
 const EditButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -34,6 +35,7 @@ function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const {showToast} = useToast()
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -103,14 +105,14 @@ function ProfilePage() {
       setIsEditing(false);
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
-        alert("이미 사용중인 닉네임입니다");
+        showToast("이미 사용중인 닉네임입니다");
         if (inputRef.current) {
           inputRef.current.focus();
           inputRef.current.select();
         }
         return;
       } else {
-        alert(
+        showToast(
           err.response?.data?.message || "프로필 저장 중 오류가 발생했습니다"
         );
       }
