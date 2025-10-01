@@ -90,11 +90,7 @@ const HeaderListBox = ({
               className="cursor-pointer"
               onClick={() => handleClickCategoryChip(category)}
             >
-              <ProblemChip
-                label={category}
-                bgColor="blue"
-                textColor="blue"
-              />
+              <ProblemChip label={category} bgColor="blue" textColor="blue" />
             </button>
             <ProblemChip label={source} />
           </div>

@@ -12,7 +12,9 @@ const PreviewCard = ({ type, title, date }: PreviewCardProps) => {
       <span className="w-fit">
         <ProblemChip label={type} bgColor="blue" textColor="blue" />
       </span>
-      <span className="font-medium text-base text-[#0F172B]">{title}</span>
+      <span className="font-medium text-base text-[#0F172B] line-clamp-1">
+        {title}
+      </span>
       <span className="text-[#45556C] text-sm">{date}</span>
     </div>
   );

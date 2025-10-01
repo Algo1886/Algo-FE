@@ -18,6 +18,10 @@ import FailIcon from "@assets/FailIcon.svg";
 import { useConfirm } from "@contexts/ConfirmContext";
 import { useToast } from "@contexts/ToastContext";
 
+interface ICategory {
+  id: number;
+  name: string;
+}
 interface RecordResponse {
   id: number;
   title: string;
@@ -27,7 +31,7 @@ interface RecordResponse {
     source: string;
     displayId: string;
   };
-  categories: string[];
+  categories: ICategory[];
   source: string;
   status: string;
   difficulty: number;
@@ -57,7 +61,7 @@ const ReadRecordPage = () => {
   const amplitude = useAmplitude();
   const [record, setRecord] = useState<RecordResponse | null>(null);
   const { id } = useParams<{ id: string }>(); // URL에서 id 가져오기
-  const {showToast} = useToast()
+  const { showToast } = useToast();
 
   const isReviewing = new URLSearchParams(window.location.search).get(
     "isReviewing"
@@ -81,13 +85,13 @@ const ReadRecordPage = () => {
     const ok = await confirm({
       title: "기록 삭제",
       detail: "기록을 삭제하시겠습니까?",
-      confirmButtonLabel: "삭제"
+      confirmButtonLabel: "삭제",
     });
-  
+
     if (ok && record) {
       try {
         await deleteRecordById(record.id);
-        showToast("게시물이 삭제되었습니다"); 
+        showToast("게시물이 삭제되었습니다");
         navigate(-1);
       } catch (err) {
         console.error(err);
@@ -123,7 +127,7 @@ const ReadRecordPage = () => {
         <HeaderListBox
           id={id}
           title={record.title}
-          category={record.categories[0]}
+          category={record.categories[0].name}
           source={record.source}
           link={record.problemUrl}
           user={record.author.username}
@@ -154,21 +158,32 @@ const ReadRecordPage = () => {
               className="rounded border border-gray-200 p-5 mb-4"
             >
               <div className="flex w-full justify-between mb-2">
-                <label>코드 {index + 1}</label>
-                <span
-                  className={`px-2 py-0.5 rounded text-xs font-semibold gap-1 flex items-center border ${
-                    c.verdict === "success"
-                      ? "bg-green-100 text-green-800 border-green-300"
-                      : "bg-red-100 text-red-700 border-red-200"
+                <label className="basis-[80px]">코드 {index + 1}</label>
+                <div
+                  className={`w-full ${
+                    c.verdict === "success" ? "justify-between" : "justify-end"
                   }`}
                 >
-                  <img
-                    src={c.verdict === "success" ? SuccessIcon : FailIcon}
-                    alt=""
-                    className="w-2.5 h-2.5 mr-1 inline"
-                  />
-                  {c.verdict === "success" ? "성공" : "실패"}
-                </span>
+                  <span
+                    className={`px-2 py-0.5 w-fit rounded-lg text-xs font-semibold gap-1 flex items-center border ${
+                      c.verdict === "success"
+                        ? "bg-green-100 text-green-800 border-green-300"
+                        : "bg-red-100 text-red-700 border-red-200"
+                    }`}
+                  >
+                    <img
+                      src={c.verdict === "success" ? SuccessIcon : FailIcon}
+                      alt=""
+                      className="w-2.5 h-2.5 mr-1 inline"
+                    />
+                    {c.verdict === "success" ? "성공" : "실패"}
+                  </span>
+                </div>
+                {c.verdict === "success" && (
+                  <span className="border border-gray-300 px-2 py-0.5 text-xs rounded-lg">
+                    {c.language}
+                  </span>
+                )}
               </div>
               <CodeEditor
                 value={c.code}
@@ -181,11 +196,11 @@ const ReadRecordPage = () => {
         {record.steps?.length > 0 && (
           <DefaultListBox boxTitle="풀이 과정">
             {record.steps.map((s) => (
-              <div key={s.id} className="flex items-center gap-3 mb-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-white text-sm">
+              <div key={s.id} className="flex items-start gap-3 mb-3">
+                <span className="flex h-6 w-6 aspect-square items-center justify-center rounded-full bg-black text-white text-sm">
                   {s.stepOrder + 1}
                 </span>
-                <span>{s.text}</span>
+                <span className="whitespace-pre-wrap">{s.text}</span>
               </div>
             ))}
           </DefaultListBox>
@@ -194,7 +209,9 @@ const ReadRecordPage = () => {
         {record.ideas?.length > 0 && (
           <DefaultListBox boxTitle="핵심 아이디어">
             {record.ideas.map((i) => (
-              <p key={i.id}>{i.content}</p>
+              <p key={i.id} className="whitespace-pre-wrap">
+                {i.content}
+              </p>
             ))}
           </DefaultListBox>
         )}
@@ -202,7 +219,15 @@ const ReadRecordPage = () => {
         {record.links?.length > 0 && (
           <DefaultListBox boxTitle="다른 풀이 참고">
             {record.links.map((l) => (
-              <p key={l.id}>{l.url}</p>
+              <p key={l.id} className="whitespace-pre-wrap">
+                <a
+                  href={l.url}
+                  target="_blank"
+                  className="hover:decoration-1 hover:underline-offset-2 hover:underline"
+                >
+                  {l.url}
+                </a>
+              </p>
             ))}
           </DefaultListBox>
         )}
