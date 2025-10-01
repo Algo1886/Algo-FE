@@ -6,10 +6,12 @@ import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import Button from "@components/Button";
 import Loading from "@components/Loading";
 import RecordForm from "@components/RecordForm";
+import { useToast } from "@contexts/ToastContext";
 
 function CreateRecordPage() {
   const navigate = useNavigate();
   const amplitude = useAmplitude();
+  const {showToast} = useToast()
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -45,7 +47,7 @@ function CreateRecordPage() {
   const handleCreate = async () => {
     setIsSubmitAttempted(true);
     if (!validateRequired()) {
-      alert("필수 항목을 모두 입력해주세요.");
+      showToast("필수 항목을 모두 입력해주세요.");
       return;
     }
 
@@ -66,11 +68,11 @@ function CreateRecordPage() {
         published: true,
       });
       trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Record_Finalized);
-      alert("생성 완료");
+      showToast("기록 생성이 완료되었습니다!");
       navigate("/my-records");
     } catch (err) {
       console.error(err);
-      alert("생성 실패");
+      showToast("생성 실패");
     } finally {
       setLoading(false);
     }
@@ -93,14 +95,14 @@ function CreateRecordPage() {
         draft: true,
         published: true,
       });
-      alert("생성 완료");
+      showToast("기록 생성이 완료되었습니다!");
       navigate("/temp-record");
       trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Draft_Saved, {
         stage: "create",
       });
     } catch (err) {
       console.error(err);
-      alert("생성 실패");
+      showToast("생성 실패");
     } finally {
       setLoading(false);
     }

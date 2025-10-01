@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { requestKakaoLoginToken } from "@api/auth";
 import { useAuth } from "@contexts/AuthContext";
 import Loading from "@components/Loading";
+import { useToast } from "@contexts/ToastContext";
 
 const KakaoLoginPage = () => {
   const navigate = useNavigate();
   const { setAccessToken, setRefreshToken } = useAuth();
+  const {showToast} = useToast()
 
   const code = new URLSearchParams(window.location.search).get("code");
   const didRun = useRef(false);
@@ -21,11 +23,11 @@ const KakaoLoginPage = () => {
             setRefreshToken(data.data.refreshToken);
             navigate("/");
           } else {
-            alert(`로그인 실패: ${JSON.stringify(data)}`);
+            showToast(`로그인 실패: ${JSON.stringify(data)}`);
           }
         })
         .catch((err) => {
-          alert(`에러: ${err}`);
+          showToast(`에러: ${err}`);
         });
     }
   }, [code]);

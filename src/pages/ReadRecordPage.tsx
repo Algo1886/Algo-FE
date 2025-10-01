@@ -18,10 +18,11 @@ import FailIcon from "@assets/FailIcon.svg";
 import { useConfirm } from "@contexts/ConfirmContext";
 import { useToast } from "@contexts/ToastContext";
 
-interface ICategory {
+interface Category {
   id: number;
   name: string;
 }
+
 interface RecordResponse {
   id: number;
   title: string;
@@ -31,7 +32,7 @@ interface RecordResponse {
     source: string;
     displayId: string;
   };
-  categories: ICategory[];
+  categories: Category[];
   source: string;
   status: string;
   difficulty: number;
@@ -73,7 +74,6 @@ const ReadRecordPage = () => {
         if (!id) return;
         const res = await fetchRecordById(Number(id));
         setRecord(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -127,7 +127,7 @@ const ReadRecordPage = () => {
         <HeaderListBox
           id={id}
           title={record.title}
-          category={record.categories[0].name}
+          category={record.categories}
           source={record.source}
           link={record.problemUrl}
           user={record.author.username}

@@ -12,11 +12,13 @@ import Loading from "@components/Loading";
 import RecordForm from "@components/RecordForm";
 import { useAmplitude } from "react-amplitude-provider";
 import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
+import { useToast } from "@contexts/ToastContext";
 
 function EditRecordPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const amplitude = useAmplitude();
+  const {showToast} = useToast()
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -44,7 +46,7 @@ function EditRecordPage() {
         setProblemUrl(data.problemUrl || "");
         setTitle(data.title || "");
         setIsDraft(data.isDraft || false);
-        setCategories((data.categories || []).join(", "));
+        setCategories(data.categories[0].id || []);
         setStatus(data.status as "success" | "fail");
         setDifficulty(data.difficulty || 1);
         setDetail(data.detail || "");
@@ -99,7 +101,7 @@ function EditRecordPage() {
   const handleEdit = async () => {
     setIsSubmitAttempted(true);
     if (!validateRequired()) {
-      alert("필수 항목을 모두 입력해주세요.");
+      showToast("필수 항목을 모두 입력해주세요.");
       return;
     }
     setLoading(true);
@@ -121,11 +123,11 @@ function EditRecordPage() {
       trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Record_Edited, {
         recordId: Number(id),
       });
-      alert("수정 완료");
+      showToast("수정 완료");
       navigate("/my-records");
     } catch (err) {
       console.error(err);
-      alert("수정 실패");
+      showToast("수정 실패");
     } finally {
       setLoading(false);
     }
@@ -134,7 +136,7 @@ function EditRecordPage() {
   const handleDraft = async () => {
     setIsSubmitAttempted(true);
     if (!validateRequired()) {
-      alert("필수 항목을 모두 입력해주세요.");
+      showToast("필수 항목을 모두 입력해주세요.");
       return;
     }
     setLoading(true);
@@ -153,7 +155,7 @@ function EditRecordPage() {
         draft: true,
         published: true,
       });
-      alert("임시 저장 완료");
+      showToast("임시 저장 완료");
       navigate("/temp-record");
       trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Draft_Saved, {
         stage: "edit",
@@ -161,7 +163,7 @@ function EditRecordPage() {
       });
     } catch (err) {
       console.error(err);
-      alert("임시 저장 실패");
+      showToast("임시 저장 실패");
     } finally {
       setLoading(false);
     }
@@ -170,7 +172,7 @@ function EditRecordPage() {
   const handleCreate = async () => {
     setIsSubmitAttempted(true);
     if (!validateRequired()) {
-      alert("필수 항목을 모두 입력해주세요.");
+      showToast("필수 항목을 모두 입력해주세요.");
       return;
     }
     setLoading(true);
@@ -190,11 +192,11 @@ function EditRecordPage() {
         published: true,
       });
       await deleteRecordById(Number(id));
-      alert("새 기록 생성 완료");
+      showToast("기록 생성이 완료되었습니다!");
       navigate("/my-records");
     } catch (err) {
       console.error(err);
-      alert("생성 실패");
+      showToast("생성 실패");
     } finally {
       setLoading(false);
     }
