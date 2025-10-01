@@ -15,8 +15,8 @@ import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import { useCategories } from "@hooks/useCategories";
 
 interface Category {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 export interface HeaderListBoxProps {
   id: string;
@@ -53,8 +53,8 @@ const HeaderListBox = ({
   onDelete,
   isReviewing,
 }: HeaderListBoxProps) => {
-  const { getCategoryLabel } = useCategories()
-  const categoryLabel = getCategoryLabel(category[0].id)
+  const { getCategoryLabel } = useCategories();
+  const categoryLabel = getCategoryLabel(category[0].id);
   const navigate = useNavigate();
   const { user: myProfile } = useAuth();
   const amplitude = useAmplitude();

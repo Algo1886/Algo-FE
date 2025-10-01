@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import routes from "@constants/routes.json";
 import ProfileDropdown from "@components/Dropdown/ProfileDropdown";
-import FilterDropdown from "./_component/FilterDropdown";
+// import FilterDropdown from "./_component/FilterDropdown";
 
 const Header = () => {
   const { accessToken, user } = useAuth();
@@ -48,9 +48,9 @@ const Header = () => {
             <span className="text-xl font-semibold">
               {currentRoute ? currentRoute.label : "알 수 없는 페이지"}
             </span>
-            {currentRoute.filter && (
+            {/* {currentRoute.filter && (
               <FilterDropdown initialRoute={currentRoute.path} />
-            )}
+            )} */}
           </div>
         </div>
       )}
