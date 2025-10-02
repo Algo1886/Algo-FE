@@ -7,9 +7,9 @@ const Footer = () => {
           >
             &lt;/&gt; ALGO
           </div>
-          <a href="https://haeun28.notion.site/Terms-of-Service-25b25e18d27a80f2913de3b81a4d08c9?source=copy_link" target="_blank" rel="noopener noreferrer">이용약관</a>
-          <a href="https://haeun28.notion.site/Privacy-Policy-25b25e18d27a801099a6ced9e313f477?source=copy_link" target="_blank" rel="noopener noreferrer">개인정보 처리방침</a>
-          <p>문의</p>
+          <a className="hover:underline" href="https://haeun28.notion.site/Terms-of-Service-25b25e18d27a80f2913de3b81a4d08c9?source=copy_link" target="_blank" rel="noopener noreferrer">이용약관</a>
+          <a className="hover:underline" href="https://haeun28.notion.site/Privacy-Policy-25b25e18d27a801099a6ced9e313f477?source=copy_link" target="_blank" rel="noopener noreferrer">개인정보 처리방침</a>
+          <a className="hover:underline" href="https://forms.gle/FAFvsrsoGm4gkq9n8" target="_blank" rel="noopener noreferrer">문의</a>
         </div>
     </header>
   );
