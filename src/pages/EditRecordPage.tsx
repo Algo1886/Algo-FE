@@ -13,12 +13,14 @@ import RecordForm from "@components/RecordForm";
 import { useAmplitude } from "react-amplitude-provider";
 import { MEANINGFUL_EVENT_NAMES, trackMeaningfulEvent } from "@utils/analytics";
 import { useToast } from "@contexts/ToastContext";
+import { useConfirm } from "@contexts/ConfirmContext";
 
 function EditRecordPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const amplitude = useAmplitude();
   const {showToast} = useToast()
+  const { confirm } = useConfirm();
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -27,7 +29,7 @@ function EditRecordPage() {
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
   const [codes, setCodes] = useState([
-    { code: "", language: "python", verdict: "success" },
+    { code: "", language: "Python", verdict: "success" },
   ]);
   const [steps, setSteps] = useState([{ text: "" }]);
   const [ideas, setIdeas] = useState("");
@@ -109,7 +111,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         customTitle: title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -144,7 +146,7 @@ function EditRecordPage() {
       await editRecord(Number(id), {
         problemUrl,
         title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -202,6 +204,24 @@ function EditRecordPage() {
     }
   };
 
+  const handleDelete = async () => {
+    const ok = await confirm({
+      title: "기록 삭제",
+      detail: "기록을 삭제하시겠습니까?",
+      confirmButtonLabel: "삭제"
+    });
+  
+    if (ok) {
+      try {
+        await deleteRecordById(Number(id));
+        showToast("게시물이 삭제되었습니다"); 
+        navigate(-1);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   return !loading ? (
     <RecordForm
       problemUrl={problemUrl}
@@ -227,7 +247,9 @@ function EditRecordPage() {
       setLinks={setLinks}
       handleAdd={handleAdd}
       handleRemove={handleRemove}
+      handleDelete={handleDelete}
       isSubmitAttempted={isSubmitAttempted}
+      isDraft={isDraft}
       buttons={
         isDraft ? (
           <>

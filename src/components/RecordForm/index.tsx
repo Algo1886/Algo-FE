@@ -7,6 +7,7 @@ import Dropdown from "@components/Dropdown";
 import CategoryAutocomplete from "@components/Dropdown/CategoryAutocomplete";
 import DifficultySelector from "@components/DifficultySelector";
 import { fetchCategories } from "@api/records";
+import Button from "@components/Button";
 
 interface RecordFormProps {
   problemUrl: string;
@@ -34,6 +35,8 @@ interface RecordFormProps {
   setLinks: Dispatch<SetStateAction<string>>;
   handleAdd: (setter: any, arr: any[], newItem: any) => void;
   handleRemove: (setter: any, arr: any[], idx: number) => void;
+  isDraft: boolean;
+  handleDelete?: () => void;
   isSubmitAttempted: boolean;
   buttons: React.ReactNode;
 }
@@ -62,6 +65,8 @@ export default function RecordForm({
   setLinks,
   handleAdd,
   handleRemove,
+  isDraft,
+  handleDelete,
   isSubmitAttempted,
   buttons,
 }: RecordFormProps) {
@@ -154,7 +159,15 @@ export default function RecordForm({
         setValue={setLinks}
         placeholder="참고한 다른 기록을 입력하세요"
       />
-      <div className="flex gap-3 justify-end">{buttons}</div>
+      <div className="flex justify-between mt-6">
+        {/* 왼쪽: 삭제 버튼 */}
+        {isDraft ? <Button theme="red" onClick={handleDelete}>
+              삭제하기
+        </Button>
+        : <div></div>}
+        {/* 오른쪽: 기존 buttons */}
+        <div className="flex gap-3">{buttons}</div>
+      </div>
     </div>
   );
 }
