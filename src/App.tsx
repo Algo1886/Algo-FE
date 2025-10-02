@@ -1,37 +1,37 @@
-import { Routes, Route } from "react-router-dom"
-import { AmplitudeProvider } from "react-amplitude-provider"
-import { AppProviders } from "@contexts/AppProviders"
+import { Routes, Route } from "react-router-dom";
+import { AmplitudeProvider } from "react-amplitude-provider";
+import { AppProviders } from "@contexts/AppProviders";
 
-import MainPage from "@pages/MainPage"
-import LoginPage from "@pages/LoginPage"
-import KakaoLoginPage from "@pages/KakaoLoginPage"
-import GithubLoginPage from "@pages/GithubLoginPage"
-import SearchRecordPage from "@pages/SearchRecordPage"
-import ReadRecordPage from "@pages/ReadRecordPage"
-import CreateRecordPage from "@pages/CreateRecordPage"
-import EditRecordPage from "@pages/EditRecordPage"
-import DashboardPage from "@pages/DashboardPage"
-import MyRecordPage from "@pages/MyRecordPage"
-import MyIdeasPage from "@pages/MyIdeasPage"
-import MyBookmarksPage from "@pages/MyBookmarksPage"
-import MyDraftsPage from "@pages/MyDraftsPage"
-import MyRecommendPage from "@pages/MyRecommendPage"
-import ProfilePage from "@pages/ProfilePage"
+import MainPage from "@pages/MainPage";
+import LoginPage from "@pages/LoginPage";
+import KakaoLoginPage from "@pages/KakaoLoginPage";
+import GithubLoginPage from "@pages/GithubLoginPage";
+import SearchRecordPage from "@pages/SearchRecordPage";
+import ReadRecordPage from "@pages/ReadRecordPage";
+import CreateRecordPage from "@pages/CreateRecordPage";
+import EditRecordPage from "@pages/EditRecordPage";
+import DashboardPage from "@pages/DashboardPage";
+import MyRecordPage from "@pages/MyRecordPage";
+import MyIdeasPage from "@pages/MyIdeasPage";
+import MyBookmarksPage from "@pages/MyBookmarksPage";
+import MyDraftsPage from "@pages/MyDraftsPage";
+import MyRecommendPage from "@pages/MyRecommendPage";
+import ProfilePage from "@pages/ProfilePage";
 
-import LayoutWithHeader from "@components/Layout/layoutWithHeader"
-import LayoutWithFooter from "@components/Layout/layoutWithFooter"
-import LayoutWithSidebar from "@components/Layout/layoutWithSidebar"
-import PageTracker from "@components/Analytics/PageTracker"
+import LayoutWithHeader from "@components/Layout/layoutWithHeader";
+import LayoutWithFooter from "@components/Layout/layoutWithFooter";
+import LayoutWithSidebar from "@components/Layout/layoutWithSidebar";
+import PageTracker from "@components/Analytics/PageTracker";
 
 function App() {
   const isProd =
     typeof window !== "undefined" &&
-    window.location.hostname === "algo-fe-five.vercel.app"
+    window.location.hostname === "algo-fe-five.vercel.app";
 
   return (
     <AmplitudeProvider
       apiKey="20c27ab00f81358951cc8725ef6401c3"
-      isTrackingEnabled={false}
+      isTrackingEnabled={true}
     >
       <AppProviders>
         {isProd && <PageTracker />}
@@ -64,7 +64,7 @@ function App() {
         </Routes>
       </AppProviders>
     </AmplitudeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
