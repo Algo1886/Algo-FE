@@ -63,6 +63,9 @@ export const AuthProvider = ({ children }: Props) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.data);
+      amplitude.updateUserProperties({
+        username: res.data.data.username,
+      });
       trackMeaningfulEvent(amplitude, MEANINGFUL_EVENT_NAMES.Login_Success);
     } catch (err) {
       console.error(err);
