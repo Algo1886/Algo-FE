@@ -33,21 +33,6 @@ const InputCode = ({
         <label className="font-medium text-gray-700">
           풀이 코드 {required && <span className="text-blue-500">*</span>}
         </label>
-        <Button
-          theme="white"
-          onClick={() =>
-            handleAdd(setCodes, codes, {
-              code: "",
-              language: "python",
-              verdict: "success",
-            })
-          }
-        >
-          <div className="flex gap-3 items-center">
-            <FaPlus size={10} />
-            풀이 코드 추가
-          </div>
-        </Button>
       </div>
 
       {isError && (
@@ -120,6 +105,25 @@ const InputCode = ({
           />
         </div>
       ))}
+      {codes.length < 3 &&
+        <div className="self-center">
+          <Button
+            theme="white"
+            onClick={() =>
+              handleAdd(setCodes, codes, {
+                code: "",
+                language: "Python",
+                verdict: "success",
+              })
+            }
+          >
+            <div className="flex gap-3 items-center">
+              <FaPlus size={10} />
+              풀이 코드 추가
+            </div>
+          </Button>
+        </div>
+      }
     </div>
   );
 };
