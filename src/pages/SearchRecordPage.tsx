@@ -65,8 +65,8 @@ const SearchRecordPage = () => {
       const mapped: Record[] = r.map((r: any) => ({
         id: r.id,
         type: r.categories[0] || "기타",
-        site: r.problem?.source || "백준",
-        title: r.problem?.title || r.title,
+        site: r.source || "백준",
+        title: r.title,
         author: r.author?.username || r.author,
         date: r.createdAt.slice(0, 10),
       }));

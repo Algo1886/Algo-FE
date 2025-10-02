@@ -56,7 +56,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         customTitle: title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -84,7 +84,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -149,6 +149,7 @@ function CreateRecordPage() {
       setLinks={setLinks}
       handleAdd={handleAdd}
       handleRemove={handleRemove}
+      isDraft={false}
       isSubmitAttempted={isSubmitAttempted}
       buttons={
         <div className="flex gap-3 justify-end">
