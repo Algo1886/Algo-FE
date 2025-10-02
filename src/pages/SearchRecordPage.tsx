@@ -56,7 +56,7 @@ const SearchRecordPage = () => {
         } else if (filter === "작성자") {
           params.author = keyword;
         } else if (filter === "링크") {
-          params.search = keyword;
+          params.url = keyword;
         }
       }
 
