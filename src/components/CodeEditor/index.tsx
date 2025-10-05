@@ -1,6 +1,6 @@
 import CodeMirror from "@uiw/react-codemirror";
 import { langs } from "@uiw/codemirror-extensions-langs";
-import { bbedit } from "@uiw/codemirror-theme-bbedit";
+import * as vscode from "@uiw/codemirror-theme-vscode";
 import { EditorView } from "@codemirror/view";
 
 const customTheme = EditorView.theme({
@@ -48,10 +48,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     <CodeMirror
       placeholder="코드를 입력하세요"
       value={value}
-      height="auto"
+      minHeight="300px"
       extensions={[extension, customTheme]}
       onChange={(val) => onChange && onChange(val)}
-      theme={bbedit}
+      theme={vscode.vscodeDark}
       basicSetup={{
         lineNumbers: false,
         foldGutter: false,

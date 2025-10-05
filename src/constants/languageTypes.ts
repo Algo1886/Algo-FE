@@ -1,7 +1,7 @@
 // languageTypes.ts
 export const languageTypes = [
-    { label: "C++", value: "cpp" },
     { label: "Python", value: "py" },
+    { label: "C++", value: "cpp" },
     { label: "Java", value: "java" },
     { label: "C", value: "c" },
     { label: "C#", value: "cs" },

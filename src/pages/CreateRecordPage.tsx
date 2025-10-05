@@ -11,7 +11,7 @@ import { useToast } from "@contexts/ToastContext";
 function CreateRecordPage() {
   const navigate = useNavigate();
   const amplitude = useAmplitude();
-  const {showToast} = useToast()
+  const { showToast } = useToast();
 
   const [problemUrl, setProblemUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -20,7 +20,7 @@ function CreateRecordPage() {
   const [difficulty, setDifficulty] = useState(0);
   const [detail, setDetail] = useState("");
   const [codes, setCodes] = useState([
-    { code: "", language: "python", verdict: "success" },
+    { code: "", language: "Python", verdict: "success" },
   ]);
   const [steps, setSteps] = useState([{ text: "" }]);
   const [ideas, setIdeas] = useState("");
@@ -56,7 +56,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         customTitle: title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -84,7 +84,7 @@ function CreateRecordPage() {
       await createRecord({
         problemUrl,
         title,
-        categoryIds: [categories],
+        categoryIds: categories > 0 ? [categories] : [],
         status,
         difficulty,
         detail,
@@ -110,19 +110,19 @@ function CreateRecordPage() {
 
   useEffect(() => {
     const loadProblemInfo = async () => {
-      if (!problemUrl) return
-      setTitleLoading(true)
+      if (!problemUrl) return;
+      setTitleLoading(true);
       try {
-        const res = await fetchProblemTitle(problemUrl)
-        setTitle(res.title)
+        const res = await fetchProblemTitle(problemUrl);
+        setTitle(res.title);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       } finally {
-        setTitleLoading(false)
+        setTitleLoading(false);
       }
-    }
-    loadProblemInfo()
-  }, [problemUrl])
+    };
+    loadProblemInfo();
+  }, [problemUrl]);
 
   return !loading ? (
     <RecordForm
@@ -149,6 +149,7 @@ function CreateRecordPage() {
       setLinks={setLinks}
       handleAdd={handleAdd}
       handleRemove={handleRemove}
+      isDraft={false}
       isSubmitAttempted={isSubmitAttempted}
       buttons={
         <div className="flex gap-3 justify-end">

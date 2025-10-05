@@ -25,7 +25,6 @@ const RecordCard = ({
 }: RecordCardProps) => {
   const navigate = useNavigate();
   const { accessToken } = useAuth();
-
   const handleClick = () => {
     if (!accessToken) {
       navigate("/login");
@@ -50,7 +49,7 @@ const RecordCard = ({
       className="bg-white rounded border border-gray-200 p-4 min-w-[220px] cursor-pointer hover:bg-gray-100 transition flex flex-col"
     >
       <div className="flex justify-between mb-4">
-        <ProblemChip label={problemType} bgColor="blue" textColor="blue" />
+        {problemType ? <ProblemChip label={problemType} bgColor="blue" textColor="blue" /> : <div></div>}
         <ProblemChip label={problemSite} />
       </div>
       <h3 className="text-lg font-semibold mb-8 line-clamp-2">{title}</h3>
