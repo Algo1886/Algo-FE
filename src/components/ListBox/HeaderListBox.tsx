@@ -91,7 +91,16 @@ const HeaderListBox = ({
     <div className="bg-white w-full rounded-lg p-5 border border-gray-200">
       <div className="w-full flex items-start justify-between">
         <div className="flex flex-row gap-4 items-center">
-          <h2 className="text-xl font-semibold">{title}</h2>
+          <h2 className="text-xl font-semibold">
+            <a
+              className="hover:underline hover:underline-offset-4"
+              href={`/search-result?filter=${encodeURIComponent(
+                "제목"
+              )}&keyword=${encodeURIComponent(title)}`}
+            >
+              {title}
+            </a>
+          </h2>
           <div className="flex justify-between flex-row items-center gap-2">
             <button
               className="cursor-pointer"
